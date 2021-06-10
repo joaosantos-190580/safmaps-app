@@ -1,0 +1,132 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh;
+  margin-right: -35rem;
+  z-index: 400;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/*
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+*/
+
+#page-content-wrapper {
+  min-width: 100vw;
+  background-color: #191a31;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-right: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-right: 0;
+      width: 41rem;   /*  width: 37rem;   */
+    }
+
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+      margin-right: -38rem;
+    }
+
+    .toggle-button {
+      cursor: pointer;
+      position: absolute;
+      width: 35px;
+      right: -35px;
+      padding: 10px;
+      background-color: #fff;
+      top: 35px;
+      transition: 0.3s;
+    }
+}
+
+.navigation {
+    background-color: #191a31 !important;
+    background-image: linear-gradient(to right, transparent 50%, #93bd42 50%);
+    transition: .2s ease;
+    height: 10.5%;		/*	height: 5rem;	*/
+}
+
+.navbar-nav {
+    background: #93bd42 !important;
+}
+
+.nav-link {
+    color: #fff !important;
+    font-weight: bold !important;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    /*  background-color: #93bd42;  */
+}
+
+.item {
+    margin: 2px 0 2px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+}
+
+.item.active {
+    background-color: #77b893;
+    cursor: pointer;
+}
+
+.item.inactive {
+    background-color: #93bd42;
+    cursor: pointer;
+}
+
+.item.inactive:hover {
+    text-decoration: none;
+    color: grey;
+}
+
+.item.empty {
+    width: 3rem;
+}    
+
+.list-group {
+    margin-top: 1rem;
+}
+
+.sidebar {
+    position: relative;
+}

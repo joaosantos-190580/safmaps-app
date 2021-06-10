@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+  <title>SAFmaps - v0.1</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/brands.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/solid.min.css" />
+
+  <!-- loading jsPanel css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.11.0/jquery.jspanel.css"/>
+	
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+  <link rel="stylesheet" href="./css/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+
+  <!-- Alert messages window -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sidebar.css" rel="stylesheet">
+  <link href="css/maps-tabs.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/accordion.css">
+  <link rel="stylesheet" href="./css/panels.css">
+  <link rel="stylesheet" href="./css/map-controls.css">
+
+  <style>
+	html, body {
+		height: 100%;
+		width: 100%;
+		margin: 0;
+	}
+
+	#map {
+		width: 100%;
+		height: 89%;
+	}
+
+
+	/*
+	 * Customization of leaflet components
+	 *
+	 */
+
+	.leaflet-routing-container {
+		display: none;
+		margin-right: 3.5em !important;
+		margin-top: -2.8em !important;
+	}
+
+	.leaflet-draw {
+		display: none;
+	}
+	
+	.leaflet-control-draw-icon {
+		background-color: white;
+	}
+	
+	.leaflet-control-info-icon {
+		background-color: white;
+	}
+	
+	.leaflet-control-costs-icon {
+		background-color: white;
+	}
+	
+	.leaflet-control-productivity-icon {
+		background-color: white;
+	}
+
+	.leaflet-control-zoom {
+		top: 6em !important;
+		left: 2em !important;
+	}
+	
+	#other-controls {
+		bottom: 2em !important;
+		left: 2em !important;
+	}
+	
+
+	/*
+	 * Customization of jsPanel library
+	 *
+	 */
+
+	.jsPanel {
+		/*	z-index: 700 !important;	*/
+		z-index: 1000 !important;
+	}
+
+	.jsPanel-title {
+		color: white !important;
+	}
+
+	.jsglyph {
+		color: white !important;
+	}
+
+
+
+	/*
+	 * Fonts customization
+	 *
+	 */
+
+	@font-face {
+		font-family: "Hobo Std";
+		src: url("./fonts/HoboStd.otf");
+	}
+
+	.hobo_std {
+		font-family: "Hobo Std";
+		font-size: 3rem;
+	}    
+
+	@font-face {
+		font-family: "Ink Free";
+		src: url("./fonts/Inkfree.ttf");
+	}
+
+	.ink_free {
+		font-family: "Ink Free";
+		font-size: 2.5rem;
+		font-weight: bold;
+	} 
+  </style>
+
+  <script>
+		/*
+		* Global variables
+		*
+		*/
+		var editableLayers, drawLayer;
+	</script>
+
+</head>
+
+<body>
+
+  <div class="d-flex toggled" id="wrapper">
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+	  <!-- Header -->
+      <div style="width: 35%;height: 8%;z-index: 1000 !important;position: absolute;margin-left: 1em;text-align: center;">
+		  <a class="navbar-brand" href="../index.html">
+            <img src="images/logo_safmaps_branco.png" width="23%" alt="logo">
+    	  </a>		  
+      </div>
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom navigation">
+		<!-- Application menus -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-right:2em">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item ">
+              <a class="nav-link" href="../index.html">HOME</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="../about.html">ABOUT</a>
+			</li>
+
+            <li class="nav-item active">
+				<a class="nav-link" href="#">DATABASE <span class="sr-only">(current)</span></a>
+			</li>
+          </ul>
+        </div>
+        
+        <!--  Button #menu-toggle -->
+        <button class="btn" id="menu-toggle" style="margin-right: -0.8em;border-color: #191a31; color: #fff">
+          <svg id="opened" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" style="display:block"
+            xmlns="http://www.w3.org/2000/svg">
+              <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path>
+          </svg>
+          <svg id="closed" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" style="display:none"
+            xmlns="http://www.w3.org/2000/svg">
+              <path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- class="container-fluid" -->
+      <div id="map" class="map" ></div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+	<!-- modal eucalipto -->
+	<div class="modal fade" id="pdfModalEucalyptus" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/FT_eucalyptus.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal soja -->
+	<div class="modal fade" id="pdfModalSoybean" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/HEFA_soybean.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal macauba -->
+	<div class="modal fade" id="pdfModalMacaw" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/HEFA_macaw.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal palm -->
+	<div class="modal fade" id="pdfModalPalm" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/HEFA_palm_oil.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal sugarcane -->
+	<div class="modal fade" id="pdfModalSugarcane" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/AtJ_sugarcane.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal tallow -->
+	<div class="modal fade" id="pdfModalTallow" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/HEFA_combined supply.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+	   </div>
+	   
+	<!-- modal off_gases -->
+	<div class="modal fade" id="pdfModalOff_gases" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/ATJ_off-gases.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+		<!-- Feedstocks Menus -->
+		<div id='sidebar-header' class="sidebar" style="height: 12%;padding-top: 0.1rem">
+			<!-- 1st line of feedstocks -->
+			<div class="tabs">
+				<div id="ft-spk" class="item inactive" data-target="ft-spk">
+					<!--  <span>FT-SPK</span> -->
+					<span>Eucalyptus</span>
+				</div>
+				<div id="hefa-spk" class="item inactive" data-target="hefa-spk">
+					<!--  <span>HEFA-SPK</span> -->
+					<span>Soybean</span>
+				</div>
+				<div id="atj-spk" class="item inactive" data-target="atj-spk">
+					<!--  <span>ATJ-SPK</span>  -->
+					<span>Macaw oil</span>
+				</div>
+				<div id="sip-hfs" class="item inactive" data-target="sip-hfs">
+					<!--  <span>SIP-HFS</span>  -->
+					<span>Palm oil</span>
+				</div>	
+				<div id="tab-sugarcane-maps" class="item inactive " data-target="tab-sugarcane-maps">
+					<span>Sugarcane</span>
+				</div>	
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>
+			</div>
+
+			<!-- 2nd line of feedstocks -->
+			<div class="tabs">
+				<div id="tab-corn-maps" class="item inactive" data-target="tab-corn-maps">
+					<span>Corn </span>
+				</div>
+				<div id="tab-tallow-maps" class="item inactive" data-target="tab-tallow-maps">
+					<span>Tallow </span>
+				</div>
+				<div id="tab-off_gases" class="item inactive" data-target="tab-off_gases">
+					<span>Steel off-gases </span>
+				</div>
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>	
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>
+			</div>
+			
+			<!-- 3rd line of feedstocks -->			
+			<div class="tabs">
+				<div id="support-maps" class="item active " data-target="panel-support-maps">
+					<span>Support Maps</span>
+				</div>
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>				
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>	
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>	
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>	
+			</div>
+		</div>
+
+		<!-- Panels -->
+		<div id='sidebar-panels' class="sidebar" style="height: 50%;z-index: 50;">
+			<!-- Support Maps -->
+			<div id="panel-support-maps" class="panel-support-maps" style="display: block;">
+				<h4 id="title-widget1" class="panel-title" style="margin-left: 5rem; display:block">Available Layers
+					<!--  Button #next-tabs -->
+					<span id="next-tabs" style="padding-left: 4rem; font-size: .9rem; color: #93bd42; cursor: pointer;"><i class="fas fa-arrow-right"></i></span>
+				</h4>
+
+				<!-- Block #1 - Support Maps -->
+				<div class="widget" id="widget1" style="display: block;">
+					<!-- Sensitive areas -->
+					<div class="widget-list js-tabTrigger" id="no-go">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Legally protected areas  -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-protected_areas">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Legally protected areas</span>
+									</div>
+									<div id="info-protected_areas">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Restrictive Biomes  -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-restrictive_biomes">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Restricted biomes</span>
+									</div>
+									<div id="info-restrictive_biomes">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>					
+								<!-- Corsia Restrictions  -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-carbon_stock">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> CORSIA restriction (Principle 2)</span>
+									</div>
+									<div id="info-carbon_stock">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>	
+							</ul>
+						</div>
+					</div>
+
+					<!-- Diagnostics -->
+					<div class="widget-list js-tabTrigger" id="diagnostics">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Soil suitability -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-soil_suitability">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Soil suitability</span>
+									</div>
+									<div id="info-soil_suitability">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Slope Eucalyptus -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-slope_eucalyptus">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Slope - used for eucalyptus</span>
+									</div>
+									<div id="info-slope_eucalyptus">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Slope Others Crops -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-slope_others">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Slope - all other crops</span>
+									</div>
+									<div id="info-slope_others">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Level of degradation -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-level_degrad">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Level of pasture degradation</span>
+									</div>
+									<div id="info-level_degrad">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Land use -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-uso_cobertura">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Land use and land cover</span>
+									</div>
+									<div id="info-uso_cobertura">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Land price - Natural pastures -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-price_natural_past">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Land price - Natural pastures</span>
+									</div>
+									<div id="info-price_natural_past">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>		
+								<!-- Land price - Planted pastures -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-price_planted_past">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Land price - Planted pastures</span>
+									</div>
+									<div id="info-price_planted_past">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>	
+							</ul>
+						</div>
+					</div> 
+
+					<!-- Biophysical maps -->
+					<div class="widget-list js-tabTrigger" id="physical">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Biomes -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-biomas">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Biomes</span>
+									</div>
+									<div id="info-biomas">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Soil -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-solo">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Soil </span>
+									</div>
+									<div id="info-solo">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Slope -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-declividade">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Slope</span>
+									</div>
+									<div id="info-declividade">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Altitude -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-altitude">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Altitude</span>
+									</div>
+									<div id="info-altitude">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Rainfall  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-rainfall">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Average annual rainfall</span>
+									</div>
+									<div id="info-rainfall">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Annual Temperature  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-an_temperature">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Average annual temperature</span>
+									</div>
+									<div id="info-an_temperature">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Min Temperature  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-min_temperature">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Average minimum annual temperature</span>
+									</div>
+									<div id="info-min_temperature">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Max Temperature  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-max_temperature">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Average maximum annual temperature</span>
+									</div>
+									<div id="info-max_temperature">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Hydric deficit  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-hydric_deficit">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Annual water deficit</span>
+									</div>
+									<div id="info-hydric_deficit">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- IDP  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-idp">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> IDP (Index of rainfall distribution)</span>
+									</div>
+									<div id="info-idp">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Frost Risk  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-frost_risk">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Frost risk</span>
+									</div>
+									<div id="info-frost_risk">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Main Rivers  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-main_rivers">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Main rivers</span>
+									</div>
+									<div id="info-main_rivers">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Hydrographic Regions  -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-hidrografia">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Hydrographic regions</span>
+									</div>
+									<div id="info-hidrografia">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>					
+							</ul>
+						</div>
+					</div>  
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#no-go" class="widget-tab-link">Sensitive areas</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#diagnostics" class="widget-tab-link">Diagnostics</a>				
+						</li>
+						<li class="widget-tab">
+							<a href="#physical" class="widget-tab-link">Biophysical maps</a>
+						</li>
+					</ul>
+				</div>
+
+				<h4 id="title-widget2" class="panel-title" style="margin-right: 5rem; display:none">
+					<!--  Button #back-tabs -->
+					<span id="back-tabs" style="padding-right: 4rem; font-size: .9rem; color: #93bd42; cursor: pointer;"><i class="fas fa-arrow-left"></i></span>			
+					Available Layers
+				</h4>	
+				
+				<!-- Block #2 - Support Maps -->
+				<div class="widget" id="widget2" style="display: none;">
+					<!-- Political boundaries -->
+					<div class="widget-list js-tabTrigger" id="political">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Municipalities -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-municipios">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Municipalities</span>
+									</div>
+									<div id="info-municipios">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- States -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-estados">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> States</span>
+									</div>
+									<div id="info-estados">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div> 
+
+					<!-- Warning Areas -->
+					<div class="widget-list js-tabTrigger" id="warning">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Land use rights  -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-land_rights">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Land use rights</span>
+									</div>
+									<div id="info-land_rights">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Water use rights  -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-water_rights">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Water use rights</span>
+									</div>
+									<div id="info-water_rights">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Rural Settlements -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-rural_settlements">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Agrarian reform settlements</span>
+									</div>
+									<div id="info-rural_settlements">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>										
+							</ul>
+						</div>				
+					</div>
+					
+					<!-- Infrastructure -->
+					<div class="widget-list js-tabTrigger" id="infrastructure">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines</span>
+									</div>
+									<div id="info-ethanol_pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol pipelines (terminals) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines_terminals">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines (terminals)</span>
+									</div>
+									<div id="info-ethanol_pipelines_terminals">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Production Units - SAFmaps</h7>
+								<!-- Refineries (QAV) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_qav">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by QAV production)</span>
+									</div>
+									<div id="info-refineries_qav">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Refining Capacity) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_capacity">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by refining capacity)</span>
+									</div>
+									<div id="info-refineries_capacity">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by feedstock) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_feedstock">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by feedstock)</span>
+									</div>
+									<div id="info-ethanol_feedstock">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by milling capacity) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_milling">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by sugarcane milling capacity)</span>
+									</div>
+									<div id="info-ethanol_milling">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by anhydrous capacity) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_anhydrous">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by anhydrous capacity)</span>
+									</div>
+									<div id="info-ethanol_anhydrous">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by hydrated capacity) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_hydrated">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by hydrated capacity)</span>
+									</div>
+									<div id="info-ethanol_hydrated">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by total output) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_output">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by total output)</span>
+									</div>
+									<div id="info-ethanol_output">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by anhydrous output) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_anhydrous_output">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by anhydrous output)</span>
+									</div>
+									<div id="info-ethanol_anhydrous_output">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries (by hydrated output) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_hydrated_output">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries (by hydrated output)</span>
+									</div>
+									<div id="info-ethanol_hydrated_output">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Oilseed processing plants -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-oilseed_plants">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Soy processing plants</span>
+									</div>
+									<div id="info-oilseed_plants">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+							<a href="#political" class="widget-tab-link">Political boundaries</a>
+						</li>				
+						<li class="widget-tab">
+							<a href="#warning" class="widget-tab-link">Warning areas</a>
+						</li>
+						<li class="widget-tab">
+							<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+							<a href="#infrastructure" class="widget-tab-link">Infrastructure</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Eucalipto (UNICAMP)) -->
+			<div id="panel-eucalipto" class="panel-support-maps" style="display: none;">
+			<h4 class="panel-title" >Feedstock - Eucalyptus</h4>
+				<div class="widget" id="widget_eucalyptus_maps" style="display: block;">
+					<!-- Eucalyptus Case Studies -->
+					<div class="widget-list" id="eucalyptus_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='rota' id='rota'>
+								<option>--</option>
+								<option>Fischer-Tropsch</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='fstock' id='fstock'>
+								<option>--</option>
+								<option>Eucalyptus</option></select>
+								<br/><br/>
+							
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='eucaliptoMaps' id='eucaliptoMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Eucalyptus suitability</option>
+								<option value="2">Expected wood yield</option>
+								<option value="3">Expected costs of harvested wood</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<span>Integration strategy:&nbsp;&nbsp;</span>
+								<select name='tipoInstalacao' id='tipoInstalacao'>
+								<option>--</option>
+								<option>Greenfield</option>
+								<option>Co-locating</option></select>
+								<br/>
+
+								<span style="color: red; font-weight: bold;">SAF production at:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipio'> ...</span>
+								<br/><br/>
+
+								<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+								<select name='capacidade' id='capacidade'>
+								<option>--</option>
+								<option value="1">20.3</option>
+								<option value="2">51.0</option>
+								<option value="3">75.0</option>
+								<option value="4">150.0</option></select>
+								<br/>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReq'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='diesel'>Diesel</li>
+										<li id='naphtha'>Naphtha</li>
+										<li id='electricity'>Electricity</li>
+									</ul>
+								</div>
+								<br/>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Eucalyptus Reports -->
+					<div class="widget-list" id="eucalyptus_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0">
+								<img class="img-fluid" src="./images/eucalyptus/eucalyptus-forest.jpg" title="Photo by Ulrik De Wachter from FreeImages">
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on FT-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Eucalyptus Maps -->
+					<div class="widget-list" id="eucalyptus_maps">
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Eucalyptus suitability -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_eucalipto">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Eucalyptus suitability</span>
+									</div>
+									<div id="info-aptidao_eucalipto">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+								<!-- Wood yield -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-produtividade_eucalipto">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Expected wood yield</span>
+									</div>
+									<div id="info-produtividade_eucalipto">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Cost of harvested wood -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-custo_eucalipto">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Expected cost of harvested wood</span>
+									</div>
+									<div id="info-custo_eucalipto">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for twelve states.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#eucalyptus_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#eucalyptus_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#eucalyptus_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Soja (Maps) -->
+			<div id="panel-soja" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Soybean</h4>
+				<div class="widget" id="widget_soybean_maps" style="display: block; overflow-y: auto;">
+					<!-- Soybean Case Studies -->
+					<div class="widget-list" id="soybean_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='soja-step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='sojaRota' id='sojaRota'>
+								<option>--</option>
+								<option>HEFA</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='sojaFStock' id='sojaFStock'>
+								<option>--</option>
+								<option>Soybean</option></select>
+								<br/><br/>
+							
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='sojaMaps' id='sojaMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Soybean suitability</option>
+								<option value="2">Expected soybean yield</option>
+								<option value="3">Expected costs of soybean production</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='soja-step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='soja-step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<span>Case studies:&nbsp;&nbsp;</span>
+								<select name='tipoInstalacaoSoja' id='tipoInstalacaoSoja'>
+								<option>--</option>
+								<option>1- Soybean oil exported (2018)</option>
+								<option>2a- Surplus oil (2018) / market price</option>
+								<option>2b- Surplus oil (2018) / supply chain</option>
+								<option>3- Greenfield / vertical supply chain</option></select>
+								<br/><br/>
+
+								<div id="location_case1" style="display: block;">
+									<span>SAF production at:&nbsp;&nbsp;</span>
+									<select name='locationSoja_case1' id='locationSoja_case1'>
+									<option>--</option>
+									<option>REVAP</option></select>
+								</div>
+
+								<div id="location_case2" style="display: none;">
+									<span>SAF production:&nbsp;&nbsp;</span>
+									<select name='locationSoja_case2' id='locationSoja_case2'>
+									<option>--</option>
+									<option>REVAP</option>
+									<option>RNEST</option></select>
+								</div>
+
+								<div id="location_case3" style="display: none;">
+									<span>SAF production:&nbsp;&nbsp;</span>
+									<select name='locationSoja_case3' id='locationSoja_case3'>
+									<option>--</option>
+									<option>REVAP</option>
+									<option>RNEST</option></select>
+								</div>
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioSoja'> ...</span>
+								<br/><br/>
+
+								<div id="oilSource_case3" style="display: none;">
+									<span>Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourceSoja_case3' id='oilSourceSoja_case3'>
+									<option>--</option>
+									<option>Brumado (BA)</option>
+									<option>Paranaíba (MS)</option>
+									<option>Presidente Venceslau (SP)</option></select>
+									<br/><br/>
+								</div>
+
+								<div id="capacidadeSojaAll" style="display: block;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeSoja' id='capacidadeSoja'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+										<option value="4" data-input="1250">150.1</option>
+										<option value="5" data-input="2500">300.1</option>
+									</select>
+									<br/>
+								</div>
+
+								<div id="capacidadeSojaBrumado" style="display: none;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeSoja2' id='capacidadeSoja2'>
+									<option>--</option>
+										<option value="1" data-input="169">20,3</option>
+									</select>
+									<br/>
+								</div>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqSoja'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselSoja'>Diesel</li>
+										<li id='lpgSoja'>LPG</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='soja-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='soja-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Soybean Reports -->
+					<div class="widget-list" id="soybean_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0" >
+								<img class="img-fluid" src="./images/soybean/soy-beans-plant.jpg" title="Photo by Roberto Ribeiro from FreeImages">
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on HEFA-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSoybean">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Soybean Maps -->
+					<div class="widget-list" id="soybean_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Soybean suitability -->
+								<li class="toggle">
+								<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_soja">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Soybean suitability</span>
+								</div>
+								<div id="info-aptidao_soja">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>
+								</li>
+								<!-- Soybean yield -->
+								<li class="toggle">
+								<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-produtividade_soja">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected soybean yield</span>
+								</div>
+								<div id="info-produtividade_soja">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>				  
+								</li>
+								<!-- Cost of soybean production -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-custo_soja">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected costs of soybean production</span>
+									</div>
+									<div id="info-custo_soja">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for twelve states.</span>
+							</div>	
+						</div>				
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#soybean_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#soybean_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#soybean_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Macauba (Maps) -->
+			<div id="panel-macauba" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Macaw oil</h4>
+				<div class="widget" id="widget_macauba_maps" style="display: block; overflow-y: auto;">
+					<!-- Macauba Case Studies -->
+					<div class="widget-list" id="macauba_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='macauba-step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='macaubaRota' id='macaubaRota'>
+								<option>--</option>
+								<option>HEFA</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='macaubaFStock' id='macaubaFStock'>
+								<option>--</option>
+								<option>Macaw oil</option></select>
+								<br/><br/>
+							
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='macaubaMaps' id='macaubaMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Macaw oil suitability</option>
+								<option value="2">Expected macaw oil yield</option>
+								<option value="3">Expected costs of macaw production</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='macauba-step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='macauba-step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<div id="location_case" style="display: block;">
+									<span style="font-weight: bold;">SAF production at:&nbsp;&nbsp;</span>
+									<select name='locationMacauba' id='locationMacauba'>
+										<option value="0">--</option>
+										<option value="1">REGAP</option>
+										<option value="2">REVAP</option>
+										<option value="3">RNEST</option>
+									</select>
+								</div>
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioMacauba'> ...</span>
+								<br/><br/>
+
+								<div id="oilSource" style="display: inline-block;">
+									<span style="color: blue; font-weight: bold;">Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourceMacauba' id='oilSourceMacauba'>
+										<option value="0">--</option>
+										<option value="1">Campina Verde (MG)</option>
+										<option value="2">Itarumã (GO)</option>
+										<option value="3">All 10 locations</option>
+									<!--
+										<option value="1">Dores do Indaiá (MG)</option>
+										<option value="2">João Pinheiro (MG)</option>
+										<option value="3">Lima Duarte (MG)</option>
+										<option value="4">Mirabela (MG)</option>
+										<option value="6">Goiás (GO)</option>
+										<option value="8">Porangatu (GO)</option>
+										<option value="9">Figueirópolis (TO)</option>
+										<option value="10">Taipas do Tocantins (TO)</option>
+									-->
+									</select>
+								</div>
+
+								<div id="oilSourceRegap" style="display: none;">
+									<span style="color: blue; font-weight: bold;">Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourceMacauba2' id='oilSourceMacauba2'>
+										<option value="0">--</option>
+										<option value="3">All 10 locations</option>
+									</select>
+								</div>								
+								<br/><br/>
+
+								<div id="capacidadeMacaubaAll" style="display: block;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeMacauba' id='capacidadeMacauba'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+										<option value="4" data-input="1250">150.1</option>
+										<option value="5" data-input="2500">300.1</option>
+									</select>
+									<br/>
+								</div>
+
+								<div id="capacidadeMacaubaCampina" style="display: none;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeMacauba2' id='capacidadeMacauba2'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+									</select>
+									<br/>
+								</div>
+
+								<div id="capacidadeMacaubaItaruma" style="display: none;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeMacauba3' id='capacidadeMacauba3'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+										<option value="4" data-input="1250">150.1</option>
+									</select>
+									<br/>
+								</div>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqMacauba'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselMacauba'>Diesel</li>
+										<li id='lpgMacauba'>LPG</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='macauba-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='macauba-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Macauba Reports -->
+					<div class="widget-list" id="macauba_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0" >
+								<img class="img-fluid" src="./images/macaw/macaw.png" >
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on HEFA-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalMacaw">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Macauba Maps -->
+					<div class="widget-list" id="macauba_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Macauba oil suitability -->
+								<li class="toggle">
+								<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_macauba">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Macaw oil suitability</span>
+								</div>
+								<div id="info-aptidao_macauba">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>
+								</li>
+								<!-- Macauba oil yield -->
+								<li class="toggle">
+								<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-produtividade_macauba">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected macaw oil yield</span>
+								</div>
+								<div id="info-produtividade_macauba">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>				  
+								</li>
+								<!-- Cost of macauba production -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-custo_macauba">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected costs of macaw production</span>
+									</div>
+									<div id="info-custo_macauba">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for twelve states.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#macauba_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#macauba_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#macauba_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Palm (Maps) -->
+			<div id="panel-palma" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Palm oil</h4>
+				<div class="widget" id="widget_palm_maps" style="display: block; overflow-y: auto;">
+					<!-- Palm Case Studies -->
+					<div class="widget-list" id="palm_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='palma-step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='palmaRota' id='palmaRota'>
+								<option>--</option>
+								<option>HEFA</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='palmaFStock' id='palmaFStock'>
+								<option>--</option>
+								<option>Palm oil</option></select>
+								<br/><br/>
+							
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='palmaMaps' id='palmaMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Palm oil suitability</option>
+								<option value="2">Expected palm oil yield</option>
+								<option value="3">Expectex costs of palm production</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='palma-step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='palma-step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<div id="location_case" style="display: block;">
+									<span style="font-weight: bold;">SAF production at:&nbsp;&nbsp;</span>
+									<select name='locationPalma' id='locationPalma'>
+										<option value="0">--</option>
+										<option value="1">REVAP</option>
+										<option value="2">RNEST</option>
+									</select>
+								</div>
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioPalma'> ...</span>
+								<br/><br/>
+
+								<div id="oilSourcePalmaRevap" style="display: inline-block;">
+									<span style="color: blue; font-weight: bold;">Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourcePalma' id='oilSourcePalma'>
+										<option value="0">--</option>
+										<option value="1">Alto Araguaia (MT)</option>
+										<option value="2">Terra Nova do Norte (MT)</option>
+										<option value="4">Xinguara (PA)</option>
+									<!--
+										<option value="3">São Miguel do Guamá (PA)</option>
+										<option value="5">Tailândia (PA)</option>
+										<option value="6">Belmonte (BA)</option>
+										<option value="7">Teixeira de Freitas (BA)</option>
+									-->
+									</select>
+								</div>
+
+								<div id="oilSourcePalmaRnest" style="display: none;">
+									<span style="color: blue; font-weight: bold;">Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourcePalma2' id='oilSourcePalma2'>
+										<option value="0">--</option>
+										<option value="1">Alto Araguaia (MT)</option>
+										<option value="3">São Miguel do Guamá (PA)</option>
+										<option value="4">Xinguara (PA)</option>
+									</select>
+								</div>								
+								<br/><br/>
+
+								<div id="capacidadePalmaAll" style="display: block;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadePalma' id='capacidadePalma'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+										<option value="4" data-input="1250">150.1</option>
+										<option value="5" data-input="2500">300.1</option>
+									</select>
+									<br/>
+								</div>
+
+								<div id="capacidadePalmaAlto" style="display: none;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadePalma2' id='capacidadePalma2'>
+										<option>--</option>
+										<option value="1" data-input="169">20.3</option>
+										<option value="2" data-input="425">51.0</option>
+										<option value="3" data-input="625">75.0</option>
+									</select>
+									<br/>
+								</div>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqPalma'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselPalma'>Diesel</li>
+										<li id='lpgPalma'>LPG</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='palma-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='palma-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Palm Reports -->
+					<div class="widget-list" id="palm_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0" >
+								<img class="img-fluid" src="./images/palm/arvore-palma.jpg" >
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on HEFA-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalPalm">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Palm Maps -->
+					<div class="widget-list" id="palm_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Palm oil suitability -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_palma">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Palm oil suitability</span>
+									</div>
+									<div id="info-aptidao_palma">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Palm oil yield -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-produtividade_palma">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected palm oil yield</span>
+									</div>
+									<div id="info-produtividade_palma">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+								<!-- Cost of palm production -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-custo_palma">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Expected costs of palm production</span>
+									</div>
+									<div id="info-custo_palma">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for five states.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#palm_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#palm_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#palm_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Sugarcane (Maps) -->
+			<div id="panel-sugarcane" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Sugarcane</h4>
+				<div class="widget" id="widget_sugarcane_maps" style="display: block; overflow-y: auto;">
+					<!-- Sugarcane Case Studies -->
+					<div class="widget-list" id="sugarcane_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='sugarcane-step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='sugarcaneRota' id='sugarcaneRota'>
+								<option>--</option>
+								<option>ATJ</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='sugarcaneFStock' id='sugarcaneFStock'>
+								<option>--</option>
+								<option value="1">Sugarcane</option>
+								<option value="2">Sugarcane + corn</option></select>
+								<br/><br/>
+								
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='sugarcaneMaps' id='sugarcaneMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Sugarcane suitability</option>
+								<option value="2">Expected sugarcane yield</option>
+								<option value="3">Expected costs of sugarcane production</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='sugarcane-step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='sugarcane-step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<span>Case studies:&nbsp;&nbsp;</span>
+								<!-- ONLY SUGARCANE -->
+								<select name='tipoInstalacaoSugarcane_1' id='tipoInstalacaoSugarcane_1' style="display: none;">
+								<option>--</option>
+								<option value="1">1- Supply from 43 mills</option>
+								<option value="2">2- Supply from 55 mills</option>
+								<option value="3">3- Greenfield/Sugarcane (only)</option></select>
+
+								<!-- SUGARCANE + CORN -->
+								<select name='tipoInstalacaoSugarcane_2' id='tipoInstalacaoSugarcane_2' style="display: none;">
+									<option>--</option>
+									<option value="4">3- Greenfield/Sugarcane + corn</option></select>
+								<br/><br/>
+
+								<div id="location_sugarcane" style="display: none;">
+									<span>Location:&nbsp;&nbsp;</span>
+									<select name='locationSugarcane' id='locationSugarcane'>
+										<option>--</option>
+										<option value="1">All 4 locations</option>
+										<!--
+											<option value="1">Prata (MG)</option>
+											<option value="2">Caçú (GO)</option>
+											<option value="3">Paranaíba (MS)</option>
+											<option value="4">Presidente Venceslau (SP)</option>
+										-->
+									</select><br/><br/>
+								</div>
+
+								<div id="production_sugarcane" style="display: block;">
+									<span>SAF production at:&nbsp;&nbsp;</span>
+									<select name='productionSugarcane' id='productionSugarcane'>
+									<option>--</option>
+									<option value="1">REPLAN</option></select>
+								</div>						
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioSugarcane'> ...</span>
+								<br/><br/>
+								
+								<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+								<select name='capacidadeSugarcane' id='capacidadeSugarcane'>
+								<option>--</option>
+								<option value="1" data-input="200173.198482933">182.6</option>
+								<option value="2" data-input="366624.273072061">334.4</option>
+								<option value="3" data-input="509880.174462705">465.0</option>
+								<option value="4" data-input="1019759.93362832">930.0</option></select>
+								<br/>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqSugarcane'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselSugarcane'>Diesel</li>
+										<li id='naphthaSugarcane'>Naphtha</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='sugarcane-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='sugarcane-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Sugarcane Reports -->
+					<div class="widget-list" id="sugarcane_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0">
+								<img class="img-fluid" src="./images/sugarcane/brazilian-sugarcane.jpg" title="Nature photo created by betochagas - www.freepik.com">
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Sugarcane Maps -->
+					<div class="widget-list" id="sugarcane_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Sugarcane suitability -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_cana">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Sugarcane suitability</span>
+									</div>
+									<div id="info-aptidao_cana">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Sugarcane yield -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-produtividade_cana">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected sugarcane yield</span>
+									</div>
+									<div id="info-produtividade_cana">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+								<!-- Cost of sugarcane production -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-custo_cana">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Expected costs of sugarcane production</span>
+									</div>
+									<div id="info-custo_cana">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for twelve states.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#sugarcane_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#sugarcane_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#sugarcane_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Corn (Maps) -->
+			<div id="panel-corn" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Corn (2nd crop)</h4>
+				<div class="widget" id="widget_corn_maps" style="display: block; overflow-y: auto;">
+					<!-- Corn Case Studies -->
+					<div class="widget-list" id="corn_cstudies">
+						<div style="overflow-y: auto;height: 100%">
+							<!-- DIV Step #1 - Selecao rota	-->
+							<div id='corn-step1' class='div-steps' style='display:block'>
+								<h6>Step 1 - Route selection</h6><br/>
+
+								<span>Conversion technology:&nbsp;&nbsp;</span>
+								<select name='cornRota' id='cornRota'>
+								<option>--</option>
+								<option>ATJ-SPK</option></select>
+								<br/><br/>
+
+								<span>Feedstock:&nbsp;&nbsp;</span>
+								<select name='cornFStock' id='cornFStock'>
+								<option>--</option>
+								<option>Sugarcane + corn</option></select>
+								<br/><br/>
+							
+								<span>Map:&nbsp;&nbsp;</span>
+								<select name='cornMaps' id='cornMaps'>
+								<option value="0">Continue without maps</option>
+								<option value="1">Corn suitability</option>
+								<option value="2">Expected corn yield</option>
+								<option value="3">Expected costs of corn production</option></select>
+								<br/><br/>
+
+								<!-- Botao next	-->
+								<div class='bt-next'>
+									<button class='corn-step1-next bt-style' type='button'>
+										<span style='color:grey'>Next&nbsp;&nbsp;></span>
+									</button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao -->
+							<div id='corn-step2' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<span>Case studies:&nbsp;&nbsp;</span>
+								<!-- CORN -->
+								<select name='tipoInstalacaoCorn' id='tipoInstalacaoCorn' style="display: inline-block;">
+									<option>--</option>
+									<option value="4">Greenfield/Sugarcane + corn</option></select>
+								<br/><br/>
+
+								<div id="location_corn" style="display: block;">
+									<span>Location:&nbsp;&nbsp;</span>
+									<select name='locationCorn' id='locationCorn'>
+										<option>--</option>
+										<option value="1">All 4 locations</option>
+										<!--
+											<option value="1">Prata (MG)</option>
+											<option value="2">Caçú (GO)</option>
+											<option value="3">Paranaíba (MS)</option>
+											<option value="4">Presidente Venceslau (SP)</option>
+										-->
+									</select>
+								</div><br/>
+
+								<div id="production_corn" style="display: block;">
+									<span>SAF production at:&nbsp;&nbsp;</span>
+									<select name='productionCorn' id='productionCorn'>
+									<option>--</option>
+									<option value="1">REPLAN</option></select>
+								</div>						
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioCorn'> ...</span>
+								<br/><br/>
+								
+								<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+								<select name='capacidadeCorn' id='capacidadeCorn'>
+								<option>--</option>
+								<option value="1" data-input="200173.198482933">182.6</option>
+								<option value="2" data-input="366624.273072061">334.4</option>
+								<option value="3" data-input="509880.174462705">465.0</option>
+								<option value="4" data-input="1019759.93362832">930.0</option></select>
+								<br/>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqCorn'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselCorn'>Diesel</li>
+										<li id='naphthaCorn'>Naphtha</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='corn-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='corn-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+						</div>
+					</div>
+
+					<!-- Corn Reports -->
+					<div class="widget-list" id="corn_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0">
+								<img class="img-fluid" src="./images/corn/corn.jpeg" >
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Corn Maps -->
+					<div class="widget-list" id="corn_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Corn suitability -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_milho">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Corn suitability</span>
+									</div>
+									<div id="info-aptidao_milho">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Corn yield -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-produtividade_milho">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Expected corn yield</span>
+									</div>
+									<div id="info-produtividade_milho">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+								<!-- Cost of corn production -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-custo_milho">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Expected costs of corn production</span>
+									</div>
+									<div id="info-custo_milho">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for six states, based on corn <br/>second crop.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#corn_cstudies" class="widget-tab-link">Case studies</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#corn_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#corn_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Tallow (Maps) -->
+			<div id="panel-tallow" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Tallow</h4>
+				<div class="widget" id="widget_tallow_maps" style="display: block; overflow-y: auto;">
+					<!-- Tallow Reports -->
+					<div class="widget-list" id="tallow_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0" >
+								<img class="img-fluid" src="./images/tallow/beef tallow-liquid.png" >
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on HEFA-SPK pathway, combining feedstock (one of which is beef tallow).</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalTallow">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tallow Maps -->
+					<div class="widget-list" id="tallow_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Cattle herd -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-cattle_herd">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Cattle herd</span>
+									</div>
+									<div id="info-cattle_herd">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>						
+								<!-- Slaughterhouse -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-abatedouros">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Slaughterhouse with SIF</span>
+									</div>
+									<div id="info-abatedouros">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Beef tallow estimated -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-beef_tallow">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Beef tallow estimated</span>
+									</div>
+									<div id="info-beef_tallow">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for tallow available <br/>in 26 municipalities.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#tallow_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#tallow_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- Off-gases (Maps) -->
+			<div id="panel-off_gases" class="panel-support-maps" style="display: none;">
+				<h4 class="panel-title" >Feedstock - Steel off-gases</h4>
+				<div class="widget" id="widget_off_gases" style="display: block; overflow-y: auto;">
+					<!-- Off-gases Reports -->
+					<div class="widget-list" id="off_gases_reports">
+						<div style="overflow-y: auto;height: 100%">
+							<div class="col-md-10 mb-4 mb-md-0" >
+								<img class="img-fluid" src="./images/off-gases/siderurgica.jpg" >
+							</div>
+							<div class="col-md-12" style="margin-top: 10px;">
+								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalOff_gases">Go to...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Off-gases Maps -->
+					<div class="widget-list" id="off_gases_maps">	
+						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Off-gases -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-off_gases">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Total of off-gases</span>
+									</div>
+									<div id="info-off_gases">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Flaring -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-flaring">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Flaring</span>
+									</div>
+									<div id="info-flaring">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>						
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for flared gases available <br/>in some steel mills.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tabs controls -->
+					<ul class="widget-tabs">
+						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
+						<li class="widget-tab">
+							<a href="#off_gases_reports" class="widget-tab-link">Reports</a>
+						</li>
+						<li class="widget-tab">
+							<a href="#off_gases_maps" class="widget-tab-link">Available layers</a>				
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>		
+
+		<!-- Legend Panel -->
+		<div id='sidebar-legend' class="sidebar" style="height: 36%;display: block;">
+			<div id="div-legend" class="panel-legend accordion" style="top: 15rem">
+				<dl>
+					<dt>
+						<a href="#accordion3" aria-expanded="false" aria-controls="accordion3" class="accordion-title accordionTitle js-accordionTrigger">
+							Legend
+						</a>
+					</dt>
+
+					<!-- Here all legend pictures are available, but all hidden -->
+					<!-- The switches controls of the maps enable/disable the legends -->
+					<dd class="accordion-content accordionItem is-collapsed" id="accordion3" aria-hidden="true">
+						<div style="background-color: #f8f9fa">
+							<!-- Biophysical maps -->
+							<!-- Biomas -->
+							<div id="legend-biomas" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Biomes</h6>
+								<img id="biomas" class="legend-img" src="./images/legendas/biomas.png" width="32%" >
+							</div>	
+							<!-- Solo -->
+							<div id="legend-solo" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Soil orders</h6>
+								<img id="solo" class="legend-img" src="./images/legendas/solo.png" height="100%" >
+							</div>
+							<!-- Declividade -->
+							<div id="legend-declividade" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Slope</h6>
+								<img id="declividade" class="legend-img" src="./images/legendas/declividade_color_transp.png" width="32%" >
+							</div>
+							<!-- Altitude -->
+							<div id="legend-altitude" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Altitude (m)</h6>
+								<img id="altitude" class="legend-img" src="./images/legendas/altitude.png" height="100%" >
+							</div>
+							<!-- Precipitacao -->
+							<div id="legend-rainfall" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Annual average rainfall (mm)</h6>
+								<img id="rainfall" class="legend-img" src="./images/legendas/precipitacao.png" height="100%" >
+							</div>
+							<!-- Temperatura Média -->
+							<div id="legend-an_temperature" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Average annual temperature (<sup>o</sup>C)</h6>
+								<img id="an_temperature" class="legend-img" src="./images/legendas/temperatura_med.png" height="100%" >
+							</div>
+							<!-- Temperatura Mínima -->
+							<div id="legend-min_temperature" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Average minimum annual temperature (<sup>o</sup>C)</h6>
+								<img id="min_temperature" class="legend-img" src="./images/legendas/temperatura_min.png" height="100%" >
+							</div>
+							<!-- Temperatura Máxima -->
+							<div id="legend-max_temperature" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Average maximum annual temperature (<sup>o</sup>C)</h6>
+								<img id="max_temperature" class="legend-img" src="./images/legendas/temperatura_max.png" height="100%" >
+							</div>
+							<!-- Deficit Hídrico -->
+							<div id="legend-hydric_deficit" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Annual water deficit (mm/year<sup>-1</sup>)</h6>
+								<img id="hydric_deficit" class="legend-img" src="./images/legendas/deficit_hidrico.png" height="100%" >
+							</div>
+							<!-- IDP -->
+							<div id="legend-idp" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> IDP (10<sup>-2</sup>) </h6>
+								<img id="idp" class="legend-img" src="./images/legendas/indice_idp.png" height="100%" >
+							</div>
+							<!-- Frost Risk -->
+							<div id="legend-frost_risk" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Frost risk (%)</h6>
+								<img id="frost_risk" class="legend-img" src="./images/legendas/risco_geada.png" width="18%" >
+							</div>
+							<!-- Main Rivers -->
+							<div id="legend-main_rivers" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Main Rivers</h6>
+								<img id="main_rivers" class="legend-img" src="./images/legendas/main_rivers.png" height="100%" >
+							</div>
+							<!-- Hidrografia -->
+							<div id="legend-hidrografia" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Hydrographic regions</h6>
+								<img id="hidrografia" class="legend-img" src="./images/legendas/hidrografia.png" height="100%" >
+							</div>
+
+							<!-- Diagnostics -->
+							<!-- Soil suitability -->
+							<div id="legend-soil_suitability" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="soil_suitability" class="legend-img" src="./images/legendas/aptidao_solo.png" height="100%" >
+							</div>
+							<!-- Slope Eucalyptus -->
+							<div id="legend-slope_eucalyptus" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Slope (%)</h6>
+								<img id="slope_eucalyptus" class="legend-img" src="./images/legendas/declividade_eucalipto.png" height="100%" >
+							</div>
+							<!-- Slope Other Crops -->
+							<div id="legend-slope_others" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Slope (%)</h6>
+								<img id="slope_others" class="legend-img" src="./images/legendas/declividade_other_crops.png" height="100%" >
+							</div>
+							<!-- Pasture degradation -->
+							<div id="legend-level_degrad" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Level of pasture degradation (2018)</h6>
+								<img id="level_degrad" class="legend-img" src="./images/legendas/pastagem_degradada.png" height="100%" >
+							</div>
+							<!-- Land use -->
+							<div id="legend-uso_cobertura" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Land use and land cover (2018)</h6>
+								<img id="uso_cobertura" class="legend-img" src="./images/legendas/uso_cobertura_transp.png" width="60%" >
+							</div>
+							<!-- Price Natural Pasture -->
+							<div id="legend-price_natural_past" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Estimated price from different sources, <br/>in R$.ha<sup>-1</sup>, in mid 2019</h6>
+								<img id="price_natural_past" class="legend-img" src="./images/legendas/price_natural_pasture.png" height="100%" >
+							</div>
+							<!-- Price Planted Pasture -->
+							<div id="legend-price_planted_past" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Estimated prices from different sources, <br/>in R$.ha<sup>-1</sup>, in mid 2019</h6>
+								<img id="price_planted_past" class="legend-img" src="./images/legendas/price_planted_pasture.png" height="100%" >
+							</div>
+
+							<!-- Sensitive areas -->
+							<!-- Protected areas -->
+							<div id="legend-protected_areas" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Legally protected areas</h6>
+								<img id="protected_areas" class="legend-img" src="./images/legendas/protected_areas.png" height="100%" >
+							</div>
+							<!-- Restrictive biomes -->
+							<div id="legend-restrictive_biomes" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Restricted Biomes</h6>
+								<img id="restrictive_biomes" class="legend-img" src="./images/legendas/restricted_biomes.png" height="100%" >
+							</div>
+							<!-- Corsia Restriction -->
+							<div id="legend-carbon_stock" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Non-elegible land (Principle 2 - CORSIA)</h6>
+								<img id="carbon_stock" class="legend-img" src="./images/legendas/corsia_restriction.png" height="100%" >
+							</div>
+
+							<!-- Infrastructure -->
+							<!-- Roads -->
+							<div id="legend-roads" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Roads</h6>
+								<img id="roads" class="legend-img" src="./images/legendas/roads.png" height="100%" >
+							</div>
+							<!-- Railroads -->
+							<div id="legend-railroads" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Railroads</h6>
+								<img id="railroads" class="legend-img" src="./images/legendas/railroads.png" height="100%" >
+							</div>
+							<!-- Pipelines -->
+							<div id="legend-pipelines" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Pipelines</h6>
+								<img id="pipelines" class="legend-img" src="./images/legendas/pipelines.png" height="100%" >
+							</div>
+							<!-- Ethanol pipelines -->
+							<div id="legend-ethanol_pipelines" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Ethanol pipelines</h6>
+								<img id="ethanol_pipelines" class="legend-img" src="./images/legendas/ethanol_pipelines.png" height="100%" >
+							</div>
+							<!-- Ethanol pipelines (terminals) -->
+							<div id="legend-ethanol_pipelines_terminals" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Ethanol pipelines (terminals)</h6>
+								<img id="ethanol_pipelines_terminals" class="legend-img" src="./images/legendas/ethanol_pipelines_terminals.png" height="100%" >
+							</div>
+							<!-- Waterways -->
+							<div id="legend-waterways" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Waterways</h6>
+								<img id="waterways" class="legend-img" src="./images/legendas/waterways.png" height="100%" >
+							</div>
+							<!-- Airports -->
+							<div id="legend-airports" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Airports (extension of the runway)</h6>
+								<img id="airports" class="legend-img" src="./images/legendas/airports.png" height="100%" >
+							</div>
+
+							<!-- Production Units - SAFmaps -->
+							<!-- Refineries (QAV) -->
+							<div id="legend-refineries_qav" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Refineries (by QAV production, in 2019, 1000m<sup>3</sup>)</h6>
+								<img id="refineries_qav" class="legend-img" src="./images/legendas/refineries_qav.png" height="100%" >
+							</div>
+							<!-- Refineries (Oil Refining) -->
+							<div id="legend-refineries_refining" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Refineries (by oil refining, in 2019, 1000m<sup>3</sup>)</h6>
+								<img id="refineries_refining" class="legend-img" src="./images/legendas/refineries_refining.png" height="100%" >
+							</div>					
+							<!-- Refineries (Refining Capacity) -->
+							<div id="legend-refineries_capacity" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Refineries (by refining capacity, in 2020, m<sup>3</sup>.day<sup>-1</sup>)</h6>
+								<img id="refineries_capacity" class="legend-img" src="./images/legendas/refineries_capacity.png" height="100%" >
+							</div>	
+							<!-- Ethanol distilleries (by feedstock) -->
+							<div id="legend-ethanol_feedstock" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Ethanol feedstock</h6>
+								<img id="ethanol_feedstock" class="legend-img" src="./images/legendas/ethanol_feedstock.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by milling capacity) -->
+							<div id="legend-ethanol_milling" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Milling (10<sup>6</sup> t. year<sup>-1</sup>)</h6>
+								<img id="ethanol_milling" class="legend-img" src="./images/legendas/ethanol_milling.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by anhydrous capacity) -->
+							<div id="legend-ethanol_anhydrous" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Anhydrous capacity in 2020 (10<sup>6</sup> L.day<sup>-1</sup>)</h6>
+								<img id="ethanol_anhydrous" class="legend-img" src="./images/legendas/ethanol_anhydrous.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by hydrated capacity) -->
+							<div id="legend-ethanol_hydrated" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Hydrated ethanol capacity in 2020 (10<sup>6</sup> L.day<sup>-1</sup>)</h6>
+								<img id="ethanol_hydrated" class="legend-img" src="./images/legendas/ethanol_hydrated.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by total output) -->
+							<div id="legend-ethanol_output" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Total ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<img id="ethanol_output" class="legend-img" src="./images/legendas/ethanol_output.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by anhydrous output) -->
+							<div id="legend-ethanol_anhydrous_output" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Anhydrous ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<img id="ethanol_anhydrous_output" class="legend-img" src="./images/legendas/ethanol_anhydrous_output.png" height="100%" >
+							</div>
+							<!-- Ethanol distilleries (by hydrated output) -->
+							<div id="legend-ethanol_hydrated_output" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Hydrated ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<img id="ethanol_hydrated_output" class="legend-img" src="./images/legendas/ethanol_hydrated_output.png" height="100%" >
+							</div>
+							<!-- Oilseed processing plants -->
+							<div id="legend-oilseed_plants" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Soy processing plants (2018)</h6>
+								<img id="oilseed_plants" class="legend-img" src="./images/legendas/oilseed_plants.png" height="100%" >
+							</div>
+
+							<!-- Warning Areas -->
+							<!-- Land use rights  -->
+							<div id="legend-land_rights" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Land use rights (2016-2018)</h6>
+								<img id="land_rights" class="legend-img" src="./images/legendas/land_rights.png" width="55%" >
+							</div>
+							<!-- Water use rights  -->
+							<div id="legend-water_rights" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Number of reported violations (2017)</h6>
+								<img id="water_rights" class="legend-img" src="./images/legendas/water_rights.png" height="100%" >
+							</div>
+							<!-- Rural Settlements -->
+							<div id="legend-rural_settlements" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Agrarian reform settlements</h6>
+								<img id="rural_settlements" class="legend-img" src="./images/legendas/rural_settlements.png" height="100%" >
+							</div>
+
+							<!-- Political boundaries -->
+							<!-- Municipalities -->
+							<div id="legend-municipios" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Municipalities</h6>
+								<img id="municipios" class="legend-img" src="./images/legendas/municipios_transp.png" height="100%" >
+							</div>
+							<!-- States -->
+							<div id="legend-estados" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> States</h6>
+								<img id="estados" class="legend-img" src="./images/legendas/estados_transp.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK EUCALYPTUS -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_eucalipto" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_eucalipto" class="legend-img" src="./images/legendas/aptidao_eucalipto_transp.png" height="100%" >
+							</div>
+							<!-- Cost of harvested wood -->
+							<div id="legend-custo_eucalipto" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.m<span style='vertical-align:super;'>-3</span>)</span></h6>
+								<img id="custo_eucalipto" class="legend-img" src="./images/legendas/custos_eucalipto_transp.png" height="100%" >
+							</div>
+							<!-- Wood yield -->
+							<div id="legend-produtividade_eucalipto" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (m<span style='vertical-align:super;'>3</span>.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="produtividade_eucalipto" class="legend-img" src="./images/legendas/produtividade_eucalipto_transp.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK SOJA -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_soja" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_soja" class="legend-img" src="./images/legendas/aptidao_soja.png" height="100%" >
+							</div>
+							<!-- Expected costs -->
+							<div id="legend-custo_soja" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="custo_soja" class="legend-img" src="./images/legendas/custos_soja.png" height="100%" >
+							</div>
+							<!-- Expected average yield -->
+							<div id="legend-produtividade_soja" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="produtividade_soja" class="legend-img" src="./images/legendas/produtividade_soja.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK MACAUBA -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_macauba" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_macauba" class="legend-img" src="./images/legendas/aptidao_macauba.png" height="100%" >
+							</div>
+							<!-- Expected costs -->
+							<div id="legend-custo_macauba" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="custo_macauba" class="legend-img" src="./images/legendas/custos_macauba.png" height="100%" >
+							</div>
+							<!-- Expected average yield -->
+							<div id="legend-produtividade_macauba" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="produtividade_macauba" class="legend-img" src="./images/legendas/produtividade_macauba.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK PALMA -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_palma" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_palma" class="legend-img" src="./images/legendas/aptidao_palma.png" height="100%" >
+							</div>
+							<!-- Expected costs -->
+							<div id="legend-custo_palma" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>) fresh fruit</span></h6>
+								<img id="custo_palma" class="legend-img" src="./images/legendas/custos_palma.png" height="100%" >
+							</div>
+							<!-- Expected average yield -->
+							<div id="legend-produtividade_palma" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) fresh fruit</span></h6>
+								<img id="produtividade_palma" class="legend-img" src="./images/legendas/produtividade_palma.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK CANA -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_cana" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_cana" class="legend-img" src="./images/legendas/aptidao_cana.png" height="100%" >
+							</div>
+							<!-- Expected costs -->
+							<div id="legend-custo_cana" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) in a 5-year cycle</span></h6>
+								<img id="custo_cana" class="legend-img" src="./images/legendas/custos_cana.png" height="100%" >
+							</div>
+							<!-- Expected average yield -->
+							<div id="legend-produtividade_cana" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) <br/>in a 5-year cycle</span></h6>
+								<img id="produtividade_cana" class="legend-img" src="./images/legendas/produtividade_cana.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK MILHO -->
+							<!-- Suitability -->
+							<div id="legend-aptidao_milho" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Suitability</h6>
+								<img id="aptidao_milho" class="legend-img" src="./images/legendas/aptidao_milho.png" height="100%" >
+							</div>
+							<!-- Expected costs -->
+							<div id="legend-custo_milho" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="custo_milho" class="legend-img" src="./images/legendas/custos_milho.png" height="100%" >
+							</div>
+							<!-- Expected average yield -->
+							<div id="legend-produtividade_milho" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<img id="produtividade_milho" class="legend-img" src="./images/legendas/produtividade_milho.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK TALLOW -->
+							<!-- Cattle herd -->
+							<div id="legend-cattle_herd" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Cattle herd in 2018 (10<sup>3</sup>)</h6>
+								<img id="cattle_herd" class="legend-img" src="./images/legendas/cattle_herd.png" height="100%" >
+							</div>
+							<!-- Slaughterhouse -->
+							<div id="legend-abatedouros" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Slaughterhouse with SIF in 2019</h6>
+								<img id="abatedouros" class="legend-img" src="./images/legendas/abatedouros.png" height="100%" >
+							</div>
+							<!-- Beef tallow -->
+							<div id="legend-beef_tallow" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Beef tallow estimated in 2018 (t)</h6>
+								<img id="beef_tallow" class="legend-img" src="./images/legendas/beef_tallow.png" height="100%" >
+							</div>
+
+							<!-- FEEDSTOCK OFF-GASES -->
+							<!-- Total off-gases -->
+							<div id="legend-off_gases" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Total of off-gases (1000m<sup>3</sup>.year<sup>-1</sup>) </h6>
+								<img id="off_gases" class="legend-img" src="./images/legendas/off_gases.png" height="100%" >
+							</div>
+							<!-- Flaring -->
+							<div id="legend-flaring" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Flaring (1000m<sup>3</sup>.year<sup>-1</sup>)</h6>
+								<img id="flaring" class="legend-img" src="./images/legendas/flaring.png" height="100%" >
+							</div>
+						</div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <script>
+		var current_tab = 'physical', last_tab = '';
+
+		function setCurrentTab() {
+			current_tab = $("widget-tab").prevObject[0].URL;
+			current_tab = current_tab.substring(current_tab.indexOf("#"));
+			console.log(current_tab);
+
+			if (last_tab === '') {
+				last_tab = current_tab;
+				$(current_tab).toggleClass('redux-other-panels');
+			} else if (last_tab !== current_tab) {
+				$(last_tab).toggleClass('redux-other-panels');
+				last_tab = current_tab;
+				$(current_tab).toggleClass('redux-other-panels');				
+			} else if (last_tab === current_tab) {
+				$(last_tab).toggleClass('redux-other-panels');
+				last_tab = '';
+			}
+		}
+  </script>
+
+  <!-- Bootstrap core JavaScript -->
+
+  <!-- Early versions of the system
+	  <script src="vendor/jquery/jquery.min.js"></script>
+	  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+  -->
+
+  <!-- JQuery, Bootstrap, Google Maps -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYiHZL4JLYBrDqquu3EeaErg8LiZ_WFPo"></script>
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+  <script src="./js/leaflet-routing-machine.min.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"	integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q==" crossorigin=""></script>
+
+  <!-- loading jsPanel javascript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.11.0/jquery.jspanel-compiled.min.js"></script>
+
+  <!-- JQuery Flot (for graphics, not used in this version) -->
+  <!--
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.axislabels.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.categories.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.resize.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.symbol.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="./js/flot/jquery.flot.tooltip.js"></script>
+  -->
+
+  <!-- Alert messages window -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+
+  <!-- Legend panel effect -->
+  <script  src="./js/accordion.js"></script>
+  
+  <script>
+    // Button #menu-toggle
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+        if ($("#opened").css("display") === "block") {
+            $("#opened").css("display", "none");
+            $("#closed").css("display", "block");
+        } else {
+            $("#closed").css("display", "none");
+            $("#opened").css("display", "block");
+        }
+    });
+
+	// Open the menu
+	$("#wrapper").toggleClass("toggled");
+
+	// Windows variables
+	var windowHeight = getActualHeight(), windowWidth = getActualWidth();
+
+	// MAP PARAMETERS
+	//var init_map = [-12.7894, -51.1708];					// original
+	var init_map = [-16.7894, -37.6708];
+	var init_zoom = 4.4;
+
+	// WMS Values
+	var url = 'http://35.198.22.135/geoserver/ows?';
+	var options = { format: 'image/png', tiled: true, transparent: true };
+
+	// MARKERS
+	var redMarker = new L.Icon({
+		iconUrl: "./images/marker-icon-red.png",
+		shadowUrl: './images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+
+	var blueMarker = new L.Icon({
+		iconUrl: "./images/marker-icon-blue.png",
+		shadowUrl: './images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+
+	var greenMarker = new L.Icon({
+		iconUrl: "./images/marker-icon-green.png",
+		shadowUrl: './images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+
+	var yellowMarker = new L.Icon({
+		iconUrl: "./images/marker-icon-yellow.png",
+		shadowUrl: './images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+
+	var blackMarker = new L.Icon({
+		iconUrl: "./images/marker-icon-black.png",
+		shadowUrl: './images/marker-shadow.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	}); 
+	
+	// Attribution information
+	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+	// Streets layer
+	var streets = L.tileLayer(mbUrl, {
+		id: 'mapbox.streets', 
+		attribution: mbAttr
+	});
+
+	// Imagery layer
+	var imagery = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+	
+	var imagery_group = L.layerGroup();
+	L.esri.basemapLayer('Imagery').addTo(imagery_group);
+	L.esri.basemapLayer('ImageryLabels').addTo(imagery_group);
+
+	var map = L.map('map', {
+		center: init_map,
+		zoom: init_zoom,
+		layers: [imagery_group]
+	});
+
+	// Titulo nas camadas de fundo
+	map.eachLayer(function(layer) {
+		if( layer instanceof L.TileLayer ) {
+			if (layer.options.attribution.includes('Digital')) {
+				layer.options.title = 'fundo_layer';
+			} else if (layer.options.pane.includes('esri')) {
+				layer.options.title = 'fundo_labels';
+			}
+		}
+	});	
+
+
+	/* 
+	 * General Functions (Buttons of panels, reset panels)
+	 */
+	 $("#next-tabs").click(function(e) {
+        e.preventDefault();
+
+		$("#widget1").css("display", "none");
+		$("#title-widget1").css("display", "none");
+		$("#widget2").css("display", "block");
+		$("#title-widget2").css("display", "block");
+	});
+
+	$("#back-tabs").click(function(e) {
+        e.preventDefault();
+
+		$("#widget2").css("display", "none");
+		$("#title-widget2").css("display", "none");
+		$("#widget1").css("display", "block");
+		$("#title-widget1").css("display", "block");
+	});
+
+    function reset_actived (element) {
+      $.find('.active').forEach(function (a) {
+            var element = a.id;
+
+            $("#"+element).addClass("inactive");
+            $("#"+element).removeClass("active");
+        });
+
+        element.currentTarget.className = "item active";
+    }
+
+	// REMOVE LEGENDS FROM PANEL
+	function reset_all_legends () {
+		// Biophysical maps
+		$("#legend-biomas").css("display", "none");
+		$("#legend-solo").css("display", "none");
+		$("#legend-declividade").css("display", "none");
+		$("#legend-altitude").css("display", "none");
+		$("#legend-rainfall").css("display", "none");
+		$("#legend-an_temperature").css("display", "none");
+		$("#legend-min_temperature").css("display", "none");
+		$("#legend-max_temperature").css("display", "none");
+		$("#legend-hydric_deficit").css("display", "none");
+		$("#legend-idp").css("display", "none");
+		$("#legend-frost_risk").css("display", "none");		
+		$("#legend-main_rivers").css("display", "none");
+		$("#legend-hidrografia").css("display", "none");
+
+		// Diagnostics
+		$("#legend-soil_suitability").css("display", "none");
+		$("#legend-slope_eucalyptus").css("display", "none");
+		$("#legend-slope_others").css("display", "none");
+		$("#legend-level_degrad").css("display", "none");
+		$("#legend-uso_cobertura").css("display", "none");
+		$("#legend-price_natural_past").css("display", "none");
+		$("#legend-price_planted_past").css("display", "none");
+
+		// Sensitive Areas
+		$("#legend-protected_areas").css("display", "none");
+		$("#legend-restrictive_biomes").css("display", "none");
+		$("#legend-carbon_stock").css("display", "none");
+		
+		// Infrastructure
+		$("#legend-roads").css("display", "none");
+		$("#legend-railroads").css("display", "none");
+		$("#legend-pipelines").css("display", "none");
+		$("#legend-ethanol_pipelines").css("display", "none");
+		$("#legend-ethanol_pipelines_terminals").css("display", "none");
+		$("#legend-waterways").css("display", "none");
+		$("#legend-airports").css("display", "none");
+
+		$("#legend-refineries_qav").css("display", "none");
+		$("#legend-refineries_refining").css("display", "none");
+		$("#legend-refineries_capacity").css("display", "none");
+		$("#legend-ethanol_feedstock").css("display", "none");
+		$("#legend-ethanol_milling").css("display", "none");
+		$("#legend-ethanol_anhydrous").css("display", "none");
+		$("#legend-ethanol_hydrated").css("display", "none");
+		$("#legend-ethanol_output").css("display", "none");
+		$("#legend-ethanol_anhydrous_output").css("display", "none");
+		$("#legend-ethanol_hydrated_output").css("display", "none");
+		$("#legend-oilseed_plants").css("display", "none");
+
+		// Warning Areas
+		$("#legend-land_rights").css("display", "none");
+		$("#legend-water_rights").css("display", "none");
+		$("#legend-rural_settlements").css("display", "none");
+
+		// Political
+		$("#legend-municipios").css("display", "none");
+		$("#legend-estados").css("display", "none");
+		
+		// Eucalyptus
+		$("#legend-aptidao_eucalipto").css("display", "none");
+		$("#legend-custo_eucalipto").css("display", "none");
+		$("#legend-produtividade_eucalipto").css("display", "none");
+
+		// Soja
+		$("#legend-aptidao_soja").css("display", "none");
+		$("#legend-custo_soja").css("display", "none");
+		$("#legend-produtividade_soja").css("display", "none");
+
+		// Macaw
+		$("#legend-aptidao_macauba").css("display", "none");
+		$("#legend-custo_macauba").css("display", "none");
+		$("#legend-produtividade_macauba").css("display", "none");
+
+		// Palm
+		$("#legend-aptidao_palma").css("display", "none");
+		$("#legend-custo_palma").css("display", "none");
+		$("#legend-produtividade_palma").css("display", "none");
+
+		// Sugarcane
+		$("#legend-aptidao_cana").css("display", "none");
+		$("#legend-custo_cana").css("display", "none");
+		$("#legend-produtividade_cana").css("display", "none");
+
+		// Corn
+		$("#legend-aptidao_milho").css("display", "none");
+		$("#legend-custo_milho").css("display", "none");
+		$("#legend-produtividade_milho").css("display", "none");
+
+		// Tallow
+		$("#legend-cattle_herd").css("display", "none");
+		$("#legend-abatedouros").css("display", "none");
+		$("#legend-beef_tallow").css("display", "none");
+
+		// Off-gases
+		$("#legend-off_gases").css("display", "none");
+		$("#legend-flaring").css("display", "none");
+	}
+
+	// REMOVE LAYER FROM MAP
+	function removeLayers(opacity) {
+	// O parametro opacity é opcional e é utilizado para mudar a opacidade da camada de fundo com os labels
+		var layers = [];
+		map.eachLayer(function(layer) {
+		if( layer instanceof L.TileLayer )
+			layers.push(layer);
+		});
+		layers.forEach(function(l) {
+		if (typeof l.options.layers != "undefined") {
+			l.remove();
+		} else if (l.options.title === "fundo_labels") {
+			if (typeof opacity === "undefined") {
+				l.setOpacity(1);
+			} else if (opacity) {
+				l.setOpacity(0.5);
+			}
+		}
+		});
+	}	
+
+	/* Funções para retornar o tamanho da tela  */
+	function getActualHeight() {
+		var actualHeight = window.innerHeight ||
+						document.documentElement.clientHeight ||
+						document.body.clientHeight ||
+						document.body.offsetHeight;
+
+		return actualHeight;
+	};
+
+	/* Funções para retornar o tamanho da tela  */
+	function getActualWidth() {
+		var actualWidth = window.innerWidth ||
+						document.documentElement.clientWidth ||
+						document.body.clientWidth ||
+						document.body.offsetWidth;
+
+		return actualWidth;
+	};
+
+	/* General functions for panels	*/
+	function removePanel (id_panel) {
+		$("#jsPanel-" + id_panel).remove();
+	}
+
+	function hidePanel (id_panel) {
+		$("#jsPanel-" + id_panel).hide();
+	}
+
+	function showPanel (id_panel) {
+		$("#jsPanel-" + id_panel).show();
+	}
+
+	function removePanelbyTitle(panelToClose) {
+		var jsPanels = $(".jsPanel-title");
+		var currentID = jsPanel.id;
+
+		if (jsPanels.length > 0) {
+			//for (i=0;i <= jsPanels.length;i++) {
+			for (i=0;i <= currentID;i++) {
+				if ($("#jsPanel-" + (i+1)).find('.jsPanel-title').length != 0) {
+					if ($("#jsPanel-" + (i+1)).find('.jsPanel-title')[0].innerHTML === panelToClose) {
+						$("#jsPanel-" + (i+1)).remove();
+					}
+				}
+			}
+		}
+	}
+
+	function removeAllPanels() {
+		var jsPanels = $(".jsPanel-title");
+		var currentID = jsPanel.id;
+
+		if (jsPanels.length > 0) {
+			//for (i=0;i <= jsPanels.length;i++) {
+			for (i=0;i <= currentID;i++) {
+				if ($("#jsPanel-" + (i+1)).find('.jsPanel-title').length != 0) {
+					$("#jsPanel-" + (i+1)).remove();
+				}
+			}
+		}
+	}
+
+	function panel_id_byTitle(panelTitle) {
+		var jsPanels = $(".jsPanel-title");
+		var currentID = jsPanel.id;
+		var id_panel = null;
+
+		if (jsPanels.length > 0) {
+			for (i=0;i <= currentID;i++) {
+				if ($("#jsPanel-" + (i+1)).find('.jsPanel-title').length != 0) {
+					if ($("#jsPanel-" + (i+1)).find('.jsPanel-title')[0].innerHTML === panelTitle) {
+						id_panel = i+1;
+					}
+				}
+			}
+		}
+
+		return id_panel;
+	}	
+
+  </script>
+
+  <!-- Feedsctock codes (panels, windows and other issues) -->
+  <script  src="./js/fd-support_maps.js"></script>
+  <script  src="./js/fd-eucalyptus.js"></script>
+  <script  src="./js/fd-soybean.js"></script>
+  <script  src="./js/fd-macaw.js"></script>
+  <script  src="./js/fd-palm.js"></script>
+  <script  src="./js/fd-sugarcane.js"></script>
+  <script  src="./js/fd-corn.js"></script>
+  <script  src="./js/fd-tallow.js"></script>
+  <script  src="./js/fd-off_gases.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+/*
+ * Panels in sidebar (including legend)
+ *
+ */
+
+
+.panel-support-maps {
+    margin-top: 1.3rem;
+    height: auto;		/*	height: 85%;	*/
+    /*	height: 65%;	*/
+}
+
+.panel-title {
+    color: grey;
+    text-align: center;
+    margin-bottom: .8rem;
+}
+
+.panel-legend {
+    /*		display: inline-block;		*/
+    /*		height: 25%;		*/
+    border-top-style: outset;
+    z-index: 60;
+    /*		overflow-y: auto;		*/
+}
+
+.legend-opened {
+    top: -13rem;	/*	top: -18rem;	*/
+    height: -webkit-fill-available;
+}
+
+.redux-other-panels {
+    height: 52%;
+    overflow-y: auto;
+}
+
+.legend-title {
+    color: grey;
+    text-align: left !important;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    color: grey;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.legend-img {
+    margin-left: 2rem;
+}
+
+.legend-unit {
+    font-size: .9rem;
+}
+
+.panel-info {
+    width: 350px;
+    height: 200px;
+    left: 4.5em;
+    top: 10em;
+    background-color: white;
+    border-block: black;
+    border-style: groove;
+    display: none;
+    text-align: center;
+}
+
+.panel-costs {
+    width: 350px;
+    height: 200px;
+    left: 4.5em;
+    top: 30em;
+    background-color: white;
+    border-block: black;
+    border-style: groove;
+    display: none;
+    text-align: center;
+}
+
+.panel-prod {
+    width: 350px;
+    height: 200px;
+    left: 95em;
+    top: 40em;
+    background-color: white;
+    border-block: black;
+    border-style: groove;
+    display: none;
+    text-align: center;
+}
+
+.panel-header {
+    width: 96%;
+    height: 20px;
+    margin: 2px 2px;
+    text-align: left;
+    border-style: solid;
+    border-width: thin;
+    background-color: darkslategray;
+    color: white;
+    padding: 5px;
+}
+
+.div-steps {
+    position: unset;
+    padding-left: 2.5rem;
+    width: 95%;
+    font-size: .9rem;
+}
+
+.bt-style {
+    border-width: thin;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.bt-cstudy {
+    position: absolute;
+    width: 6em;
+    height: 1.5em;
+    bottom: 2.5em;
+    right: 1.5em;
+}
+
+.bt-back {
+    position: relative;
+    float: left;
+    width: 4em;
+    height: 1.5em;
+    /*
+        margin-top: 2rem;
+        padding-left: 2.5rem;
+        margin-bottom: 2rem;
+    */
+    left: 0.5em;
+}
+
+.bt-next {
+    position: relative;
+    float: right;
+    width: 4em;
+    height: 1.5em;
+    /*	margin-top: 2.5rem;		*/
+    right: 1.8em;
+}
+
+.bt-calc {
+    position: relative;
+    float: right;
+    width: 4em;
+    height: 1.5em;
+    /*
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    */
+    right: 1.8em;
+}
+
+.bt-comparison {
+    position: absolute;
+    width: 4em;
+    height: 1.5em;
+    bottom: 0.4em;
+    right: 4em;
+}
+
+.bt-restart {
+    position: absolute;
+    height: 1.5em;
+    bottom: 0.4em;
+    right: 1em;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
