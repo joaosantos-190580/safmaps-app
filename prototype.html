@@ -211,6 +211,40 @@
 		</div>
    	</div>
 
+
+	   	<!-- modal eucalipto residues -->
+	<div class="modal fade" id="pdfModalEucalyptusresidues" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_WOOD_RESIDUES_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal sugarcane residues -->
+	<div class="modal fade" id="pdfModalSugarcaneresidues" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_Sugarcane _residues_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	   <!-- modal UCO -->
+	<div class="modal fade" id="pdfModalUCO" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_UCO_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
 	<!-- modal soja -->
 	<div class="modal fade" id="pdfModalSoybean" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
@@ -1027,7 +1061,7 @@
 
 			<!-- Eucalipto (UNICAMP)) -->
 			<div id="panel-eucalipto" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Eucalyptus (Wood chips)</h4>
+				<h4 class="panel-title mt-5" >Eucalyptus (Wood chips)</h4>
 				<div class="widget" id="widget_eucalyptus_maps" style="display: block;">
 					<!-- Eucalyptus Case Studies -->
 					<div class="widget-list" id="eucalyptus_cstudies">
@@ -1199,8 +1233,9 @@
 
 			<!-- Eucalipto (Agroicone)) -->
 			<div id="panel-eucalipto-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Eucalyptus (Wood residues)</h4>
+				<h4 class="panel-title mt-5" >Eucalyptus (Wood residues)</h4>
 				<div class="widget" id="widget_eucalyptus_maps" style="display: block;">
+					
 					<!-- Eucalyptus Reports -->
 					<div class="widget-list" id="eucalyptus_reports_residues">
 						<div style="overflow-y: auto;height: 100%">
@@ -1210,7 +1245,7 @@
 							<div class="col-md-12" style="margin-top: 10px;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on FT-SPK pathway.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptusresidues">Go to...</a>
 								</div>
 							</div>
 						</div>
@@ -1219,7 +1254,23 @@
 					<!-- Eucalyptus Maps -->
 					<div class="widget-list" id="eucalyptus_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
-
+							<ul class="toggles-list">
+								<!-- Eucalyptus Residues -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_eucalipto_residues">
+										<span class="slider round"></span>
+									</label><span class="desc-slider">  Planted eucalyptus residues</span>
+									</div>
+									<div id="info-eucalipto_residues">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+							</ul>
+							<div class="maps-alert">
+								<span><b>Note:</b> Assessment performed for twelve states.</span>
+							</div>
 						</div>
 					</div>
 
@@ -1239,7 +1290,7 @@
 
 			<!-- Soja (Maps) -->
 			<div id="panel-soja" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Soybean</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Soybean</h4>
 				<div class="widget" id="widget_soybean_maps" style="display: block; overflow-y: auto;">
 					<!-- Soybean Case Studies -->
 					<div class="widget-list" id="soybean_cstudies">
@@ -1457,7 +1508,7 @@
 
 			<!-- Macauba (Maps) -->
 			<div id="panel-macauba" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Macaw oil</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Macaw oil</h4>
 				<div class="widget" id="widget_macauba_maps" style="display: block; overflow-y: auto;">
 					<!-- Macauba Case Studies -->
 					<div class="widget-list" id="macauba_cstudies">
@@ -1686,7 +1737,7 @@
 
 			<!-- Palm (Maps) -->
 			<div id="panel-palma" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Palm oil</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Palm oil</h4>
 				<div class="widget" id="widget_palm_maps" style="display: block; overflow-y: auto;">
 					<!-- Palm Case Studies -->
 					<div class="widget-list" id="palm_cstudies">
@@ -1900,7 +1951,7 @@
 
 			<!-- Sugarcane (Maps) -->
 			<div id="panel-sugarcane" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Sugarcane</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Sugarcane</h4>
 				<div class="widget" id="widget_sugarcane_maps" style="display: block; overflow-y: auto;">
 					<!-- Sugarcane Case Studies -->
 					<div class="widget-list" id="sugarcane_cstudies">
@@ -2099,7 +2150,7 @@
 
 			<!-- Sugarcane (Agroicone)) -->
 			<div id="panel-sugarcane-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Sugarcane - Residues</h4>
+				<h4 class="panel-title mt-5" >Sugarcane - Residues</h4>
 				<div class="widget" id="widget_sugarcane_maps_residues" style="display: block;">
 					<!-- Sugarcane Reports -->
 					<div class="widget-list" id="sugarcane_reports_residues">
@@ -2110,16 +2161,56 @@
 							<div class="col-md-12" style="margin-top: 10px;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcaneresidues">Go to...</a>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Eucalyptus Maps -->
+					<!-- Sugarcane Maps -->
 					<div class="widget-list" id="sugarcane_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<!-- Sugarcane total residues -->
+							<li class="toggle">
+								<div class="layer-div">
+								<label class="switch">
+									<input type="checkbox" id="toggle-sugarcane_residues">
+									<span class="slider round"></span>
+								</label><span class="desc-slider"> Sugarcane total residues</span>
+								</div>
+								<div id="info-sugarcane_residues">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>
+							</li>
+							<!-- Sugarcane bagasse -->
+							<li class="toggle">
+								<div class="layer-div">
+								<label class="switch">
+									<input type="checkbox" id="toggle-sugarcane_bagasse">
+									<span class="slider round"></span>
+								</label><span class="desc-slider"> Sugarcane bagasse</span>
+								</div>
+								<div id="info-sugarcane_bagasse">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+								</div>
+							</li>
 
+							<!-- Sugarcane straw -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+												<input type="checkbox" id="toggle-sugarcane_straw">
+												<span class="slider round"></span>
+											</label><span class="desc-slider"> Sugarcane straw</span>
+									</div>
+									<div id="info-sugarcane_straw">
+											<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+
+
+						</ul>
 						</div>
 					</div>
 
@@ -2139,7 +2230,7 @@
 
 			<!-- Corn (Maps) -->
 			<div id="panel-corn" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Corn (2nd crop)</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Corn (2nd crop)</h4>
 				<div class="widget" id="widget_corn_maps" style="display: block; overflow-y: auto;">
 					<!-- Corn Case Studies -->
 					<div class="widget-list" id="corn_cstudies">
@@ -2330,7 +2421,7 @@
 
 			<!-- Tallow (Maps) -->
 			<div id="panel-tallow" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Tallow</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Tallow</h4>
 				<div class="widget" id="widget_tallow_maps" style="display: block; overflow-y: auto;">
 					<!-- Tallow Reports -->
 					<div class="widget-list" id="tallow_reports">
@@ -2410,7 +2501,7 @@
 
 			<!-- Off-gases (Maps) -->
 			<div id="panel-off_gases" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Steel off-gases</h4>
+				<h4 class="panel-title mt-5" >Feedstock - Steel off-gases</h4>
 				<div class="widget" id="widget_off_gases" style="display: block; overflow-y: auto;">
 					<!-- Off-gases Reports -->
 					<div class="widget-list" id="off_gases_reports">
@@ -2478,7 +2569,7 @@
 
 			<!-- UCO (Residues)) -->
 			<div id="panel-uco-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >UCO - Residues</h4>
+				<h4 class="panel-title mt-5" >UCO - Residues</h4>
 				<div class="widget" id="widget_uco_maps_residues" style="display: block;">
 					<!-- Sugarcane Reports -->
 					<div class="widget-list" id="uco_reports_residues">
@@ -2489,7 +2580,7 @@
 							<div class="col-md-12" style="margin-top: 10px;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalUCO">Go to...</a>
 								</div>
 							</div>
 						</div>
@@ -2498,7 +2589,20 @@
 					<!-- UCO Maps -->
 					<div class="widget-list" id="uco_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
-
+							<ul class="toggles-list">
+								<!-- UCO -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-uco">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Used cooking oil</span>
+									</div>
+									<div id="info-uco">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>	
+								</ul>	
 						</div>
 					</div>
 
@@ -2791,6 +2895,12 @@
 								<img id="produtividade_eucalipto" class="legend-img" src="./images/legendas/produtividade_eucalipto_transp.png" height="100%" >
 							</div>
 
+							<!-- Residues -->
+							<div id="legend-aptidao_eucalipto_residues" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Planted eucalyptus residues <span class="legend-unit"> (10<span style='vertical-align:super;'>3</span>t<span style='vertical-align:super;'></span>/year<span style='vertical-align:super;'></span>)</span></h6>
+								<img id="produtividade_eucalipto" class="legend-img" src="" height="100%" >
+							</div>
+
 							<!-- FEEDSTOCK SOJA -->
 							<!-- Suitability -->
 							<div id="legend-aptidao_soja" style="display: none; margin-left: 1rem;">
@@ -2859,6 +2969,24 @@
 								<img id="produtividade_cana" class="legend-img" src="./images/legendas/produtividade_cana.png" height="100%" >
 							</div>
 
+							<!-- Sugarcane Residues -->
+							<div id="legend-sugarcane_residues" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane total residues <span class="legend-unit"> (10<span style='vertical-align:super;'>3</span>t<span style='vertical-align:super;'></span>/year) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="" height="100%" >
+							</div>
+
+							<!-- Sugarcane Bagasse -->
+							<div id="legend-sugarcane_bagasse" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane bagasse <span class="legend-unit"> (10<span style='vertical-align:super;'>3</span>t<span style='vertical-align:super;'></span>/year) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="" height="100%" >
+							</div>
+
+							<!-- Sugarcane Straw -->
+							<div id="legend-sugarcane_straw" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane straw <span class="legend-unit"> (10<span style='vertical-align:super;'>3</span>t<span style='vertical-align:super;'></span>/year) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="" height="100%" >
+							</div>
+
 							<!-- FEEDSTOCK MILHO -->
 							<!-- Suitability -->
 							<div id="legend-aptidao_milho" style="display: none; margin-left: 1rem;">
@@ -2903,6 +3031,12 @@
 							<div id="legend-flaring" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Flaring (1000m<sup>3</sup>.year<sup>-1</sup>)</h6>
 								<img id="flaring" class="legend-img" src="./images/legendas/flaring.png" height="100%" >
+							</div>
+
+							<!-- UCO -->
+							<div id="legend-uco" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Used cooking oil (10<sup>3</sup><sup>t</sup>/year)</h6>
+								<img id="flaring" class="legend-img" src="" height="100%" >
 							</div>
 						</div>
 					</dd>
@@ -3198,6 +3332,7 @@
 		$("#legend-aptidao_eucalipto").css("display", "none");
 		$("#legend-custo_eucalipto").css("display", "none");
 		$("#legend-produtividade_eucalipto").css("display", "none");
+		$("#legend-aptidao_eucalipto_residues").css("display", "none");
 
 		// Soja
 		$("#legend-aptidao_soja").css("display", "none");
@@ -3218,7 +3353,11 @@
 		$("#legend-aptidao_cana").css("display", "none");
 		$("#legend-custo_cana").css("display", "none");
 		$("#legend-produtividade_cana").css("display", "none");
+		$("#legend-sugarcane_residues").css("display", "none");
+		$("#legend-sugarcane_bagasse").css("display", "none");
+		$("#legend-sugarcane_straw").css("display", "none");
 
+		
 		// Corn
 		$("#legend-aptidao_milho").css("display", "none");
 		$("#legend-custo_milho").css("display", "none");
@@ -3232,6 +3371,10 @@
 		// Off-gases
 		$("#legend-off_gases").css("display", "none");
 		$("#legend-flaring").css("display", "none");
+
+
+		// UCO
+		$("#legend-uco").css("display", "none");
 	}
 
 	// REMOVE LAYER FROM MAP
@@ -3347,6 +3490,8 @@
   <script  src="./js/fd-palm.js"></script>
   <script  src="./js/fd-sugarcane.js"></script>
   <script  src="./js/fd-sugarcane-residues.js"></script>
+  <script  src="./js/fd-sugarcane-bagasse.js"></script>
+  <script  src="./js/fd-sugarcane-straw.js"></script>
   <script  src="./js/fd-corn.js"></script>
   <script  src="./js/fd-tallow.js"></script>
   <script  src="./js/fd-off_gases.js"></script>
