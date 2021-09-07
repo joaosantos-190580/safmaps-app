@@ -72,14 +72,14 @@ $("#info-sugarcane_straw").click(function(e) {
     removePanelbyTitle("Map Information");
     $.jsPanel({
         theme:      '#93bd42',
-        contentSize: {width: 500, height: 300},
+        contentSize: {width: 600, height: 350},
         headerTitle: "Map Information",
         content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                         "<div><h6 style='font-weight:bold;color: blue'>Sugarcane straw</h6>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b>  The potential availability of straw was calculated based on data from IBGE/PAM on municipal sugarcane yield and planted area. Assuming the adoption of best practices in terms of planting and harvesting, the straw production considered was : 140 kg(db)/t(sugarcane) and that : 7.5 t(straw)(db)/ha(sugarcane) would remain on the field for agronomic purposes. The data were spatialized by municipality, according to the sugarcane planted areas reported by IBGE. </p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2021)" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href=''>Download page</a></p>" +
+                                "<a target='_blank' href='http://dx.doi.org/10.17632/sd54hytf4h.1'>Download page</a></p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> The entire Brazilian territory" +
                                 "</div>" +
                     "</div>",

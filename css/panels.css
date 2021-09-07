@@ -55,6 +55,11 @@
     font-size: .9rem;
 }
 
+.legend-potencia {
+    vertical-align:super;
+    font-size: .7rem;
+}
+
 .panel-info {
     width: 350px;
     height: 200px;

@@ -87,9 +87,9 @@ input:checked + .slider:before {
 }
 
 .maps-alert {
-    text-align: center;
+    text-align: left;
     font-size: .8rem !important;
-    margin-top: 5rem;
+    margin-top: .4rem;
 }
 
 .layer-div {
@@ -101,3 +101,27 @@ input:checked + .slider:before {
     color: #93bd42;
     cursor: pointer;
 }
+
+.alert-span {
+    margin-left: 1rem;
+    color: #e6e661;
+    cursor: pointer;
+}
+
+.pop-alert {
+    display              : none;
+    position             : absolute;
+    z-index              : 99999;
+    padding              : 10px 15px 0 15px;
+    background           : #93bd42;
+    text-align           : justify;
+    width                : 20rem;
+    font-size            : .9rem;
+    color                : white;
+    border               : 1px solid #A2ADBC;
+    -moz-border-radius   : 20px;
+    -webkit-border-radius: 20px;
+    margin               : 0px;
+    -webkit-box-shadow   : 0px 0px 5px 0px rgba(164, 164, 164, 1);
+    box-shadow           : 0px 0px 5px 0px rgba(164, 164, 164, 1);
+}	

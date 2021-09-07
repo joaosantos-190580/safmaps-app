@@ -72,15 +72,15 @@ $("#info-eucalipto_residues").click(function(e) {
     removePanelbyTitle("Map Information");
     $.jsPanel({
         theme:      '#93bd42',
-        contentSize: {width: 500, height: 300},
+        contentSize: {width: 600, height: 300},
         headerTitle: "Map Information",
         content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                         "<div><h6 style='font-weight:bold;color: blue'>Eucalyptus residues</h6>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> The planted eucalyptus yield was calculated based on the average productivity of each municipality multiplied by the area of planted eucalyptus in each municipality in 2018. For residues potential, it was assumed a rate of 0.167 t(residue)/m³(eucalyptus) over the potential annual production. Finally, it was considered that 50% of this total amount would be collected from field..</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2021)" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href=''>Download page</a></p>" +
-                                "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Twelve Brazilian states considered in the project" +
+                                "<a target='_blank' href='http://dx.doi.org/10.17632/r55dwty7wk.1'>Download page</a></p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project" +
                                 "</div>" +
                     "</div>",
         callback:    function () {
@@ -92,4 +92,14 @@ $("#info-eucalipto_residues").click(function(e) {
         }
     });
 });  
+
+// Teste
+$("#info-roads_fd_01a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    alert("Era aqui");
+    //$("#info-roads").trigger("click");
+}); 
+
 

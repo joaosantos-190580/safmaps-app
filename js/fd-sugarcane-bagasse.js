@@ -72,14 +72,14 @@ $("#info-sugarcane_bagasse").click(function(e) {
     removePanelbyTitle("Map Information");
     $.jsPanel({
         theme:      '#93bd42',
-        contentSize: {width: 500, height: 300},
+        contentSize: {width: 700, height: 400},
         headerTitle: "Map Information",
         content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                         "<div><h6 style='font-weight:bold;color: blue'>Sugarcane bagasse</h6>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> The potential availability of bagasse was calculated based on milling data per State from UNICA (Brazilian Sugarcane Industry Association), considering the yields and availability mentioned above. These data were spatialized based on the milling capacity from the Nova Cana database of sugarcane/ethanol mills in Brazil. The milling data from 70 plants certified before July 16th of 2020 by RenovaBio were also used, in order to calibrate the distribution of bagasse based on idle rates, allowing this distribution per municipality to be more accurate. The considered rate of bagasse production from sugarcane processing  was of 280 kg(bagasse)(wb)/t(sugarcane)(on wet basis, 50% of moisture). Also, the bagasse surplus would be of 35% of the bagasse from sugarcane processed, while the remaining amount (65%) would supply the energy demand of the ethanol mill. </p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2021)" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href=''>Download page</a></p>" +
+                                "<a target='_blank' href='http://dx.doi.org/10.17632/sd54hytf4h.1'>Download page</a></p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> The entire Brazilian territory" +
                                 "</div>" +
                     "</div>",

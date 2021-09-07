@@ -79,7 +79,7 @@ $("#info-sugarcane_residues").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> The total sugarcane residues potential availability considered was the simple sum of the sugarcane bagasse and straw in dry basis.</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2021)" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href=''>Download page</a></p>" +
+                                "<a target='_blank' href='http://dx.doi.org/10.17632/sd54hytf4h.1'>Download page</a></p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> The entire Brazilian territory" +
                                 "</div>" +
                     "</div>",
