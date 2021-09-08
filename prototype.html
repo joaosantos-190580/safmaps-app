@@ -310,6 +310,16 @@
 					<!--  <span>SIP-HFS</span>  -->
 					<span>Palm oil</span>
 				</div>	
+				<div id="tab-corn-maps" class="item inactive" data-target="tab-corn-maps">
+					<span>Corn </span>
+				</div>				
+				<div class="item empty" >
+					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
+				</div>
+			</div>
+
+			<!-- 2nd line of feedstocks -->
+			<div class="tabs">
 				<div class="item inactive " data-target="tab-sugarcane-maps">
 					<!--	<span>Sugarcane</span>	-->
 
@@ -324,16 +334,6 @@
 						</div>
 					</li>					
 				</div>	
-				<div class="item empty" >
-					<!-- Blank div (it's a tab space for another item) - helps to keep the alignment-->				
-				</div>
-			</div>
-
-			<!-- 2nd line of feedstocks -->
-			<div class="tabs">
-				<div id="tab-corn-maps" class="item inactive" data-target="tab-corn-maps">
-					<span>Corn </span>
-				</div>
 				<div id="tab-tallow-maps" class="item inactive" data-target="tab-tallow-maps">
 					<span>Tallow </span>
 				</div>
@@ -1136,6 +1136,7 @@
 					<div class="widget-list" id="eucalyptus_maps">
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Eucalyptus suitability -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -1172,10 +1173,86 @@
 									<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for twelve states.</span>
+								</div><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_01">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for twelve states.</span>
-							</div>
 						</div>
 					</div>
 
@@ -1394,6 +1471,7 @@
 					<div class="widget-list" id="soybean_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Soybean suitability -->
 								<li class="toggle">
 								<div class="layer-div">
@@ -1430,10 +1508,98 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for twelve states.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Soy processing plants -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-soy_processing_plants_fd_02">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Soy processing plants</span>
+									</div>
+									<div id="info-soy_processing_plants">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>								
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for twelve states.</span>
-							</div>	
 						</div>				
 					</div>
 
@@ -1578,7 +1744,7 @@
 								</div>
 
 								<span>Input requirement:&nbsp;&nbsp;</span>
-								<span id='inputReqMacauba'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<span id='inputReqMacauba'>...  t.day<sup>-1</sup> (oil)</span>
 								<br/><br/>
 
 								<span>Co-products output:&nbsp;&nbsp;</span>
@@ -1623,6 +1789,7 @@
 					<div class="widget-list" id="macauba_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Macauba oil suitability -->
 								<li class="toggle">
 								<div class="layer-div">
@@ -1659,10 +1826,86 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for twelve states.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_03">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for twelve states.</span>
-							</div>
 						</div>
 					</div>
 
@@ -1837,6 +2080,7 @@
 					<div class="widget-list" id="palm_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Palm oil suitability -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -1873,10 +2117,86 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for five states.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_04">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for five states.</span>
-							</div>
 						</div>
 					</div>
 
@@ -2036,6 +2356,7 @@
 					<div class="widget-list" id="sugarcane_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Sugarcane suitability -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2072,10 +2393,122 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for twelve states.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines</span>
+									</div>
+									<div id="info-ethanol_pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_distilleries_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries</span>
+									</div>
+									<div id="info-ethanol_distilleries">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol terminals -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_terminals_fd_05">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol terminals</span>
+									</div>
+									<div id="info-ethanol_terminals">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for twelve states.</span>
-							</div>
 						</div>
 					</div>
 
@@ -2267,6 +2700,7 @@
 					<div class="widget-list" id="corn_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Corn suitability -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2303,10 +2737,122 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for six states, based on corn <br/>second crop.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines</span>
+									</div>
+									<div id="info-ethanol_pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_distilleries_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries</span>
+									</div>
+									<div id="info-ethanol_distilleries">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol terminals -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_terminals_fd_06">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol terminals</span>
+									</div>
+									<div id="info-ethanol_terminals">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for six states, based on corn <br/>second crop.</span>
-							</div>
 						</div>
 					</div>
 
@@ -2350,6 +2896,7 @@
 					<div class="widget-list" id="tallow_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Cattle herd -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2386,10 +2933,86 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for tallow available <br/>in 26 municipalities.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for tallow available <br/>in 26 municipalities.</span>
-							</div>
 						</div>
 					</div>
 
@@ -2430,6 +3053,7 @@
 					<div class="widget-list" id="off_gases_maps">	
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
 								<!-- Off-gases -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2454,10 +3078,86 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>						
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for flared gases available <br/>in some steel mills.</span>
+								</div><br/><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_08">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Refineries (by oil refining)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>								
 							</ul>
-							<div class="maps-alert">
-								<span><b>Note:</b> Assessment performed for flared gases available <br/>in some steel mills.</span>
-							</div>
 						</div>
 					</div>
 
@@ -3233,24 +3933,40 @@
 		$("#legend-flaring").css("display", "none");
 	}
 
-	// REMOVE LAYER FROM MAP
+	// REMOVE LAYERS FROM MAP
 	function removeLayers(opacity) {
 	// O parametro opacity é opcional e é utilizado para mudar a opacidade da camada de fundo com os labels
 		var layers = [];
 		map.eachLayer(function(layer) {
-		if( layer instanceof L.TileLayer )
-			layers.push(layer);
-		});
+			if( layer instanceof L.TileLayer )
+				layers.push(layer);
+			});
 		layers.forEach(function(l) {
-		if (typeof l.options.layers != "undefined") {
-			l.remove();
-		} else if (l.options.title === "fundo_labels") {
-			if (typeof opacity === "undefined") {
-				l.setOpacity(1);
-			} else if (opacity) {
-				l.setOpacity(0.5);
+			if (typeof l.options.layers != "undefined") {
+				l.remove();
+			} else if (l.options.title === "fundo_labels") {
+				if (typeof opacity === "undefined") {
+					l.setOpacity(1);
+				} else if (opacity) {
+					l.setOpacity(0.5);
+				}
 			}
-		}
+		});
+	}	
+
+	// REMOVE A SPECIFIED LAYER FROM MAP
+	function removeLayer(layer_name) {
+	// O parametro opacity é opcional e é utilizado para mudar a opacidade da camada de fundo com os labels
+		var layers = [];
+		map.eachLayer(function(layer) {
+			if( layer instanceof L.TileLayer )
+				layers.push(layer);
+			});
+		layers.forEach(function(l) {
+			if (typeof l.options.layers != "undefined") {
+				if (l.options.layers === layer_name)
+					l.remove();
+			}
 		});
 	}	
 

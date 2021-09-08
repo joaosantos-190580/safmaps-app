@@ -87,9 +87,9 @@ input:checked + .slider:before {
 }
 
 .maps-alert {
-    text-align: center;
+    text-align: left;
     font-size: .8rem !important;
-    margin-top: 5rem;
+    margin-top: .4rem;
 }
 
 .layer-div {
