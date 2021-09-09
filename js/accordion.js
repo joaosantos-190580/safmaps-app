@@ -46,7 +46,8 @@
 			$(".div-steps").css("position", "relative");
 		} else {
 			setAccordionAria(thisQuestion, thisAnswer, 'false');
-			$("#div-legend").css("top", "15rem");
+			//$("#div-legend").css("top", "15rem");
+			$("#div-legend").css("top", "93%");
 			$(".panel-support-maps").css("height", "auto");
 			$(".div-steps").css("position", "unset");
 		}

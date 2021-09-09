@@ -142,12 +142,12 @@
   </style>
 
   <script>
-		/*
-		* Global variables
-		*
-		*/
-		var editableLayers, drawLayer;
-	</script>
+	  /*
+	   * Global variables
+	   *
+	  */
+	  var editableLayers, drawLayer;
+  </script>
 
 </head>
 
@@ -211,6 +211,18 @@
 		</div>
    	</div>
 
+
+	<!-- modal eucalipto residues -->
+	<div class="modal fade" id="pdfModalEucalyptus_agroicone" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_WOOD_RESIDUES_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
 	<!-- modal soja -->
 	<div class="modal fade" id="pdfModalSoybean" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
@@ -255,6 +267,28 @@
 		</div>
    	</div>
 
+	<!-- modal sugarcane residues -->
+	<div class="modal fade" id="pdfModalSugarcane_agroicone" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_Sugarcane_residues_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+
+	<!-- modal corn -->
+	<div class="modal fade" id="pdfModalCorn" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/AtJ_sugarcane.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+	
 	<!-- modal tallow -->
 	<div class="modal fade" id="pdfModalTallow" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
@@ -264,14 +298,47 @@
 			</div>
 		</div>
 		</div>
-	   </div>
-	   
+	</div>
+
+	<!-- modal tallow residues -->
+	<div class="modal fade" id="pdfModalTallow_agroicone" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_Beef_Tallow_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+	</div>
+	
 	<!-- modal off_gases -->
 	<div class="modal fade" id="pdfModalOff_gases" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content rounded-0 border-0 p-4">            
 			<div class="modal-body">
 			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/ATJ_off-gases.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>
+	
+	<!-- modal off_gases - residues -->
+	<div class="modal fade" id="pdfModalOff_gases_agroicone" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_Flue_Gas_Final.pdf" type="application/pdf">         
+			</div>
+		</div>
+		</div>
+   	</div>	
+	
+	<!-- modal UCO -->
+	<div class="modal fade" id="pdfModalUCO" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content rounded-0 border-0 p-4">            
+			<div class="modal-body">
+			<embed class="card-img-top rounded-0" height="580" name="plugin" src="./pdfs/SAF_UCO_Final.pdf" type="application/pdf">         
 			</div>
 		</div>
 		</div>
@@ -333,7 +400,8 @@
 							<a class="dropdown-item inactive" style="justify-content: left !important; text-decoration: none;" href="#" id="atj-spk-sugarcane-residues">Sugarcane residues </a>
 						</div>
 					</li>					
-				</div>	
+				</div>				
+
 				<div id="tab-tallow-maps" class="item inactive" data-target="tab-tallow-maps">
 					<span>Tallow </span>
 				</div>
@@ -372,10 +440,10 @@
 		</div>
 
 		<!-- Panels -->
-		<div id='sidebar-panels' class="sidebar" style="height: 50%;z-index: 50;">
+		<div id='sidebar-panels' class="sidebar" style="height: 47%;z-index: 50;">
 			<!-- Support Maps -->
 			<div id="panel-support-maps" class="panel-support-maps" style="display: block;">
-				<h4 id="title-widget1" class="panel-title" style="margin-left: 5rem; display:block">Available Layers
+				<h4 id="title-widget1" class="panel-title mt-4" style="margin-left: 5rem; display:block">Available Layers
 					<!--  Button #next-tabs -->
 					<span id="next-tabs" style="padding-left: 4rem; font-size: .9rem; color: #93bd42; cursor: pointer;"><i class="fas fa-arrow-right"></i></span>
 				</h4>
@@ -697,7 +765,7 @@
 					</ul>
 				</div>
 
-				<h4 id="title-widget2" class="panel-title" style="margin-right: 5rem; display:none">
+				<h4 id="title-widget2" class="panel-title mt-4" style="margin-right: 5rem; display:none">
 					<!--  Button #back-tabs -->
 					<span id="back-tabs" style="padding-right: 4rem; font-size: .9rem; color: #93bd42; cursor: pointer;"><i class="fas fa-arrow-left"></i></span>			
 					Available Layers
@@ -1025,9 +1093,9 @@
 				</div>
 			</div>
 
-			<!-- Eucalipto (UNICAMP)) -->
+			<!-- Eucalipto (UNICAMP) -->
 			<div id="panel-eucalipto" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Eucalyptus (Wood chips)</h4>
+				<h4 class="panel-title mt-4" >Eucalyptus (Wood chips)</h4>
 				<div class="widget" id="widget_eucalyptus_maps" style="display: block;">
 					<!-- Eucalyptus Case Studies -->
 					<div class="widget-list" id="eucalyptus_cstudies">
@@ -1119,14 +1187,14 @@
 
 					<!-- Eucalyptus Reports -->
 					<div class="widget-list" id="eucalyptus_reports">
-						<div style="overflow-y: auto;height: 100%">
+						<div style="overflow-y: auto;height: 82%">
 							<div class="col-md-10 mb-4 mb-md-0">
 								<img class="img-fluid" src="./images/eucalyptus/eucalyptus-forest.jpg" title="Photo by Ulrik De Wachter from FreeImages">
 							</div>
 							<div class="col-md-12" style="margin-top: 10px;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on FT-SPK pathway.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus">Go to...</a><br/><br/>
 								</div>
 							</div>
 						</div>
@@ -1263,7 +1331,7 @@
 							<a href="#eucalyptus_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#eucalyptus_reports" class="widget-tab-link">Reports</a>
+							<a href="#eucalyptus_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#eucalyptus_maps" class="widget-tab-link">Available layers</a>				
@@ -1273,20 +1341,21 @@
 			</div>
 
 
-			<!-- Eucalipto (Agroicone)) -->
+			<!-- Eucalipto (Agroicone) -->
 			<div id="panel-eucalipto-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Eucalyptus (Wood residues)</h4>
+				<h4 class="panel-title mt-4" >Eucalyptus (Wood residues)</h4>
 				<div class="widget" id="widget_eucalyptus_maps" style="display: block;">
+					
 					<!-- Eucalyptus Reports -->
 					<div class="widget-list" id="eucalyptus_reports_residues">
-						<div style="overflow-y: auto;height: 100%">
+						<div style="overflow-y: auto;height: 82%">
 							<div class="col-md-10 mb-4 mb-md-0">
 								<img class="img-fluid" src="./images/eucalyptus/eucalyptus-forest.jpg" title="Photo by Ulrik De Wachter from FreeImages">
 							</div>
 							<div class="col-md-12" style="margin-top: 10px;">
-								<strong class="mb-4 d-block"><i>Study on SAF production based on FT-SPK pathway.</i></strong>
+								<strong class="mb-4 d-block"><i>Study on wood residues potential availability for SAF production.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalEucalyptus_agroicone">Go to...</a><br/><br/>
 								</div>
 							</div>
 						</div>
@@ -1295,7 +1364,141 @@
 					<!-- Eucalyptus Maps -->
 					<div class="widget-list" id="eucalyptus_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base map</h7>
+								<span class="alert-span popper"><i class="fas fa-exclamation-triangle"></i></span>
+								<div class="pop-alert">
+								  <p>The data was spatialized according to the municipalities boundaries, it does 
+									  not imply that bigger municipalities have a greater availability of the feedstock.</p>
+								</div>
+								<!-- Eucalyptus Residues -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-aptidao_eucalipto_residues">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Planted eucalyptus residues by municipality</span>
+									</div>
+									<div id="info-eucalipto_residues">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>				  
+								</li>
+								<div class="maps-alert">
+									<span><b>Note:</b> Assessment performed for thirteen states.</span><br/>
+								</div><br/>
 
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Main roads</span>
+									</div>
+									<div id="info-roads_fd_01a">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Gas and oil pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines</span>
+									</div>
+									<div id="info-ethanol_pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Oil refineries (refining capacity)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_distilleries_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries</span>
+									</div>
+									<div id="info-ethanol_distilleries">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol terminals -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_terminals_fd_01a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol terminals</span>
+									</div>
+									<div id="info-ethanol_terminals">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
 
@@ -1303,7 +1506,7 @@
 					<ul class="widget-tabs">
 						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
 						<li class="widget-tab">
-							<a href="#eucalyptus_reports_residues" class="widget-tab-link">Reports</a>
+							<a href="#eucalyptus_reports_residues" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#eucalyptus_maps_residues" class="widget-tab-link">Available layers</a>				
@@ -1315,7 +1518,7 @@
 
 			<!-- Soja (Maps) -->
 			<div id="panel-soja" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Soybean</h4>
+				<h4 class="panel-title mt-4" >Soybean</h4>
 				<div class="widget" id="widget_soybean_maps" style="display: block; overflow-y: auto;">
 					<!-- Soybean Case Studies -->
 					<div class="widget-list" id="soybean_cstudies">
@@ -1610,7 +1813,7 @@
 							<a href="#soybean_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#soybean_reports" class="widget-tab-link">Reports</a>
+							<a href="#soybean_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#soybean_maps" class="widget-tab-link">Available layers</a>				
@@ -1622,7 +1825,7 @@
 
 			<!-- Macauba (Maps) -->
 			<div id="panel-macauba" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Macaw oil</h4>
+				<h4 class="panel-title mt-4" >Macaw oil</h4>
 				<div class="widget" id="widget_macauba_maps" style="display: block; overflow-y: auto;">
 					<!-- Macauba Case Studies -->
 					<div class="widget-list" id="macauba_cstudies">
@@ -1916,7 +2119,7 @@
 							<a href="#macauba_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#macauba_reports" class="widget-tab-link">Reports</a>
+							<a href="#macauba_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#macauba_maps" class="widget-tab-link">Available layers</a>				
@@ -1928,7 +2131,7 @@
 
 			<!-- Palm (Maps) -->
 			<div id="panel-palma" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Palm oil</h4>
+				<h4 class="panel-title mt-4" >Palm oil</h4>
 				<div class="widget" id="widget_palm_maps" style="display: block; overflow-y: auto;">
 					<!-- Palm Case Studies -->
 					<div class="widget-list" id="palm_cstudies">
@@ -2207,7 +2410,7 @@
 							<a href="#palm_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#palm_reports" class="widget-tab-link">Reports</a>
+							<a href="#palm_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#palm_maps" class="widget-tab-link">Available layers</a>				
@@ -2219,7 +2422,7 @@
 
 			<!-- Sugarcane (Maps) -->
 			<div id="panel-sugarcane" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Sugarcane</h4>
+				<h4 class="panel-title mt-4" >Sugarcane</h4>
 				<div class="widget" id="widget_sugarcane_maps" style="display: block; overflow-y: auto;">
 					<!-- Sugarcane Case Studies -->
 					<div class="widget-list" id="sugarcane_cstudies">
@@ -2519,7 +2722,7 @@
 							<a href="#sugarcane_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#sugarcane_reports" class="widget-tab-link">Reports</a>
+							<a href="#sugarcane_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#sugarcane_maps" class="widget-tab-link">Available layers</a>				
@@ -2529,9 +2732,9 @@
 			</div>
 
 
-			<!-- Sugarcane (Agroicone)) -->
+			<!-- Sugarcane (Agroicone) -->
 			<div id="panel-sugarcane-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Sugarcane - Residues</h4>
+				<h4 class="panel-title mt-4" >Sugarcane (Residues)</h4>
 				<div class="widget" id="widget_sugarcane_maps_residues" style="display: block;">
 					<!-- Sugarcane Reports -->
 					<div class="widget-list" id="sugarcane_reports_residues">
@@ -2540,18 +2743,174 @@
 								<img class="img-fluid" src="./images/sugarcane/brazilian-sugarcane.jpg" title="Nature photo created by betochagas - www.freepik.com">
 							</div>
 							<div class="col-md-12" style="margin-top: 10px;">
-								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
+								<strong class="mb-4 d-block"><i>Study on sugarcane residues potential availability for SAF production.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane_agroicone">Go to...</a>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Eucalyptus Maps -->
+					<!-- Sugarcane Maps -->
 					<div class="widget-list" id="sugarcane_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base maps</h7>
+								<span class="alert-span popper"><i class="fas fa-exclamation-triangle"></i></span>
+								<div class="pop-alert">
+								  <p>The data was spatialized according to the municipalities boundaries, it does 
+									  not imply that bigger municipalities have a greater availability of the feedstock.</p>
+								</div>
+								<!-- Sugarcane total residues -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-sugarcane_residues">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Sugarcane total residues by municipality</span>
+									</div>
+									<div id="info-sugarcane_residues">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Sugarcane bagasse -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-sugarcane_bagasse">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Sugarcane bagasse by municipality</span>
+									</div>
+									<div id="info-sugarcane_bagasse">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
 
+								<!-- Sugarcane straw -->
+								<li class="toggle">
+									<div class="layer-div">
+										<label class="switch">
+												<input type="checkbox" id="toggle-sugarcane_straw">
+												<span class="slider round"></span>
+											</label><span class="desc-slider"> Sugarcane straw by municipality</span>
+									</div>
+									<div id="info-sugarcane_straw">
+											<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Main roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Gas and oil pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_pipelines_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol pipelines</span>
+									</div>
+									<div id="info-ethanol_pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Oil refineries (refining capacity)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol distilleries -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_distilleries_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol distilleries</span>
+									</div>
+									<div id="info-ethanol_distilleries">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Ethanol terminals -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-ethanol_terminals_fd_05a">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Ethanol terminals</span>
+									</div>
+									<div id="info-ethanol_terminals">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>								
+							</ul>
 						</div>
 					</div>
 
@@ -2559,7 +2918,7 @@
 					<ul class="widget-tabs">
 						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
 						<li class="widget-tab">
-							<a href="#sugarcane_reports_residues" class="widget-tab-link">Reports</a>
+							<a href="#sugarcane_reports_residues" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#sugarcane_maps_residues" class="widget-tab-link">Available layers</a>				
@@ -2571,7 +2930,7 @@
 
 			<!-- Corn (Maps) -->
 			<div id="panel-corn" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Corn (2nd crop)</h4>
+				<h4 class="panel-title mt-4" >Corn (2nd crop)</h4>
 				<div class="widget" id="widget_corn_maps" style="display: block; overflow-y: auto;">
 					<!-- Corn Case Studies -->
 					<div class="widget-list" id="corn_cstudies">
@@ -2690,7 +3049,7 @@
 							<div class="col-md-12" style="margin-top: 10px;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalCorn">Go to...</a>
 								</div>
 							</div>
 						</div>
@@ -2863,7 +3222,7 @@
 							<a href="#corn_cstudies" class="widget-tab-link">Case studies</a>
 						</li>
 						<li class="widget-tab">
-							<a href="#corn_reports" class="widget-tab-link">Reports</a>
+							<a href="#corn_reports" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#corn_maps" class="widget-tab-link">Available layers</a>				
@@ -2873,22 +3232,30 @@
 			</div>
 
 
-			<!-- Tallow (Maps) -->
+			<!-- Beef Tallow (Maps) -->
 			<div id="panel-tallow" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Tallow</h4>
+				<h4 class="panel-title mt-4" >Beef Tallow</h4>
 				<div class="widget" id="widget_tallow_maps" style="display: block; overflow-y: auto;">
 					<!-- Tallow Reports -->
 					<div class="widget-list" id="tallow_reports">
 						<div style="overflow-y: auto;height: 100%">
 							<div class="col-md-10 mb-4 mb-md-0" >
-								<img class="img-fluid" src="./images/tallow/beef tallow-liquid.png" >
+								<img class="img-fluid-tallow" src="./images/tallow/beef tallow-liquid.png" >
 							</div>
-							<div class="col-md-12" style="margin-top: 10px;">
+							<div class="col-md-12" style="margin-top: 10px; margin-bottom: .8rem!important;">
 								<strong class="mb-4 d-block"><i>Study on SAF production based on HEFA-SPK pathway, combining feedstock (one of which is beef tallow).</i></strong>
 								<div style="text-align: right;">
 									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalTallow">Go to...</a>
 								</div>
 							</div>
+							
+							<!-- Residues -->
+							<div class="col-md-12" style="margin-top: 3rem; margin-bottom: .8rem!important;">
+								<strong class="mb-4 d-block"><i>Study on beef tallow potential availability for SAF production.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalTallow_agroicone">Go to...</a>
+								</div>
+							</div>							
 						</div>
 					</div>
 
@@ -2897,6 +3264,11 @@
 						<div style="overflow-y: auto;height: 100%">
 							<ul class="toggles-list">
 								<h7 style="font-weight: bold;">Base maps</h7>
+								<span class="alert-span popper"><i class="fas fa-exclamation-triangle"></i></span>
+								<div class="pop-alert">
+								  <p>The data was spatialized according to the municipalities boundaries, it does 
+									  not imply that bigger municipalities have a greater availability of the feedstock.</p>
+								</div>
 								<!-- Cattle herd -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2909,6 +3281,85 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>						
+								<!-- Beef tallow estimated -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-beef_tallow">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Beef tallow estimated</span>
+									</div>
+									<div id="info-beef_tallow">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Beef tallow (residues) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-beef_tallow_residues">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Beef tallow potential availability by municipality</span>
+									</div>
+									<div id="info-beef_tallow_residues">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<div class="maps-alert" id="alert_tallow" style="display: none;">
+									<span><b>Note:</b> Assessment performed for tallow available in 26 <br/>municipalities.</span>
+								</div><br/>
+
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Main roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Gas and oil pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
 								<!-- Slaughterhouse -->
 								<li class="toggle">
 									<div class="layer-div">
@@ -2921,16 +3372,28 @@
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
-								<!-- Beef tallow estimated -->
+								<!-- Airports -->
 								<li class="toggle">
 									<div class="layer-div">
 									<label class="switch">
-										<input type="checkbox" id="toggle-beef_tallow">
+										<input type="checkbox" id="toggle-airports_fd_07">
 										<span class="slider round"></span>
-									</label><span class="desc-slider"> Beef tallow estimated</span>
+									</label><span class="desc-slider"> Airports</span>
 									</div>
-									<div id="info-beef_tallow">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_07">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Oil refineries (refining capacity)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
 									</div>
 								</li>
 								<div class="maps-alert">
@@ -3032,7 +3495,7 @@
 
 			<!-- Off-gases (Maps) -->
 			<div id="panel-off_gases" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >Feedstock - Steel off-gases</h4>
+				<h4 class="panel-title mt-4" >Steel off-gases</h4>
 				<div class="widget" id="widget_off_gases" style="display: block; overflow-y: auto;">
 					<!-- Off-gases Reports -->
 					<div class="widget-list" id="off_gases_reports">
@@ -3046,6 +3509,14 @@
 									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalOff_gases">Go to...</a>
 								</div>
 							</div>
+							
+							<!-- Residues -->
+							<div class="col-md-12" style="margin-top: 3rem; margin-bottom: .8rem!important;">
+								<strong class="mb-4 d-block"><i>Study on flue gases potential availability for SAF production.</i></strong>
+								<div style="text-align: right;">
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalOff_gases_agroicone">Go to...</a>
+								</div>
+							</div>								
 						</div>
 					</div>
 
@@ -3175,20 +3646,20 @@
 			</div>
 
 
-			<!-- UCO (Residues)) -->
+			<!-- UCO (Residues) -->
 			<div id="panel-uco-residues" class="panel-support-maps" style="display: none;">
-				<h4 class="panel-title" >UCO - Residues</h4>
+				<h4 class="panel-title mt-4" >Used Cooking Oil - UCO</h4>
 				<div class="widget" id="widget_uco_maps_residues" style="display: block;">
 					<!-- Sugarcane Reports -->
 					<div class="widget-list" id="uco_reports_residues">
 						<div style="overflow-y: auto;height: 100%">
 							<div class="col-md-10 mb-4 mb-md-0">
-								<img class="img-fluid" src="./images/sugarcane/brazilian-sugarcane.jpg" title="Nature photo created by betochagas - www.freepik.com">
+								<img class="img-fluid" src="./images/uco/used-cooking-oil.jpg">
 							</div>
 							<div class="col-md-12" style="margin-top: 10px;">
-								<strong class="mb-4 d-block"><i>Study on SAF production based on ATJ-SPK pathway.</i></strong>
+								<strong class="mb-4 d-block"><i>Study on used cooking oil potential availability for SAF production.</i></strong>
 								<div style="text-align: right;">
-									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalSugarcane">Go to...</a>
+									<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#pdfModalUCO">Go to...</a>
 								</div>
 							</div>
 						</div>
@@ -3197,7 +3668,102 @@
 					<!-- UCO Maps -->
 					<div class="widget-list" id="uco_maps_residues">
 						<div style="overflow-y: auto;height: 100%">
+							<ul class="toggles-list">
+								<h7 style="font-weight: bold;">Base map</h7>
+								<span class="alert-span popper"><i class="fas fa-exclamation-triangle"></i></span>
+								<div class="pop-alert">
+								  <p>The data was spatialized according to the municipalities boundaries, it does 
+									  not imply that bigger municipalities have a greater availability of the feedstock.</p>
+								</div>
+								<!-- UCO -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-uco">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Used cooking oil by municipality</span>
+									</div>
+									<div id="info-uco">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
 
+								<h7 style="font-weight: bold;">Infrastructure</h7>
+								<!-- Roads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-roads_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Main roads</span>
+									</div>
+									<div id="info-roads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Railroads -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-railroads_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Railroads</span>
+									</div>
+									<div id="info-railroads">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Pipelines -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-pipelines_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Gas and oil pipelines</span>
+									</div>
+									<div id="info-pipelines">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Waterways -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-waterways_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Waterways</span>
+									</div>
+									<div id="info-waterways">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li><br/>
+
+								<h7 style="font-weight: bold;">Complementary information</h7>
+								<!-- Airports -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-airports_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Airports</span>
+									</div>
+									<div id="info-airports">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+								<!-- Refineries (Oil Refining) -->
+								<li class="toggle">
+									<div class="layer-div">
+									<label class="switch">
+										<input type="checkbox" id="toggle-refineries_refining_fd_09">
+										<span class="slider round"></span>
+									</label><span class="desc-slider"> Oil refineries (refining capacity)</span>
+									</div>
+									<div id="info-refineries_refining">
+									<span class="info-span"><i class="fas fa-info-circle"></i></span>
+									</div>
+								</li>
+							</ul>	
 						</div>
 					</div>
 
@@ -3205,7 +3771,7 @@
 					<ul class="widget-tabs">
 						<!-- Omitting the end tag is valid HTML and removes the space in-between inline blocks. -->
 						<li class="widget-tab">
-							<a href="#uco_reports_residues" class="widget-tab-link">Reports</a>
+							<a href="#uco_reports_residues" class="widget-tab-link">Report</a>
 						</li>
 						<li class="widget-tab">
 							<a href="#uco_maps_residues" class="widget-tab-link">Available layers</a>				
@@ -3217,7 +3783,7 @@
 
 		<!-- Legend Panel -->
 		<div id='sidebar-legend' class="sidebar" style="height: 36%;display: block;">
-			<div id="div-legend" class="panel-legend accordion" style="top: 15rem">
+			<div id="div-legend" class="panel-legend accordion" style="/* top: 15rem */ top: 93%">
 				<dl>
 					<dt>
 						<a href="#accordion3" aria-expanded="false" aria-controls="accordion3" class="accordion-title accordionTitle js-accordionTrigger">
@@ -3257,27 +3823,27 @@
 							</div>
 							<!-- Temperatura Média -->
 							<div id="legend-an_temperature" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Average annual temperature (<sup>o</sup>C)</h6>
+								<h6 class="legend-item"> Average annual temperature (<span class='legend-potencia'>o</span>C)</h6>
 								<img id="an_temperature" class="legend-img" src="./images/legendas/temperatura_med.png" height="100%" >
 							</div>
 							<!-- Temperatura Mínima -->
 							<div id="legend-min_temperature" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Average minimum annual temperature (<sup>o</sup>C)</h6>
+								<h6 class="legend-item"> Average minimum annual temperature (<span class='legend-potencia'>o</span>C)</h6>
 								<img id="min_temperature" class="legend-img" src="./images/legendas/temperatura_min.png" height="100%" >
 							</div>
 							<!-- Temperatura Máxima -->
 							<div id="legend-max_temperature" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Average maximum annual temperature (<sup>o</sup>C)</h6>
+								<h6 class="legend-item"> Average maximum annual temperature (<span class='legend-potencia'>o</span>C)</h6>
 								<img id="max_temperature" class="legend-img" src="./images/legendas/temperatura_max.png" height="100%" >
 							</div>
 							<!-- Deficit Hídrico -->
 							<div id="legend-hydric_deficit" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Annual water deficit (mm/year<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Annual water deficit (mm.year<span class='legend-potencia'>-1</span>)</h6>
 								<img id="hydric_deficit" class="legend-img" src="./images/legendas/deficit_hidrico.png" height="100%" >
 							</div>
 							<!-- IDP -->
 							<div id="legend-idp" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> IDP (10<sup>-2</sup>) </h6>
+								<h6 class="legend-item"> IDP (10<span class='legend-potencia'>-2</span>) </h6>
 								<img id="idp" class="legend-img" src="./images/legendas/indice_idp.png" height="100%" >
 							</div>
 							<!-- Frost Risk -->
@@ -3324,12 +3890,12 @@
 							</div>
 							<!-- Price Natural Pasture -->
 							<div id="legend-price_natural_past" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Estimated price from different sources, <br/>in R$.ha<sup>-1</sup>, in mid 2019</h6>
+								<h6 class="legend-item"> Estimated price from different sources, <br/>in R$.ha<span class='legend-potencia'>-1</span>, in mid 2019</h6>
 								<img id="price_natural_past" class="legend-img" src="./images/legendas/price_natural_pasture.png" height="100%" >
 							</div>
 							<!-- Price Planted Pasture -->
 							<div id="legend-price_planted_past" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Estimated prices from different sources, <br/>in R$.ha<sup>-1</sup>, in mid 2019</h6>
+								<h6 class="legend-item"> Estimated prices from different sources, <br/>in R$.ha<span class='legend-potencia'>-1</span>, in mid 2019</h6>
 								<img id="price_planted_past" class="legend-img" src="./images/legendas/price_planted_pasture.png" height="100%" >
 							</div>
 
@@ -3390,17 +3956,17 @@
 							<!-- Production Units - SAFmaps -->
 							<!-- Refineries (QAV) -->
 							<div id="legend-refineries_qav" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Refineries (by QAV production, in 2019, 1000m<sup>3</sup>)</h6>
+								<h6 class="legend-item"> Refineries (by QAV production, in 2019, 1000m<span class='legend-potencia'>3</span>)</h6>
 								<img id="refineries_qav" class="legend-img" src="./images/legendas/refineries_qav.png" height="100%" >
 							</div>
 							<!-- Refineries (Oil Refining) -->
 							<div id="legend-refineries_refining" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Refineries (by oil refining, in 2019, 1000m<sup>3</sup>)</h6>
+								<h6 class="legend-item"> Refineries (by oil refining, in 2019, 1000m<span class='legend-potencia'>3</span>)</h6>
 								<img id="refineries_refining" class="legend-img" src="./images/legendas/refineries_refining.png" height="100%" >
 							</div>					
 							<!-- Refineries (Refining Capacity) -->
 							<div id="legend-refineries_capacity" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Refineries (by refining capacity, in 2020, m<sup>3</sup>.day<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Refineries (by refining capacity, in 2020, m<span class='legend-potencia'>3</span>.day<span class='legend-potencia'>-1</span>)</h6>
 								<img id="refineries_capacity" class="legend-img" src="./images/legendas/refineries_capacity.png" height="100%" >
 							</div>	
 							<!-- Ethanol distilleries (by feedstock) -->
@@ -3410,32 +3976,32 @@
 							</div>
 							<!-- Ethanol distilleries (by milling capacity) -->
 							<div id="legend-ethanol_milling" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Milling (10<sup>6</sup> t. year<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Milling (10<span class='legend-potencia'>6</span> t.year<span class='legend-potencia'>-1</span>)</h6>
 								<img id="ethanol_milling" class="legend-img" src="./images/legendas/ethanol_milling.png" height="100%" >
 							</div>
 							<!-- Ethanol distilleries (by anhydrous capacity) -->
 							<div id="legend-ethanol_anhydrous" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Anhydrous capacity in 2020 (10<sup>6</sup> L.day<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Anhydrous capacity in 2020 (10<span class='legend-potencia'>6</span> L.day<span class='legend-potencia'>-1</span>)</h6>
 								<img id="ethanol_anhydrous" class="legend-img" src="./images/legendas/ethanol_anhydrous.png" height="100%" >
 							</div>
 							<!-- Ethanol distilleries (by hydrated capacity) -->
 							<div id="legend-ethanol_hydrated" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Hydrated ethanol capacity in 2020 (10<sup>6</sup> L.day<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Hydrated ethanol capacity in 2020 (10<span class='legend-potencia'>6</span> L.day<span class='legend-potencia'>-1</span>)</h6>
 								<img id="ethanol_hydrated" class="legend-img" src="./images/legendas/ethanol_hydrated.png" height="100%" >
 							</div>
 							<!-- Ethanol distilleries (by total output) -->
 							<div id="legend-ethanol_output" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Total ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<h6 class="legend-item"> Total ethanol output in 2019-2020 (10<span class='legend-potencia'>6</span> L)</h6>
 								<img id="ethanol_output" class="legend-img" src="./images/legendas/ethanol_output.png" height="100%" >
 							</div>
 							<!-- Ethanol distilleries (by anhydrous output) -->
 							<div id="legend-ethanol_anhydrous_output" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Anhydrous ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<h6 class="legend-item"> Anhydrous ethanol output in 2019-2020 (10<span class='legend-potencia'>6</span> L)</h6>
 								<img id="ethanol_anhydrous_output" class="legend-img" src="./images/legendas/ethanol_anhydrous_output.png" height="100%" >
 							</div>
 							<!-- Ethanol distilleries (by hydrated output) -->
 							<div id="legend-ethanol_hydrated_output" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Hydrated ethanol output in 2019-2020 (10<sup>6</sup> L)</h6>
+								<h6 class="legend-item"> Hydrated ethanol output in 2019-2020 (10<span class='legend-potencia'>6</span> L)</h6>
 								<img id="ethanol_hydrated_output" class="legend-img" src="./images/legendas/ethanol_hydrated_output.png" height="100%" >
 							</div>
 							<!-- Oilseed processing plants -->
@@ -3481,13 +4047,19 @@
 							</div>
 							<!-- Cost of harvested wood -->
 							<div id="legend-custo_eucalipto" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.m<span style='vertical-align:super;'>-3</span>)</span></h6>
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.m<span class='legend-potencia'>-3</span>)</span></h6>
 								<img id="custo_eucalipto" class="legend-img" src="./images/legendas/custos_eucalipto_transp.png" height="100%" >
 							</div>
 							<!-- Wood yield -->
 							<div id="legend-produtividade_eucalipto" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (m<span style='vertical-align:super;'>3</span>.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (m<span class='legend-potencia'>3</span>.ha<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="produtividade_eucalipto" class="legend-img" src="./images/legendas/produtividade_eucalipto_transp.png" height="100%" >
+							</div>
+
+							<!-- Residues -->
+							<div id="legend-aptidao_eucalipto_residues" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Planted eucalyptus residues <span class="legend-unit"> (10<span class='legend-potencia'>3</span>t.year<span class='legend-potencia'>-1</span><span class='legend-potencia'></span>)</span></h6>
+								<img id="produtividade_eucalipto" class="legend-img" src="./images/legendas/eucalyptus_residue_agroicone.png" height="100%" >
 							</div>
 
 							<!-- FEEDSTOCK SOJA -->
@@ -3498,12 +4070,12 @@
 							</div>
 							<!-- Expected costs -->
 							<div id="legend-custo_soja" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="custo_soja" class="legend-img" src="./images/legendas/custos_soja.png" height="100%" >
 							</div>
 							<!-- Expected average yield -->
 							<div id="legend-produtividade_soja" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="produtividade_soja" class="legend-img" src="./images/legendas/produtividade_soja.png" height="100%" >
 							</div>
 
@@ -3515,12 +4087,12 @@
 							</div>
 							<!-- Expected costs -->
 							<div id="legend-custo_macauba" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected oil costs <span class="legend-unit"> (R$.t<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="custo_macauba" class="legend-img" src="./images/legendas/custos_macauba.png" height="100%" >
 							</div>
 							<!-- Expected average yield -->
 							<div id="legend-produtividade_macauba" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="produtividade_macauba" class="legend-img" src="./images/legendas/produtividade_macauba.png" height="100%" >
 							</div>
 
@@ -3532,12 +4104,12 @@
 							</div>
 							<!-- Expected costs -->
 							<div id="legend-custo_palma" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>) fresh fruit</span></h6>
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span class='legend-potencia'>-1</span>) fresh fruit</span></h6>
 								<img id="custo_palma" class="legend-img" src="./images/legendas/custos_palma.png" height="100%" >
 							</div>
 							<!-- Expected average yield -->
 							<div id="legend-produtividade_palma" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) fresh fruit</span></h6>
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>) fresh fruit</span></h6>
 								<img id="produtividade_palma" class="legend-img" src="./images/legendas/produtividade_palma.png" height="100%" >
 							</div>
 
@@ -3549,13 +4121,31 @@
 							</div>
 							<!-- Expected costs -->
 							<div id="legend-custo_cana" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) in a 5-year cycle</span></h6>
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>) in a 5-year cycle</span></h6>
 								<img id="custo_cana" class="legend-img" src="./images/legendas/custos_cana.png" height="100%" >
 							</div>
 							<!-- Expected average yield -->
 							<div id="legend-produtividade_cana" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>) <br/>in a 5-year cycle</span></h6>
+								<h6 class="legend-item"> Expected average yield <span class="legend-unit"> (t.ha<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>) <br/>in a 5-year cycle</span></h6>
 								<img id="produtividade_cana" class="legend-img" src="./images/legendas/produtividade_cana.png" height="100%" >
+							</div>
+
+							<!-- Sugarcane Residues -->
+							<div id="legend-sugarcane_residues" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane total residues <span class="legend-unit"> (10<span class='legend-potencia'>3</span>t<span class='legend-potencia'></span>.year<span class='legend-potencia'>-1</span>) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="./images/legendas/sugarcane_residues_agroicone.png" height="100%" >
+							</div>
+
+							<!-- Sugarcane Bagasse -->
+							<div id="legend-sugarcane_bagasse" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane bagasse <span class="legend-unit"> (10<span class='legend-potencia'>3</span>t<span class='legend-potencia'></span>.year<span class='legend-potencia'>-1</span>) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="./images/legendas/bagasse_potential_availability_agroicone.png" height="100%" >
+							</div>
+
+							<!-- Sugarcane Straw -->
+							<div id="legend-sugarcane_straw" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Sugarcane straw <span class="legend-unit"> (10<span class='legend-potencia'>3</span>t<span class='legend-potencia'></span>.year<span class='legend-potencia'>-1</span>) <br/></span></h6>
+								<img id="produtividade_cana" class="legend-img" src="./images/legendas/straw_potential_availability.png" height="100%" >
 							</div>
 
 							<!-- FEEDSTOCK MILHO -->
@@ -3566,19 +4156,19 @@
 							</div>
 							<!-- Expected costs -->
 							<div id="legend-custo_milho" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected costs <span class="legend-unit"> (R$.t<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="custo_milho" class="legend-img" src="./images/legendas/custos_milho.png" height="100%" >
 							</div>
 							<!-- Expected average yield -->
 							<div id="legend-produtividade_milho" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (t.ha<span style='vertical-align:super;'>-1</span>.year<span style='vertical-align:super;'>-1</span>)</span></h6>
+								<h6 class="legend-item"> Expected yield <span class="legend-unit"> (t.ha<span class='legend-potencia'>-1</span>.year<span class='legend-potencia'>-1</span>)</span></h6>
 								<img id="produtividade_milho" class="legend-img" src="./images/legendas/produtividade_milho.png" height="100%" >
 							</div>
 
 							<!-- FEEDSTOCK TALLOW -->
 							<!-- Cattle herd -->
 							<div id="legend-cattle_herd" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Cattle herd in 2018 (10<sup>3</sup>)</h6>
+								<h6 class="legend-item"> Cattle herd in 2018 (10<span class='legend-potencia'>3</span>)</h6>
 								<img id="cattle_herd" class="legend-img" src="./images/legendas/cattle_herd.png" height="100%" >
 							</div>
 							<!-- Slaughterhouse -->
@@ -3591,17 +4181,28 @@
 								<h6 class="legend-item"> Beef tallow estimated in 2018 (t)</h6>
 								<img id="beef_tallow" class="legend-img" src="./images/legendas/beef_tallow.png" height="100%" >
 							</div>
+							<!-- Beef tallow (residues) -->
+							<div id="legend-beef_tallow_residues" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Beef tallow availability (10<span class='legend-potencia'>3</span>t.year<span class='legend-potencia'>-1</span>)</h6>
+								<img id="beef_tallow" class="legend-img" src="./images/legendas/beef_tallow_potential_agroicone.png" height="100%" >
+							</div>							
 
 							<!-- FEEDSTOCK OFF-GASES -->
 							<!-- Total off-gases -->
 							<div id="legend-off_gases" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Total of off-gases (1000m<sup>3</sup>.year<sup>-1</sup>) </h6>
+								<h6 class="legend-item"> Total of off-gases (1000m<span class='legend-potencia'>3</span>.year<span class='legend-potencia'>-1</span>) </h6>
 								<img id="off_gases" class="legend-img" src="./images/legendas/off_gases.png" height="100%" >
 							</div>
 							<!-- Flaring -->
 							<div id="legend-flaring" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Flaring (1000m<sup>3</sup>.year<sup>-1</sup>)</h6>
+								<h6 class="legend-item"> Flaring (1000m<span class='legend-potencia'>3</span>.year<span class='legend-potencia'>-1</span>)</h6>
 								<img id="flaring" class="legend-img" src="./images/legendas/flaring.png" height="100%" >
+							</div>
+
+							<!-- UCO -->
+							<div id="legend-uco" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Used cooking oil (10<span class='legend-potencia'>3</span>t.year<span class='legend-potencia'>-1</span>)</h6>
+								<img id="flaring" class="legend-img" src="./images/legendas/uco_potential_availability_agroicone.png" height="100%" >
 							</div>
 						</div>
 					</dd>
@@ -3897,6 +4498,8 @@
 		$("#legend-aptidao_eucalipto").css("display", "none");
 		$("#legend-custo_eucalipto").css("display", "none");
 		$("#legend-produtividade_eucalipto").css("display", "none");
+		
+		$("#legend-aptidao_eucalipto_residues").css("display", "none");
 
 		// Soja
 		$("#legend-aptidao_soja").css("display", "none");
@@ -3917,7 +4520,11 @@
 		$("#legend-aptidao_cana").css("display", "none");
 		$("#legend-custo_cana").css("display", "none");
 		$("#legend-produtividade_cana").css("display", "none");
-
+		
+		$("#legend-sugarcane_residues").css("display", "none");
+		$("#legend-sugarcane_bagasse").css("display", "none");
+		$("#legend-sugarcane_straw").css("display", "none");
+		
 		// Corn
 		$("#legend-aptidao_milho").css("display", "none");
 		$("#legend-custo_milho").css("display", "none");
@@ -3927,10 +4534,16 @@
 		$("#legend-cattle_herd").css("display", "none");
 		$("#legend-abatedouros").css("display", "none");
 		$("#legend-beef_tallow").css("display", "none");
+		
+		$("#legend-beef_tallow_residues").css("display", "none");
 
 		// Off-gases
 		$("#legend-off_gases").css("display", "none");
 		$("#legend-flaring").css("display", "none");
+
+
+		// UCO
+		$("#legend-uco").css("display", "none");
 	}
 
 	// REMOVE LAYERS FROM MAP
@@ -4051,6 +4664,13 @@
 		return id_panel;
 	}	
 
+	// Pop-up de alerta dos botões de informação
+	$(function() {
+		$('span.popper').hover(function() {
+			$( ".pop-alert" ).toggle();
+		});
+	});
+
   </script>
 
   <!-- Feedsctock codes (panels, windows and other issues) -->
@@ -4062,6 +4682,8 @@
   <script  src="./js/fd-palm.js"></script>
   <script  src="./js/fd-sugarcane.js"></script>
   <script  src="./js/fd-sugarcane-residues.js"></script>
+  <script  src="./js/fd-sugarcane-bagasse.js"></script>
+  <script  src="./js/fd-sugarcane-straw.js"></script>
   <script  src="./js/fd-corn.js"></script>
   <script  src="./js/fd-tallow.js"></script>
   <script  src="./js/fd-off_gases.js"></script>

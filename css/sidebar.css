@@ -130,3 +130,13 @@ body {
 .sidebar {
     position: relative;
 }
+
+.img-fluid {
+    max-width: 85% !important;
+    margin-left: 4rem !important;
+}
+
+.img-fluid-tallow {
+    max-width: 70% !important;
+    margin-left: 5.5rem !important;
+}
