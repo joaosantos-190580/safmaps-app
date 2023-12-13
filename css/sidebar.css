@@ -132,11 +132,11 @@ body {
 }
 
 .img-fluid {
-    max-width: 85% !important;
-    margin-left: 4rem !important;
+    max-width: 75% !important;
+    margin-left: 5rem !important;
 }
 
 .img-fluid-tallow {
-    max-width: 70% !important;
-    margin-left: 5.5rem !important;
+    max-width: 65% !important;
+    margin-left: 6rem !important;
 }

@@ -9,7 +9,11 @@ $("#atj-spk-sugarcane-residues").click(function(e) {
     e.preventDefault();
 
     reset_actived (e);
+    $("#atj-spk-sugarcane-group").addClass("active");
+    $("#atj-spk-sugarcane-group").removeClass("inactive");
+        
     $("#panel-support-maps").css("display", "none");
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto").css("display", "none");
     $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-soja").css("display", "none");
@@ -23,6 +27,21 @@ $("#atj-spk-sugarcane-residues").click(function(e) {
     $("#empty").css("display", "none");
     $("#panel-sugarcane-residues").css("display", "block");
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }    
+        
 }); 
 
 
@@ -40,9 +59,11 @@ var l_sugarcane_residues = 'DBMS:sugarcane_residues_agroicone';            // sa
 
 // Sugarcane residues (Layer)
 $("#toggle-sugarcane_residues").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-sugarcane_bagasse').prop('checked', false);
+    $('#toggle-sugarcane_straw').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_sugarcane_residues;
 
@@ -51,10 +72,19 @@ $("#toggle-sugarcane_residues").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-sugarcane_straw").css("display", "none");
+        $("#legend-sugarcane_bagasse").css("display", "none");
         $("#legend-sugarcane_residues").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-sugarcane_residues").css("display", "none");
+        removeLayer(l_sugarcane_residues);   
     }
+});
+
+// Pop-up de alerta - Sugarcane residues (Layer)
+$('#popper-sugarcane_residues').hover(function() {
+    $( "#alert-sugarcane_residues" ).toggle();
 });
 
 
@@ -92,5 +122,79 @@ $("#info-sugarcane_residues").click(function(e) {
         }
     });
 });  
+
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#info-roads_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-roads").trigger("click");
+}); 
+
+// info-railroads_fd_05a
+$("#info-railroads_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-railroads").trigger("click");
+}); 
+
+// info-pipelines_fd_05a
+$("#info-pipelines_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-pipelines").trigger("click");
+}); 
+
+// info-ethanol_pipelines_fd_05a
+$("#info-ethanol_pipelines_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-ethanol_pipelines").trigger("click");
+}); 
+
+// info-waterways_fd_05a
+$("#info-waterways_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-waterways").trigger("click");
+}); 
+
+// info-airports_fd_05a
+$("#info-airports_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-airports").trigger("click");
+}); 
+
+// info-refineries_refining_fd_05a
+$("#info-refineries_refining_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-refineries_capacity").trigger("click");
+}); 
+
+// info-ethanol_distilleries_fd_05a
+$("#info-ethanol_distilleries_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-ethanol_milling").trigger("click");
+}); 
+
+// info-ethanol_terminals_fd_05a
+$("#info-ethanol_terminals_fd_05a").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-ethanol_pipelines_terminals").trigger("click");
+}); 
 
 

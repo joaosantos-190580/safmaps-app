@@ -9,17 +9,39 @@ $("#support-maps").click(function(e) {
     e.preventDefault();
 
     reset_actived (e);
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto").css("display", "none");
+    $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-soja").css("display", "none");
     $("#panel-macauba").css("display", "none");
     $("#panel-palma").css("display", "none");
     $("#panel-sugarcane").css("display", "none");	
+    $("#panel-sugarcane-residues").css("display", "none");
     $("#panel-corn").css("display", "none");		
     $("#panel-tallow").css("display", "none");		
-    $("#panel-off_gases").css("display", "none");		
+    $("#panel-off_gases").css("display", "none");	
+    $("#panel-uco-residues").css("display", "none");		
     $("#empty").css("display", "none");
     $("#panel-support-maps").css("display", "block");
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }
+    
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpenSM").click();
+    
 }); 
 
 
@@ -104,9 +126,11 @@ $("#toggle-biomas").on('change', function(){
         var prov = L.tileLayer.wms(url, options);
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-biomas").css("display", "block");
     } else {
-        $("#legend-biomas").css("display", "none");
+        //$("#legend-biomas").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -123,9 +147,11 @@ $("#toggle-solo").on('change', function(){
         var prov = L.tileLayer.wms(url, options);
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-solo").css("display", "block");
     } else {
-        $("#legend-solo").css("display", "none");
+        //$("#legend-solo").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -142,9 +168,11 @@ $("#toggle-declividade").on('change', function(){
         var prov = L.tileLayer.wms(url, options);
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-declividade").css("display", "block");
     } else {
-        $("#legend-declividade").css("display", "none");
+        //$("#legend-declividade").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -161,9 +189,11 @@ $("#toggle-altitude").on('change', function(){
         var prov = L.tileLayer.wms(url, options);
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-altitude").css("display", "block");
     } else {
-        $("#legend-altitude").css("display", "none");
+        //$("#legend-altitude").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -180,9 +210,11 @@ $("#toggle-rainfall").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-rainfall").css("display", "block");
     } else {
-        $("#legend-rainfall").css("display", "none");
+        //$("#legend-rainfall").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -199,9 +231,11 @@ $("#toggle-an_temperature").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-an_temperature").css("display", "block");
     } else {
-        $("#legend-an_temperature").css("display", "none");
+        //$("#legend-an_temperature").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -218,9 +252,11 @@ $("#toggle-min_temperature").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-min_temperature").css("display", "block");
     } else {
-        $("#legend-min_temperature").css("display", "none");
+        //$("#legend-min_temperature").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -237,9 +273,11 @@ $("#toggle-max_temperature").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-max_temperature").css("display", "block");
     } else {
-        $("#legend-max_temperature").css("display", "none");
+        //$("#legend-max_temperature").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -256,9 +294,11 @@ $("#toggle-hydric_deficit").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-hydric_deficit").css("display", "block");
     } else {
-        $("#legend-hydric_deficit").css("display", "none");
+        //$("#legend-hydric_deficit").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -275,9 +315,11 @@ $("#toggle-idp").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-idp").css("display", "block");
     } else {
-        $("#legend-idp").css("display", "none");
+        //$("#legend-idp").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -294,9 +336,11 @@ $("#toggle-frost_risk").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-frost_risk").css("display", "block");
     } else {
-        $("#legend-frost_risk").css("display", "none");
+        //$("#legend-frost_risk").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -313,9 +357,11 @@ $("#toggle-main_rivers").on('change', function(){
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-main_rivers").css("display", "block");
     } else {
-        $("#legend-main_rivers").css("display", "none");
+        //$("#legend-main_rivers").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -332,9 +378,11 @@ $("#toggle-hidrografia").on('change', function(){
         var prov = L.tileLayer.wms(url, options); 
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-hidrografia").css("display", "block");
     } else {
-        $("#legend-hidrografia").css("display", "none");
+        //$("#legend-hidrografia").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -356,9 +404,11 @@ $("#toggle-soil_suitability").on('change', function(){
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-soil_suitability").css("display", "block");
     } else {
-        $("#legend-soil_suitability").css("display", "none");
+        //$("#legend-soil_suitability").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -375,9 +425,11 @@ $("#toggle-slope_eucalyptus").on('change', function(){
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-slope_eucalyptus").css("display", "block");
     } else {
-        $("#legend-slope_eucalyptus").css("display", "none");
+        //$("#legend-slope_eucalyptus").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -394,9 +446,11 @@ $("#toggle-slope_others").on('change', function(){
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-slope_others").css("display", "block");
     } else {
-        $("#legend-slope_others").css("display", "none");
+        //$("#legend-slope_others").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -413,9 +467,11 @@ $("#toggle-level_degrad").on('change', function(){
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-level_degrad").css("display", "block");
     } else {
-        $("#legend-level_degrad").css("display", "none");
+        //$("#legend-level_degrad").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -431,10 +487,12 @@ $("#toggle-uso_cobertura").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_uso_cobertura_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-uso_cobertura").css("display", "block");
     } else {
-        $("#legend-uso_cobertura").css("display", "none");
+        //$("#legend-uso_cobertura").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -450,10 +508,12 @@ $("#toggle-price_natural_past").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_price_natural_past_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-price_natural_past").css("display", "block");
     } else {
-        $("#legend-price_natural_past").css("display", "none");
+        //$("#legend-price_natural_past").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -469,10 +529,12 @@ $("#toggle-price_planted_past").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_price_planted_past_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-price_planted_past").css("display", "block");
     } else {
-        $("#legend-price_planted_past").css("display", "none");
+        //$("#legend-price_planted_past").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -498,12 +560,14 @@ $("#toggle-protected_areas").on('change', function(){
         options['layers'] = l_estados_src;
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);			  
-                
+
+        remove_empty_legend();
         $("#legend-protected_areas").css("display", "block");
         $("#legend-estados").css("display", "block");
     } else {
-        $("#legend-protected_areas").css("display", "none");
-        $("#legend-estados").css("display", "none");
+        //$("#legend-protected_areas").css("display", "none");
+        //$("#legend-estados").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -519,10 +583,12 @@ $("#toggle-restrictive_biomes").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_restrictive_biomes_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-restrictive_biomes").css("display", "block");
     } else {
-        $("#legend-restrictive_biomes").css("display", "none");
+        //$("#legend-restrictive_biomes").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -538,10 +604,12 @@ $("#toggle-carbon_stock").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_corsia_restriction_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-carbon_stock").css("display", "block");
     } else {
-        $("#legend-carbon_stock").css("display", "none");
+        //$("#legend-carbon_stock").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -562,10 +630,12 @@ $("#toggle-roads").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_roads_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-roads").css("display", "block");
     } else {
-        $("#legend-roads").css("display", "none");
+        //$("#legend-roads").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -581,10 +651,12 @@ $("#toggle-railroads").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_railroads_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-railroads").css("display", "block");
     } else {
-        $("#legend-railroads").css("display", "none");
+        //$("#legend-railroads").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -600,10 +672,12 @@ $("#toggle-pipelines").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pipelines_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-pipelines").css("display", "block");
     } else {
-        $("#legend-pipelines").css("display", "none");
+        //$("#legend-pipelines").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -619,10 +693,12 @@ $("#toggle-ethanol_pipelines").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_pipelines_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_pipelines").css("display", "block");
     } else {
-        $("#legend-ethanol_pipelines").css("display", "none");
+        //$("#legend-ethanol_pipelines").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -638,10 +714,12 @@ $("#toggle-ethanol_pipelines_terminals").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_pipelines_terminals_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_pipelines_terminals").css("display", "block");
     } else {
-        $("#legend-ethanol_pipelines_terminals").css("display", "none");
+        //$("#legend-ethanol_pipelines_terminals").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -658,10 +736,12 @@ $("#toggle-waterways").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_waterways_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-waterways").css("display", "block");
     } else {
-        $("#legend-waterways").css("display", "none");
+        //$("#legend-waterways").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -677,10 +757,12 @@ $("#toggle-airports").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_airports_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-airports").css("display", "block");
     } else {
-        $("#legend-airports").css("display", "none");
+        //$("#legend-airports").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -697,10 +779,12 @@ $("#toggle-refineries_qav").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_qav_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-refineries_qav").css("display", "block");
     } else {
-        $("#legend-refineries_qav").css("display", "none");
+        //$("#legend-refineries_qav").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -716,10 +800,12 @@ $("#toggle-refineries_refining").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_refining_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-refineries_refining").css("display", "block");
     } else {
-        $("#legend-refineries_refining").css("display", "none");
+        //$("#legend-refineries_refining").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -735,10 +821,12 @@ $("#toggle-refineries_capacity").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_capacity_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-refineries_capacity").css("display", "block");
     } else {
-        $("#legend-refineries_capacity").css("display", "none");
+        //$("#legend-refineries_capacity").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -754,10 +842,12 @@ $("#toggle-ethanol_feedstock").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_feedstock_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_feedstock").css("display", "block");
     } else {
-        $("#legend-ethanol_feedstock").css("display", "none");
+        //$("#legend-ethanol_feedstock").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -773,10 +863,12 @@ $("#toggle-ethanol_milling").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_milling_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_milling").css("display", "block");
     } else {
-        $("#legend-ethanol_milling").css("display", "none");
+        //$("#legend-ethanol_milling").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -792,10 +884,12 @@ $("#toggle-ethanol_anhydrous").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_anhydrous_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_anhydrous").css("display", "block");
     } else {
-        $("#legend-ethanol_anhydrous").css("display", "none");
+        //$("#legend-ethanol_anhydrous").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -811,10 +905,12 @@ $("#toggle-ethanol_hydrated").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_hydrated_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_hydrated").css("display", "block");
     } else {
-        $("#legend-ethanol_hydrated").css("display", "none");
+        //$("#legend-ethanol_hydrated").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -830,10 +926,12 @@ $("#toggle-ethanol_output").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_output_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_output").css("display", "block");
     } else {
-        $("#legend-ethanol_output").css("display", "none");
+        //$("#legend-ethanol_output").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -849,10 +947,12 @@ $("#toggle-ethanol_anhydrous_output").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_anhydrous_output_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_anhydrous_output").css("display", "block");
     } else {
-        $("#legend-ethanol_anhydrous_output").css("display", "none");
+        //$("#legend-ethanol_anhydrous_output").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -868,10 +968,12 @@ $("#toggle-ethanol_hydrated_output").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_ethanol_hydrated_output_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-ethanol_hydrated_output").css("display", "block");
     } else {
-        $("#legend-ethanol_hydrated_output").css("display", "none");
+        //$("#legend-ethanol_hydrated_output").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -887,10 +989,12 @@ $("#toggle-oilseed_plants").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_oilseed_plants_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);                
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-oilseed_plants").css("display", "block");
     } else {
-        $("#legend-oilseed_plants").css("display", "none");
+        //$("#legend-oilseed_plants").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -911,10 +1015,12 @@ $("#toggle-land_rights").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_land_rights_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-land_rights").css("display", "block");
     } else {
-        $("#legend-land_rights").css("display", "none");
+        //$("#legend-land_rights").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -930,10 +1036,12 @@ $("#toggle-water_rights").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_water_rights_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-water_rights").css("display", "block");
     } else {
-        $("#legend-water_rights").css("display", "none");
+        //$("#legend-water_rights").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -949,10 +1057,12 @@ $("#toggle-rural_settlements").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_rural_settlements_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
+
+        remove_empty_legend();
         $("#legend-rural_settlements").css("display", "block");
     } else {
-        $("#legend-rural_settlements").css("display", "none");
+        //$("#legend-rural_settlements").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -974,9 +1084,11 @@ $("#toggle-estados").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-estados").css("display", "block");
     } else {
-        $("#legend-estados").css("display", "none");
+        //$("#legend-estados").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -993,9 +1105,11 @@ $("#toggle-municipios").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        remove_empty_legend();
         $("#legend-municipios").css("display", "block");
     } else {
-        $("#legend-municipios").css("display", "none");
+        //$("#legend-municipios").css("display", "none");
+        reset_all_legends();
     }
 });
 
@@ -1781,7 +1895,7 @@ $("#info-ethanol_pipelines").click(function(e) {
         contentSize: {width: 550, height: 350},
         headerTitle: "Map Information",
         content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
-                        "<div><h6 style='font-weight:bold;color: blue'> Ethanol pipeline</h6>" +
+                        "<div><h6 style='font-weight:bold;color: blue'> Ethanol pipelines</h6>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Ethanol pipelines that compose the multimodal logistic system developed by Logum Logística S.A. The system links the main ethanol producing regions of the Brazilian Mid-West region, Minas Gerais and São Paulo states, to the main consumer hubs and exporting harbors.</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Logum Logística S.A (2020); BRASIL - Ministry of Infrastructure (2020)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> <br/>" +
@@ -2363,5 +2477,41 @@ $("#info-municipios").click(function(e) {
     });
 });  
 
+
+/*
+ * JANELAS HELP
+ */
+
+// SUPPORT MAPS - Widget1
+$("#help-support_maps").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    removePanelbyTitle("Help Information");
+    $.jsPanel({
+        theme:      '#93bd42',
+        contentSize: {width: 500, height: 250},
+        headerTitle: "Help Information",
+        content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
+                        "<div><h6 style='font-weight:bold;color: blue'>About Available Layers</h6>" +
+                        "</div>" +
+                    "</div>",
+        callback:    function () {
+            this.content.css("padding", "15px");
+
+            this.find(".jsPanel-btn-smallify").remove();
+            this.find(".jsPanel-btn-minimize").remove();
+            this.find(".jsPanel-btn-maximize").remove();
+        }
+    });
+});  
+
+// SUPPORT MAPS - Widget2
+$("#help-support_maps2").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#help-support_maps").trigger("click");
+});
 
 

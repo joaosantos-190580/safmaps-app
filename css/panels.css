@@ -49,6 +49,7 @@
 
 .legend-img {
     margin-left: 2rem;
+    /*  margin-top: -0.8rem;    */
 }
 
 .legend-unit {
@@ -113,6 +114,59 @@
     padding-left: 2.5rem;
     width: 95%;
     font-size: .9rem;
+}
+
+.div-feedstock-results {
+    font-size: 0.9rem;
+    padding-left: 2rem;
+    border-bottom:  lightblue;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    width: 86%;
+}
+
+.div-carbon-results {
+    width: 100%; 
+    text-align: center; 
+    border-top: lightblue; 
+    border-top-width: 1px; 
+    border-top-style: solid;
+}
+
+.div-carbon-notes {
+    text-align: left;
+    font-size: .9rem;
+    margin-top: .7rem;
+    margin-left: 1rem;
+}
+
+.span-carbon-title {
+    color: blue;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.span-carbon-alert {
+    display: inline-block;
+    margin-bottom: 0.3rem !important;
+    text-align: justify;
+    font-size: .9rem;
+}
+
+.span-carbon-notes {
+    display: inline-block;
+    margin-bottom: 0.3rem !important;
+    text-align: justify;
+    text-indent: -1.1rem;
+}
+
+.span-carbon-notes-2 {
+    display: inline-block;
+    text-align: justify;
+    font-size: .9rem;
+    margin-top: .7rem;
 }
 
 .bt-style {
@@ -200,4 +254,63 @@
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+/* Style the CORSIA tabs */
+.tab {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 22px;
+    font-weight: normal;
+    font-size: 12px;
+    color: #999;
+    background: #ececec;
+    padding-bottom: 0;
+    bottom: auto;
+    padding-left: .5rem;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: .3px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 10px 6px;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    max-height: 29.5rem;
+    /*  padding: 12px 12px;     */
+  }
+
+  .tabcontent-inf {
+    display: none;
+    max-height: 29.5rem;
+  }
+
+  .tab-title {
+    color: grey;
+    text-align: left;
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem .3rem;
+    /*  margin-bottom: 1rem;    */
+    border-top-style: outset;
 }

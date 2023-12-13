@@ -29,6 +29,8 @@
   /*  background-color: #eee;   */
   font-size: 1em;
   line-height: 1.5em;
+  height: 100% !important;
+  overflow-y: auto;
 }
 
 .accordion p {
@@ -87,7 +89,7 @@
 .accordionItem {
   height: auto;
   overflow: hidden;
-  max-height: 50em;
+  max-height: 14.3em;     /*    max-height: 50em;     */
   -webkit-transition: max-height 1s;
   transition: max-height 1s;
 }

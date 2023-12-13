@@ -10,6 +10,7 @@ $("#hefa-spk").click(function(e) {
 
     reset_actived (e);
     $("#panel-support-maps").css("display", "none");
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto").css("display", "none");
     $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-macauba").css("display", "none");
@@ -23,6 +24,26 @@ $("#hefa-spk").click(function(e) {
     $("#empty").css("display", "none");
     $("#panel-soja").css("display", "block");
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }    
+    
+    // Load layers groups
+    group_1 = ['DBMS:aptidao_soja','DBMS:custos_soja','DBMS:produtividade_soja'];
+    group_2 = ['DBMS:main_roads','DBMS:railroads_fd_stock','DBMS:pipelines_fd_stock','DBMS:waterways_fd_stock'];
+    group_3 = ['DBMS:airports_fd_stock','DBMS:refineries_refining_fd_stock','DBMS:oilseed_plants_fd_stock']; 
+
 }); 
 
 
@@ -33,6 +54,8 @@ $("#hefa-spk").click(function(e) {
 var l_aptidao_soja = 'DBMS:aptidao_soja';
 var l_custos_soja = 'DBMS:custos_soja';
 var l_produtividade_soja = 'DBMS:produtividade_soja';
+
+var l_oilseed_plants_fd_stock_src = 'DBMS:oilseed_plants_fd_stock';
 
 var l_replan = [-22.729314, -47.148029];
 var l_rnest = [-8.379276, -35.021108];
@@ -52,9 +75,11 @@ var tipo_instalacao_soja = '', capacidade_soja = '', location_soja = '', oil_sou
 
 // Soybean suitability (Layer)
 $("#toggle-aptidao_soja").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-produtividade_soja').prop('checked', false);
+    $('#toggle-custo_soja').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_aptidao_soja;
 
@@ -63,17 +88,23 @@ $("#toggle-aptidao_soja").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-produtividade_soja").css("display", "none");
+        $("#legend-custo_soja").css("display", "none");
         $("#legend-aptidao_soja").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-aptidao_soja").css("display", "none");
+        removeLayer(l_aptidao_soja);
     }
 });
 
 // Soybean Oil yield (Layer)
 $("#toggle-produtividade_soja").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-aptidao_soja').prop('checked', false);
+    $('#toggle-custo_soja').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_produtividade_soja;
 
@@ -82,17 +113,23 @@ $("#toggle-produtividade_soja").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-custo_soja").css("display", "none");
+        $("#legend-aptidao_soja").css("display", "none");
         $("#legend-produtividade_soja").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-produtividade_soja").css("display", "none");
+        removeLayer(l_produtividade_soja);
     }
 });
 
 // Cost of soybean production (Layer)
 $("#toggle-custo_soja").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-aptidao_soja').prop('checked', false);
+    $('#toggle-produtividade_soja').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_custos_soja;
 
@@ -101,9 +138,183 @@ $("#toggle-custo_soja").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-aptidao_soja").css("display", "none");
+        $("#legend-produtividade_soja").css("display", "none");
         $("#legend-custo_soja").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-custo_soja").css("display", "none");
+        removeLayer(l_custos_soja);
+    }
+});
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#toggle-roads_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-railroads_fd_02').prop('checked', false);
+    $('#toggle-pipelines_fd_02').prop('checked', false);
+    $('#toggle-waterways_fd_02').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_main_roads_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_roads_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-main_roads").css("display", "none");
+        removeLayer(l_main_roads_src);
+    }
+});
+
+// toggle-railroads (Layer)
+$("#toggle-railroads_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_02').prop('checked', false);
+    $('#toggle-pipelines_fd_02').prop('checked', false);
+    $('#toggle-waterways_fd_02').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_railroads_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_railroads_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-railroads_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-railroads_fd_stock").css("display", "none");
+        removeLayer(l_railroads_fd_stock_src);
+    }
+});
+
+// toggle-pipelines (Layer)
+$("#toggle-pipelines_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_02').prop('checked', false);
+    $('#toggle-railroads_fd_02').prop('checked', false);
+    $('#toggle-waterways_fd_02').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_pipelines_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pipelines_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        removeLayer(l_pipelines_fd_stock_src);
+    }
+});
+
+// toggle-waterways (Layer)
+$("#toggle-waterways_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_02').prop('checked', false);
+    $('#toggle-railroads_fd_02').prop('checked', false);
+    $('#toggle-pipelines_fd_02').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_waterways_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_waterways_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-waterways_fd_stock").css("display", "none");
+        removeLayer(l_waterways_fd_stock_src);
+    }
+});
+
+// Complementary information
+// toggle-airports (Layer)
+$("#toggle-airports_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    //reset_all_legends();
+    //removeLayers();
+
+    options['layers'] = l_airports_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_airports_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+                
+        $("#legend-airports_fd_stock").css("display", "block");
+    } else {
+        $("#legend-airports_fd_stock").css("display", "none");
+        removeLayer(l_airports_fd_stock_src);
+    }
+});
+
+// toggle-refineries_refining (Layer)
+$("#toggle-refineries_refining_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    //reset_all_legends();
+    //removeLayers();
+
+    options['layers'] = l_refineries_refining_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_refining_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+                
+        $("#legend-refineries_refining_fd_stock").css("display", "block");
+    } else {
+        $("#legend-refineries_refining_fd_stock").css("display", "none");
+        removeLayer(l_refineries_refining_fd_stock_src);
+    }
+});
+
+// toggle-soy_processing_plants_fd_02 (Layer)
+$("#toggle-soy_processing_plants_fd_02").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    //reset_all_legends();
+    //removeLayers();
+
+    options['layers'] = l_oilseed_plants_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_refining_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+                
+        $("#legend-soy_processing_plants_fd_stock").css("display", "block");
+    } else {
+        $("#legend-soy_processing_plants_fd_stock").css("display", "none");
+        removeLayer(l_oilseed_plants_fd_stock_src);
     }
 });
 
@@ -240,17 +451,18 @@ $("#locationSoja_case1").on('change', function(){
 
     // INSERIR FUNÇÃO PRA REMOVER MARCADOR
     
-    revapSoja = L.marker(l_revap).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
+    revapSoja = L.marker(l_revap, { icon : blackMarker }).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
     map.addLayer(revapSoja);
 
     //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
     //map.addLayer(revap_buffer);
     
     // Posiciona o mapa na localização
-    map.flyTo(l_revap, 9);
+    map.flyTo(l_revap, 7);
 
     $("#nomeMunicipioSoja").text("SÃO JOSÉ DOS CAMPOS/SP");
-    $("#nomeMunicipioSoja").css("color", "blue");
+    //$("#nomeMunicipioSoja").css("color", "blue");
+    $("#nomeMunicipioSoja").css("font-weight", "bold");
 });
 
 $("#locationSoja_case2").on('change', function(){
@@ -267,31 +479,33 @@ $("#locationSoja_case2").on('change', function(){
     if (locationSoja === "REVAP") {
         resetPoints_cstudySoja();
 
-        revapSoja = L.marker(l_revap).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
+        revapSoja = L.marker(l_revap, { icon : blackMarker }).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
         map.addLayer(revapSoja);
 
         //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
         //map.addLayer(revap_buffer);
         
         // Posiciona o mapa na localização
-        map.flyTo(l_revap, 9);
+        map.flyTo(l_revap, 7);
 
         $("#nomeMunicipioSoja").text("SÃO JOSÉ DOS CAMPOS/SP");
-        $("#nomeMunicipioSoja").css("color", "blue");
+        //$("#nomeMunicipioSoja").css("color", "blue");
+        $("#nomeMunicipioSoja").css("font-weight", "bold");
     } else if (locationSoja === "RNEST") {
         resetPoints_cstudySoja();
 
-        rnestSoja = L.marker(l_rnest).bindPopup("RNEST at <b>" + l_rnest.toString() + "</b>").openPopup();
+        rnestSoja = L.marker(l_rnest, { icon : blackMarker }).bindPopup("RNEST at <b>" + l_rnest.toString() + "</b>").openPopup();
         map.addLayer(rnestSoja);
 
         //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
         //map.addLayer(revap_buffer);
         
         // Posiciona o mapa na localização
-        map.flyTo(l_rnest, 9);
+        map.flyTo(l_rnest, 7);
 
         $("#nomeMunicipioSoja").text("IPOJUCA/PE");
-        $("#nomeMunicipioSoja").css("color", "blue");
+        //$("#nomeMunicipioSoja").css("color", "blue");
+        $("#nomeMunicipioSoja").css("font-weight", "bold");
     } else {
         $("#nomeMunicipioSoja").text(" ...");
         $("#nomeMunicipioSoja").css("color", "black");
@@ -314,31 +528,39 @@ $("#locationSoja_case3").on('change', function(){
     if (locationSoja === "REVAP") {
         resetPoints_cstudySoja();
 
-        revapSoja = L.marker(l_revap).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
+        revapSoja = L.marker(l_revap, { icon : blackMarker }).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
         map.addLayer(revapSoja);
 
         //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
         //map.addLayer(revap_buffer);
         
         // Posiciona o mapa na localização
-        map.flyTo(l_revap, 9);
+        //map.flyTo(l_revap, 9);
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
 
         $("#nomeMunicipioSoja").text("SÃO JOSÉ DOS CAMPOS/SP");
-        $("#nomeMunicipioSoja").css("color", "blue");
+        //$("#nomeMunicipioSoja").css("color", "blue");
+        $("#nomeMunicipioSoja").css("font-weight", "bold");
     } else if (locationSoja === "RNEST") {
         resetPoints_cstudySoja();
 
-        rnestSoja = L.marker(l_rnest).bindPopup("RNEST at <b>" + l_rnest.toString() + "</b>").openPopup();
+        rnestSoja = L.marker(l_rnest, { icon : blackMarker }).bindPopup("RNEST at <b>" + l_rnest.toString() + "</b>").openPopup();
         map.addLayer(rnestSoja);
 
         //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
         //map.addLayer(revap_buffer);
         
         // Posiciona o mapa na localização
-        map.flyTo(l_rnest, 9);
+        //map.flyTo(l_rnest, 9);
+        
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
 
         $("#nomeMunicipioSoja").text("IPOJUCA/PE");
-        $("#nomeMunicipioSoja").css("color", "blue");
+        //$("#nomeMunicipioSoja").css("color", "blue");
+        $("#nomeMunicipioSoja").css("font-weight", "bold");
     } else {
         $("#nomeMunicipioSoja").text(" ...");
         $("#nomeMunicipioSoja").css("color", "black");
@@ -364,7 +586,7 @@ $("#oilSourceSoja_case3").on('change', function(){
     if (oilSourceSoja === "Brumado (BA)") {
         resetExtratoras_cstudySoja();
 
-        brumadoSoja = L.marker(l_brumado).bindPopup("Brumado/BA at <b>" + l_brumado.toString() + "</b>").openPopup();
+        brumadoSoja = L.marker(l_brumado, { icon : blueMarker }).bindPopup("Brumado/BA at <b>" + l_brumado.toString() + "</b>").openPopup();
         map.addLayer(brumadoSoja);
 
         //var brumado_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_brumado_buffer_50km, format: 'image/png', transparent: true });
@@ -372,10 +594,13 @@ $("#oilSourceSoja_case3").on('change', function(){
         
         // Posiciona o mapa na localização
         //map.flyTo(l_brumado, 9);
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
     } else if (oilSourceSoja === "Paranaíba (MS)") {
         resetExtratoras_cstudySoja();
 
-        paranaibaSoja = L.marker(l_paranaiba).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
+        paranaibaSoja = L.marker(l_paranaiba, { icon : blueMarker }).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
         map.addLayer(paranaibaSoja);
 
         //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
@@ -383,10 +608,13 @@ $("#oilSourceSoja_case3").on('change', function(){
         
         // Posiciona o mapa na localização
         //map.flyTo(l_paranaiba, 9);
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
     } else if (oilSourceSoja === "Presidente Venceslau (SP)") {
         resetExtratoras_cstudySoja();
 
-        pVenceslauSoja = L.marker(l_pVenceslau).bindPopup("Presidente Venceslau/SP at <b>" + l_pVenceslau.toString() + "</b>").openPopup();
+        pVenceslauSoja = L.marker(l_pVenceslau, { icon : blueMarker }).bindPopup("Presidente Venceslau/SP at <b>" + l_pVenceslau.toString() + "</b>").openPopup();
         map.addLayer(pVenceslauSoja);
 
         //var pVenceslau_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pVenceslau_buffer_50km, format: 'image/png', transparent: true });
@@ -394,6 +622,9 @@ $("#oilSourceSoja_case3").on('change', function(){
         
         // Posiciona o mapa na localização
         //map.flyTo(l_pVenceslau, 9);
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
     } else {
         resetExtratoras_cstudySoja();
     }
@@ -512,8 +743,8 @@ $("button.soja-step2-calc").on("click", function() {
         if (tipoInstalacaoSoja === "1- Soybean oil exported (2018)") {
             result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
                                     "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold'>Selection summary:</h6>" +
-                                        "<div style='font-size: 0.9rem;padding-left:2rem;border-bottom: lightgray;border-bottom-width: 1px;border-bottom-style: solid;width: 86%;'>" +
+                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                        "<div class='div-feedstock-results'>" +
                                             "<b>Conversion tecnology:</b> " + routeSoja + 
                                             "<br/><b>Feedstock:</b> " + feedstockSoja +
                                             "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
@@ -533,8 +764,8 @@ $("button.soja-step2-calc").on("click", function() {
             if (oilSourceSoja === "Brumado (BA)") {
                 result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
                                         "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold'>Selection summary:</h6>" +
-                                        "<div style='font-size: 0.9rem;padding-left:2rem;border-bottom: lightgray;border-bottom-width: 1px;border-bottom-style: solid;width: 86%;'>" +
+                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                        "<div class='div-feedstock-results'>" +
                                             "<b>Conversion tecnology:</b> " + routeSoja + 
                                             "<br/><b>Feedstock:</b> " + feedstockSoja +
                                             "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
@@ -554,8 +785,8 @@ $("button.soja-step2-calc").on("click", function() {
             } else {
                 result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
                                         "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold'>Selection summary:</h6>" +
-                                        "<div style='font-size: 0.9rem;padding-left:2rem;border-bottom: lightgray;border-bottom-width: 1px;border-bottom-style: solid;width: 86%;'>" +
+                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                        "<div class='div-feedstock-results'>" +
                                             "<b>Conversion tecnology:</b> " + routeSoja + 
                                             "<br/><b>Feedstock:</b> " + feedstockSoja +
                                             "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
@@ -1048,4 +1279,61 @@ $("#info-custo_soja").click(function(e) {
     });
 });  
 
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#info-roads_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-roads").trigger("click");
+}); 
+
+// info-railroads_fd_02
+$("#info-railroads_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-railroads").trigger("click");
+}); 
+
+// info-pipelines_fd_02
+$("#info-pipelines_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-pipelines").trigger("click");
+}); 
+
+// info-waterways_fd_02
+$("#info-waterways_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-waterways").trigger("click");
+}); 
+
+// info-airports_fd_02
+$("#info-airports_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-airports").trigger("click");
+}); 
+
+// info-refineries_refining_fd_02
+$("#info-refineries_refining_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-refineries_capacity").trigger("click");
+}); 
+
+// info-soy_processing_plants_fd_02
+$("#info-soy_processing_plants_fd_02").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-oilseed_plants").trigger("click");
+});
 

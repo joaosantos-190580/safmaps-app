@@ -8,8 +8,12 @@
 $("#ft-spk").click(function(e) {
     e.preventDefault();
 
-    reset_actived_dropdown (e);
+    reset_actived (e);
+    $("#ft-spk-group").addClass("active");
+    $("#ft-spk-group").removeClass("inactive");
+
     $("#panel-support-maps").css("display", "none");
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-soja").css("display", "none");
     $("#panel-macauba").css("display", "none");
@@ -23,6 +27,26 @@ $("#ft-spk").click(function(e) {
     $("#empty").css("display", "none");
     $("#panel-eucalipto").css("display", "block");
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }    
+
+    // Load layers groups
+    group_1 = ['DBMS:pastagem_eucalipto','DBMS:custos_eucalipto','DBMS:produtividade_eucalipto'];
+    group_2 = ['DBMS:main_roads','DBMS:railroads_fd_stock','DBMS:pipelines_fd_stock','DBMS:waterways_fd_stock'];
+    group_3 = ['DBMS:airports_fd_stock','DBMS:refineries_refining_fd_stock'];
+    
 }); 
 
 
@@ -45,16 +69,12 @@ var l_custos_revap = 'DBMS:custos_revap_50km';
 var curva_oferta_png = '', resultado_png = '', comparison_png = '';
 var tipo_instalacao = '', capacidade = '';
 
-l_main_roads_src = 'DBMS:main_roads';
-l_railroads_fd_stock_src = 'DBMS:railroads_fd_stock';
-l_pipelines_fd_stock_src = 'DBMS:pipelines_fd_stock';
-l_waterways_fd_stock_src = 'DBMS:waterways_fd_stock';
-l_airports_fd_stock_src = 'DBMS:airports_fd_stock';
-l_refineries_refining_fd_stock_src = 'DBMS:refineries_refining_fd_stock';
-
-var group_1 = ['DBMS:pastagem_eucalipto','DBMS:custos_eucalipto','DBMS:produtividade_eucalipto'];
-var group_2 = ['DBMS:main_roads','DBMS:railroads_fd_stock','DBMS:pipelines_fd_stock','DBMS:waterways_fd_stock'];
-var group_3 = ['DBMS:airports_fd_stock','DBMS:refineries_refining_fd_stock'];
+var l_main_roads_src = 'DBMS:main_roads';
+var l_railroads_fd_stock_src = 'DBMS:railroads_fd_stock';
+var l_pipelines_fd_stock_src = 'DBMS:pipelines_fd_stock';
+var l_waterways_fd_stock_src = 'DBMS:waterways_fd_stock';
+var l_airports_fd_stock_src = 'DBMS:airports_fd_stock';
+var l_refineries_refining_fd_stock_src = 'DBMS:refineries_refining_fd_stock';
 
 function removeLayers_group(group, opacity) {
 // O parametro opacity é opcional e é utilizado para mudar a opacidade da camada de fundo com os labels
@@ -112,7 +132,7 @@ function reorderLayers() {
     });
 
     // All layers visible
-    if (gp_1_layers && gp_2_layers || gp_1_layers && gp_3_layers) {
+    if (gp_1_layers && gp_2_layers || gp_1_layers && gp_3_layers || gp_2_layers && gp_3_layers) {
         layers.forEach(function(l) {
             if (typeof l.options.layers != "undefined") {
                 // Order of layers
@@ -158,7 +178,7 @@ $("#toggle-aptidao_eucalipto").on('change', function(){
     //$('input:checkbox').not(this).prop('checked', false);
     $('#toggle-produtividade_eucalipto').prop('checked', false);
     $('#toggle-custo_eucalipto').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_1");
 
     options['layers'] = l_aptidao_eucalipto;
@@ -168,6 +188,8 @@ $("#toggle-aptidao_eucalipto").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-produtividade_eucalipto").css("display", "none");
+        $("#legend-custo_eucalipto").css("display", "none");
         $("#legend-aptidao_eucalipto").css("display", "block");
         reorderLayers();
     } else {
@@ -181,7 +203,7 @@ $("#toggle-produtividade_eucalipto").on('change', function(){
     //$('input:checkbox').not(this).prop('checked', false);
     $('#toggle-aptidao_eucalipto').prop('checked', false);
     $('#toggle-custo_eucalipto').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_1");
 
     options['layers'] = l_produtividade_eucalipto;
@@ -191,6 +213,8 @@ $("#toggle-produtividade_eucalipto").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-custo_eucalipto").css("display", "none");
+        $("#legend-aptidao_eucalipto").css("display", "none");
         $("#legend-produtividade_eucalipto").css("display", "block");
         reorderLayers();
     } else {
@@ -204,7 +228,7 @@ $("#toggle-custo_eucalipto").on('change', function(){
     //$('input:checkbox').not(this).prop('checked', false);
     $('#toggle-aptidao_eucalipto').prop('checked', false);
     $('#toggle-produtividade_eucalipto').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_1");
 
     options['layers'] = l_custos_eucalipto;
@@ -214,6 +238,8 @@ $("#toggle-custo_eucalipto").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-produtividade_eucalipto").css("display", "none");
+        $("#legend-aptidao_eucalipto").css("display", "none");
         $("#legend-custo_eucalipto").css("display", "block");
         reorderLayers();
     } else {
@@ -229,7 +255,7 @@ $("#toggle-roads_fd_01").on('change', function(){
     $('#toggle-railroads_fd_01').prop('checked', false);
     $('#toggle-pipelines_fd_01').prop('checked', false);
     $('#toggle-waterways_fd_01').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_2");
 
     options['layers'] = l_main_roads_src;
@@ -238,11 +264,14 @@ $("#toggle-roads_fd_01").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_roads_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
-        $("#legend-roads").css("display", "block");
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "block");
         reorderLayers();
     } else {
-        $("#legend-roads").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
         removeLayer(l_main_roads_src);
     }
 });
@@ -253,7 +282,7 @@ $("#toggle-railroads_fd_01").on('change', function(){
     $('#toggle-roads_fd_01').prop('checked', false);
     $('#toggle-pipelines_fd_01').prop('checked', false);
     $('#toggle-waterways_fd_01').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_2");
 
     options['layers'] = l_railroads_fd_stock_src;
@@ -262,11 +291,14 @@ $("#toggle-railroads_fd_01").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_railroads_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
-        $("#legend-railroads").css("display", "block");
+
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-railroads_fd_stock").css("display", "block");
         reorderLayers();
     } else {
-        $("#legend-railroads").css("display", "none");
+        $("#legend-railroads_fd_stock").css("display", "none");
         removeLayer(l_railroads_fd_stock_src);
     }
 });
@@ -277,7 +309,7 @@ $("#toggle-pipelines_fd_01").on('change', function(){
     $('#toggle-roads_fd_01').prop('checked', false);
     $('#toggle-railroads_fd_01').prop('checked', false);
     $('#toggle-waterways_fd_01').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_2");
 
     options['layers'] = l_pipelines_fd_stock_src;
@@ -286,11 +318,14 @@ $("#toggle-pipelines_fd_01").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pipelines_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);  
         map.addLayer(prov);
-                
-        $("#legend-pipelines").css("display", "block");
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "block");
         reorderLayers();
     } else {
-        $("#legend-pipelines").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
         removeLayer(l_pipelines_fd_stock_src);
     }
 });
@@ -301,7 +336,7 @@ $("#toggle-waterways_fd_01").on('change', function(){
     $('#toggle-roads_fd_01').prop('checked', false);
     $('#toggle-railroads_fd_01').prop('checked', false);
     $('#toggle-pipelines_fd_01').prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     removeLayers_group("gp_2");
 
     options['layers'] = l_waterways_fd_stock_src;
@@ -310,11 +345,14 @@ $("#toggle-waterways_fd_01").on('change', function(){
         //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_waterways_src, format: 'image/png', transparent: true });
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
-                
-        $("#legend-waterways").css("display", "block");
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "block");
         reorderLayers();
     } else {
-        $("#legend-waterways").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
         removeLayer(l_waterways_fd_stock_src);
     }
 });
@@ -323,7 +361,7 @@ $("#toggle-waterways_fd_01").on('change', function(){
 // toggle-airports (Layer)
 $("#toggle-airports_fd_01").on('change', function(){
     //$('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     //removeLayers();
 
     options['layers'] = l_airports_fd_stock_src;
@@ -333,9 +371,9 @@ $("#toggle-airports_fd_01").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
                 
-        $("#legend-airports").css("display", "block");
+        $("#legend-airports_fd_stock").css("display", "block");
     } else {
-        $("#legend-airports").css("display", "none");
+        $("#legend-airports_fd_stock").css("display", "none");
         removeLayer(l_airports_fd_stock_src);
     }
 });
@@ -343,7 +381,7 @@ $("#toggle-airports_fd_01").on('change', function(){
 // toggle-refineries_refining (Layer)
 $("#toggle-refineries_refining_fd_01").on('change', function(){
     //$('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
+    //reset_all_legends();
     //removeLayers();
 
     options['layers'] = l_refineries_refining_fd_stock_src;
@@ -353,9 +391,9 @@ $("#toggle-refineries_refining_fd_01").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
                 
-        $("#legend-refineries_refining").css("display", "block");
+        $("#legend-refineries_refining_fd_stock").css("display", "block");
     } else {
-        $("#legend-refineries_refining").css("display", "none");
+        $("#legend-refineries_refining_fd_stock").css("display", "none");
         removeLayer(l_refineries_refining_fd_stock_src);
     }
 });
@@ -745,8 +783,9 @@ $("button.step2-calc").on("click", function() {
             contentSize: {width: 1000, height: 600},
             headerTitle: "Results",
             content:	"<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
-                            "<div><h6 style='font-weight:bold'>Selection summary:</h6>" +
-                                "<div style='font-size: 0.9rem;padding-left:2rem;border-bottom: lightgray;border-bottom-width: 1px;border-bottom-style: solid;width: 86%;'>" +
+                            "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                "<div class='div-feedstock-results'>" +
                                     "<b>Conversion tecnology:</b> " + route + 
                                     "<br/><b>Feedstock:</b> " + feedstock +
                                     "<br/><b>Integration strategy:</b> " + tipo_instalacao +
@@ -889,4 +928,56 @@ $("#info-custo_eucalipto").click(function(e) {
         }
     });
 });  
+
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#info-roads_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-roads").trigger("click");
+}); 
+
+// info-railroads_fd_01
+$("#info-railroads_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-railroads").trigger("click");
+}); 
+
+// info-pipelines_fd_01
+$("#info-pipelines_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-pipelines").trigger("click");
+}); 
+
+// info-waterways_fd_01
+$("#info-waterways_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-waterways").trigger("click");
+}); 
+
+// info-airports_fd_01
+$("#info-airports_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-airports").trigger("click");
+}); 
+
+// info-refineries_refining_fd_01
+$("#info-refineries_refining_fd_01").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-refineries_capacity").trigger("click");
+}); 
+
+
 

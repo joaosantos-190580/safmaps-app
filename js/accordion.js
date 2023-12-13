@@ -44,12 +44,14 @@
 			$("#div-legend").css("top", "auto");
 			$(".panel-support-maps").css("height", "85%");
 			$(".div-steps").css("position", "relative");
+			$(".tabcontent-inf").css("max-height", "35rem");
 		} else {
 			setAccordionAria(thisQuestion, thisAnswer, 'false');
 			//$("#div-legend").css("top", "15rem");
 			$("#div-legend").css("top", "93%");
 			$(".panel-support-maps").css("height", "auto");
 			$(".div-steps").css("position", "unset");
+			$(".tabcontent-inf").css("max-height", "29.5rem");
 		}
 	
 		//$("#div-legend").toggleClass('legend-opened');

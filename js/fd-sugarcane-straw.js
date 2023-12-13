@@ -9,7 +9,11 @@ $("#atj-spk-sugarcane-residues").click(function(e) {
     e.preventDefault();
 
     reset_actived (e);
+    $("#atj-spk-sugarcane-group").addClass("active");
+    $("#atj-spk-sugarcane-group").removeClass("inactive");
+        
     $("#panel-support-maps").css("display", "none");
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto").css("display", "none");
     $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-soja").css("display", "none");
@@ -23,6 +27,21 @@ $("#atj-spk-sugarcane-residues").click(function(e) {
     $("#empty").css("display", "none");
     $("#panel-sugarcane-residues").css("display", "block");
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }    
+    
 }); 
 
 
@@ -38,11 +57,13 @@ var l_sugarcane_straw = 'DBMS:straw_potential_availability';            // sampl
  *  SUGARCANE LAYERS
  */
 
-// Sugarcane straws (Layer)
+// Sugarcane straw (Layer)
 $("#toggle-sugarcane_straw").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-sugarcane_bagasse').prop('checked', false);
+    $('#toggle-sugarcane_residues').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_sugarcane_straw;
 
@@ -51,12 +72,20 @@ $("#toggle-sugarcane_straw").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
-        $("#legend-sugarcane_straw").css("display", "block");
+        $("#legend-sugarcane_bagasse").css("display", "none");
+        $("#legend-sugarcane_residues").css("display", "none");
+        $("#legend-sugarcane_straw").css("display", "block");        
+        reorderLayers();
     } else {
         $("#legend-sugarcane_straw").css("display", "none");
+        removeLayer(l_sugarcane_straw);   
     }
 });
 
+// Pop-up de alerta - Sugarcane straw (Layer)
+$('#popper-sugarcane_straw').hover(function() {
+    $( "#alert-sugarcane_straw" ).toggle();
+});
 
 
 /*

@@ -10,6 +10,7 @@ $("#sip-hfs").click(function(e) {
 
     reset_actived (e);
     $("#panel-support-maps").css("display", "none");
+    $("#panel-corsia").css("display", "none");
     $("#panel-eucalipto").css("display", "none");
     $("#panel-eucalipto-residues").css("display", "none");
     $("#panel-soja").css("display", "none");
@@ -23,6 +24,26 @@ $("#sip-hfs").click(function(e) {
     $("#empty").css("display", "none");
     $("#panel-palma").css("display", "block");		
     $("#legends").css("display", "block");
+
+    // Layers and info reset
+    $('input:checkbox').prop('checked', false);
+    reset_all_legends();
+    removeLayers();
+    removePanelbyTitle("Map Information");
+
+    // Pins, points and controls reset
+    reset_cstudies();
+
+    // Reset map
+    if (map.getZoom() != 4) {
+        map.flyTo([-16.7894, -37.6708], 4);
+    }    
+
+    // Load layers groups
+    group_1 = ['DBMS:aptidao_palma','DBMS:custos_palma','DBMS:produtividade_palma'];
+    group_2 = ['DBMS:main_roads','DBMS:railroads_fd_stock','DBMS:pipelines_fd_stock','DBMS:waterways_fd_stock'];
+    group_3 = ['DBMS:airports_fd_stock','DBMS:refineries_refining_fd_stock']; 
+    
 });  
 
 
@@ -50,9 +71,11 @@ var curva_oferta_palma_png = '', resultado_palma_png = '', comparacao_palma_png 
 
 // Palm suitability (Layer)
 $("#toggle-aptidao_palma").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-produtividade_palma').prop('checked', false);
+    $('#toggle-custo_palma').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_aptidao_palma;
 
@@ -61,17 +84,23 @@ $("#toggle-aptidao_palma").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-produtividade_palma").css("display", "none");
+        $("#legend-custo_palma").css("display", "none");
         $("#legend-aptidao_palma").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-aptidao_palma").css("display", "none");
+        removeLayer(l_aptidao_palma);
     }
 });
 
 // Palm Oil yield (Layer)
 $("#toggle-produtividade_palma").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-aptidao_palma').prop('checked', false);
+    $('#toggle-custo_palma').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_produtividade_palma;
 
@@ -80,17 +109,23 @@ $("#toggle-produtividade_palma").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-custo_palma").css("display", "none");
+        $("#legend-aptidao_palma").css("display", "none");
         $("#legend-produtividade_palma").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-produtividade_palma").css("display", "none");
+        removeLayer(l_produtividade_palma);
     }
 });
 
 // Cost of palm production (Layer)
 $("#toggle-custo_palma").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-aptidao_palma').prop('checked', false);
+    $('#toggle-produtividade_palma').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_1");
 
     options['layers'] = l_custos_palma;
 
@@ -99,9 +134,163 @@ $("#toggle-custo_palma").on('change', function(){
         var prov = L.tileLayer.wms(url, options);   
         map.addLayer(prov);
 
+        $("#legend-aptidao_palma").css("display", "none");
+        $("#legend-produtividade_palma").css("display", "none");
         $("#legend-custo_palma").css("display", "block");
+        reorderLayers();
     } else {
         $("#legend-custo_palma").css("display", "none");
+        removeLayer(l_custos_palma);
+    }
+});
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#toggle-roads_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-railroads_fd_04').prop('checked', false);
+    $('#toggle-pipelines_fd_04').prop('checked', false);
+    $('#toggle-waterways_fd_04').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_main_roads_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_roads_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-main_roads").css("display", "none");
+        removeLayer(l_main_roads_src);
+    }
+});
+
+// toggle-railroads (Layer)
+$("#toggle-railroads_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_04').prop('checked', false);
+    $('#toggle-pipelines_fd_04').prop('checked', false);
+    $('#toggle-waterways_fd_04').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_railroads_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_railroads_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-railroads_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-railroads_fd_stock").css("display", "none");
+        removeLayer(l_railroads_fd_stock_src);
+    }
+});
+
+// toggle-pipelines (Layer)
+$("#toggle-pipelines_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_04').prop('checked', false);
+    $('#toggle-railroads_fd_04').prop('checked', false);
+    $('#toggle-waterways_fd_04').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_pipelines_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pipelines_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);  
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        removeLayer(l_pipelines_fd_stock_src);
+    }
+});
+
+// toggle-waterways (Layer)
+$("#toggle-waterways_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    $('#toggle-roads_fd_04').prop('checked', false);
+    $('#toggle-railroads_fd_04').prop('checked', false);
+    $('#toggle-pipelines_fd_04').prop('checked', false);
+    //reset_all_legends();
+    removeLayers_group("gp_2");
+
+    options['layers'] = l_waterways_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_waterways_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+
+        $("#legend-railroads_fd_stock").css("display", "none");
+        $("#legend-pipelines_fd_stock").css("display", "none");
+        $("#legend-main_roads").css("display", "none");
+        $("#legend-waterways_fd_stock").css("display", "block");
+        reorderLayers();
+    } else {
+        $("#legend-waterways_fd_stock").css("display", "none");
+        removeLayer(l_waterways_fd_stock_src);
+    }
+});
+
+// Complementary information
+// toggle-airports (Layer)
+$("#toggle-airports_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    //reset_all_legends();
+    //removeLayers();
+
+    options['layers'] = l_airports_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_airports_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+                
+        $("#legend-airports_fd_stock").css("display", "block");
+    } else {
+        $("#legend-airports_fd_stock").css("display", "none");
+        removeLayer(l_airports_fd_stock_src);
+    }
+});
+
+// toggle-refineries_refining (Layer)
+$("#toggle-refineries_refining_fd_04").on('change', function(){
+    //$('input:checkbox').not(this).prop('checked', false);
+    //reset_all_legends();
+    //removeLayers();
+
+    options['layers'] = l_refineries_refining_fd_stock_src;
+
+    if($(this).prop("checked") == true) {
+        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_refineries_refining_src, format: 'image/png', transparent: true });
+        var prov = L.tileLayer.wms(url, options);   
+        map.addLayer(prov);
+                
+        $("#legend-refineries_refining_fd_stock").css("display", "block");
+    } else {
+        $("#legend-refineries_refining_fd_stock").css("display", "none");
+        removeLayer(l_refineries_refining_fd_stock_src);
     }
 });
 
@@ -389,8 +578,8 @@ $("button.palma-step2-calc").on("click", function() {
         capacitySelectionPalma();
         result_panel_palma = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
                                 "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                "<h6 style='font-weight:bold'>Selection summary:</h6>" +
-                                    "<div style='font-size: 0.9rem;padding-left:2rem;border-bottom: lightgray;border-bottom-width: 1px;border-bottom-style: solid;width: 86%;'>" +
+                                    "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                    "<div class='div-feedstock-results'>" +
                                         "<b>Conversion tecnology:</b> " + routePalma + 
                                         "<br/><b>Feedstock:</b> " + feedstockPalma +
                                         "<br/><b>SAF Production at:</b> " + locationPalma_valor +
@@ -494,6 +683,17 @@ $("button.palma-step2-calc").on("click", function() {
 });
 
 // Reset controls
+function resetPoints_cstudyPalma() {
+    if (revapPalma != undefined && revapPalma != '') {
+        map.removeLayer(revapPalma);
+        revapPalma = '';
+    }
+    if (rnestPalma != undefined && rnestPalma != '') {
+        map.removeLayer(rnestPalma);
+        rnestPalma = '';
+    }
+}
+
 function resetExtratoras_cstudyPalma() {
     // REMOVE MARCADORES
     if (altoAraguaiaPalma != undefined && altoAraguaiaPalma != '') {
@@ -514,7 +714,7 @@ function resetExtratoras_cstudyPalma() {
     }
 }
 
-function resetControls_oilSource_cstudyPalma () {
+function resetControls_oilSource_cstudyPalma() {
     // Controls of Oil Source
     $("#oilSourcePalma option:selected").removeAttr("selected");
     $("#oilSourcePalma option[value='0']").attr('selected', 'selected');  
@@ -526,7 +726,7 @@ function resetControls_oilSource_cstudyPalma () {
     oilSourcePalma = "";
 }
 
-function resetControls_capacidade_cstudyPalma () {
+function resetControls_capacidade_cstudyPalma() {
     // Controls of Capacity
     $("#capacidadePalma option:selected").removeAttr("selected");
     $("#capacidadePalma option[value='0']").attr('selected', 'selected');
@@ -557,9 +757,14 @@ function oilSourcePalma_rules() {
         //map.addLayer(altoAraguaia_buffer);
         
         // Posiciona o mapa na localização
-        if (locationPalma !== "2") {
-            map.flyTo(l_altoAraguaia, 5);
-        }
+        /*
+            if (locationPalma !== "2") {
+                map.flyTo(l_altoAraguaia, 5);
+            }
+        */
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
     
         $("#capacidadePalmaAll").css("display", "none");	
         $("#capacidadePalmaAlto").css("display", "block");	
@@ -571,9 +776,14 @@ function oilSourcePalma_rules() {
         //map.addLayer(terraNova_buffer);
         
         // Posiciona o mapa na localização
-        if (locationPalma !== "2") {
-            map.flyTo(l_terraNova, 5);
-        }
+        /*
+            if (locationPalma !== "2") {
+                map.flyTo(l_terraNova, 5);
+            }
+        */
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-16.117708, -45.953429], 5);
 
         $("#capacidadePalmaAlto").css("display", "none");
         $("#capacidadePalmaAll").css("display", "block");	
@@ -585,9 +795,14 @@ function oilSourcePalma_rules() {
         //map.addLayer(saoMiguel_buffer);
         
         // Posiciona o mapa na localização
-        if (locationPalma !== "2") {
-            map.flyTo(l_saoMiguel, 5);
-        }
+        /*
+            if (locationPalma !== "2") {
+                map.flyTo(l_saoMiguel, 5);
+            }
+        */
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-11.519247, -44.935055], 5);
 
         $("#capacidadePalmaAlto").css("display", "none");
         $("#capacidadePalmaAll").css("display", "block");		
@@ -599,9 +814,14 @@ function oilSourcePalma_rules() {
         //map.addLayer(xinguara_buffer);
         
         // Posiciona o mapa na localização
-        if (locationPalma !== "2") {
-            map.flyTo(l_xinguara, 5);
-        }
+        /*
+            if (locationPalma !== "2") {
+                map.flyTo(l_xinguara, 5);
+            }
+        */
+
+        // Posiciona o mapa em uma região central dos pontos
+        map.flyTo([-11.519247, -44.935055], 5);
 
         $("#capacidadePalmaAlto").css("display", "none");
         $("#capacidadePalmaAll").css("display", "block");	
@@ -852,5 +1072,54 @@ $("#info-custo_palma").click(function(e) {
     });
 });  
 
+
+// INFRASTRUCTURE
+// toggle-roads (Layer)
+$("#info-roads_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-roads").trigger("click");
+}); 
+
+// info-railroads_fd_04
+$("#info-railroads_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-railroads").trigger("click");
+}); 
+
+// info-pipelines_fd_04
+$("#info-pipelines_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-pipelines").trigger("click");
+}); 
+
+// info-waterways_fd_04
+$("#info-waterways_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-waterways").trigger("click");
+}); 
+
+// info-airports_fd_04
+$("#info-airports_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-airports").trigger("click");
+}); 
+
+// info-refineries_refining_fd_04
+$("#info-refineries_refining_fd_04").click(function(e) {
+    e.preventDefault();
+
+    // Janela Info
+    $("#info-refineries_capacity").trigger("click");
+}); 
 
 
