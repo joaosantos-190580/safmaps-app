@@ -598,25 +598,25 @@
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-child_labour">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
+										</label><span class="desc-slider"> Child labour </span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-child_labour">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>	
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-slavery">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
+										</label><span class="desc-slider"> Slavery-likely working conditions </span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-slavery">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
-									</li>										
+									</li>	
 								</ul>
 							</div>
 
@@ -656,33 +656,33 @@
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-water_stations">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
+										</label><span class="desc-slider"> Water monitoring stations </span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-water_stations">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>	
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-water_balance">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
+										</label><span class="desc-slider"> Quantitative water balance </span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-water_balance">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>										
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-water_quality">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #3</span>
+										</label><span class="desc-slider"> Water quality index </span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-water_quality">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>										
@@ -5453,8 +5453,11 @@
 	var init_zoom = 4;		// var init_zoom = 4.4;
 
 	// WMS Values
-	//var url = 'http://35.198.22.135/geoserver/ows?';		// Old GCloud Account
-	var url = 'http://34.125.82.151/geoserver/ows?';
+	//var url = 'http://35.198.22.135/geoserver/ows?';              // GCloud JL
+	//var url = 'http://34.125.61.243/geoserver/ows?';              // GCloud Temp
+	//var url = 'http://34.135.148.161/geoserver/ows?';             // GCloud noonly
+	var url = 'http://34.125.188.43/geoserver/ows?';                // GCloud JL
+
 	var options = { format: 'image/png', tiled: true, transparent: true };
 
 	// MARKERS
