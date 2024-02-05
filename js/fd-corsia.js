@@ -230,7 +230,7 @@ $("#info-water_balance").click(function(e) {
   removePanelbyTitle("Map Information");
   $.jsPanel({
       theme:      '#93bd42',
-      contentSize: {width: 500, height: 450},
+      contentSize: {width: 600, height: 450},
       headerTitle: "Map Information",
       content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                       "<div><h6 style='font-weight:bold;color: blue'>Quantitative water balance</h6>" +
@@ -259,7 +259,7 @@ $("#info-water_quality").click(function(e) {
   removePanelbyTitle("Map Information");
   $.jsPanel({
       theme:      '#93bd42',
-      contentSize: {width: 500, height: 450},
+      contentSize: {width: 600, height: 450},
       headerTitle: "Map Information",
       content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                       "<div><h6 style='font-weight:bold;color: blue'>Water quality index</h6>" +
