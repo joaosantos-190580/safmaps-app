@@ -290,7 +290,7 @@ $("#info-child_labour").click(function(e) {
   removePanelbyTitle("Map Information");
   $.jsPanel({
       theme:      '#93bd42',
-      contentSize: {width: 500, height: 450},
+      contentSize: {width: 500, height: 380},
       headerTitle: "Map Information",
       content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                       "<div><h6 style='font-weight:bold;color: blue'>Child labour in agriculture and forest sectors (2020 – 2022)</h6>" +
@@ -299,7 +299,7 @@ $("#info-child_labour").click(function(e) {
                           "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b></p>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://falabr.cgu.gov.br'>Ministério Público do Trabalho (MPT)</a></span><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='#'></a>SAFmaps</span>" +
-                              "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará). Originally, there is no data available for four municipalities in the state of Mato Grosso and 2 in Mato Grosso do Sul located in floodable areas of the Pantanal biome, and in the south of the state of Rio Grande do Sul" +
+                              "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)" +
                               "</div>" +
                   "</div>",
       callback:    function () {
@@ -320,7 +320,7 @@ $("#info-slavery").click(function(e) {
   removePanelbyTitle("Map Information");
   $.jsPanel({
       theme:      '#93bd42',
-      contentSize: {width: 500, height: 450},
+      contentSize: {width: 500, height: 380},
       headerTitle: "Map Information",
       content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
                       "<div><h6 style='font-weight:bold;color: blue'> Slavery-likely working conditions </h6>" +
@@ -330,7 +330,7 @@ $("#info-slavery").click(function(e) {
                           "<span style='padding-left:20px'><a target='_blank' href='https://sit.trabalho.gov.br/radar/'>Radar SIT</a></span><br/>" +
                           "<span style='padding-left:20px'><a target='_blank' href='https://falabr.cgu.gov.br'>Ministério Público do Trabalho (MPT)</a></span><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='#'></a>SAFmaps</span>" +
-                              "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará). Originally, there is no data available for four municipalities in the state of Mato Grosso and 2 in Mato Grosso do Sul located in floodable areas of the Pantanal biome, and in the south of the state of Rio Grande do Sul" +
+                              "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)" +
                               "</div>" +
                   "</div>",
       callback:    function () {
