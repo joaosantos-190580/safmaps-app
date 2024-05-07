@@ -74,9 +74,9 @@ l_price_natural_past_src = 'DBMS:price_natural_pasture';
 l_price_planted_past_src = 'DBMS:price_planted_pasture';
 
 // Sensitive Areas
-l_protected_areas_src = 'DBMS:protected_areas';
-l_restrictive_biomes_src = 'DBMS:restricted_biomes';
-l_corsia_restriction_src = 'DBMS:corsia_restriction';
+//l_protected_areas_src = 'DBMS:protected_areas';               //MOVED TO CORSIA
+//l_restrictive_biomes_src = 'DBMS:restricted_biomes';          //MOVED TO CORSIA
+//l_corsia_restriction_src = 'DBMS:corsia_restriction';         //MOVED TO CORSIA (n_eligible_land)
 
 // Infrastructure
 l_roads_src = 'DBMS:roads';
@@ -544,74 +544,78 @@ $("#toggle-price_planted_past").on('change', function(){
  */
 
 // Protected Areas (Layer)
-$("#toggle-protected_areas").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
-
-    options['layers'] = l_protected_areas_src;
-
-    if($(this).prop("checked") == true) {
-        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_protected_areas_src, format: 'image/png', transparent: true });
-        var prov = L.tileLayer.wms(url, options);  
-        map.addLayer(prov);
-
-        // Mapa dos limites estaduais
-        options['layers'] = l_estados_src;
-        var prov = L.tileLayer.wms(url, options);  
-        map.addLayer(prov);			  
-
-        remove_empty_legend();
-        $("#legend-protected_areas").css("display", "block");
-        $("#legend-estados").css("display", "block");
-    } else {
-        //$("#legend-protected_areas").css("display", "none");
-        //$("#legend-estados").css("display", "none");
+/* MOVED TO CORSIA
+    $("#toggle-protected_areas").on('change', function(){
+        $('input:checkbox').not(this).prop('checked', false);
         reset_all_legends();
-    }
-});
+        removeLayers();
 
-// Restricted Biomes (Layer)
-$("#toggle-restrictive_biomes").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
+        options['layers'] = l_protected_areas_src;
 
-    options['layers'] = l_restrictive_biomes_src;
+        if($(this).prop("checked") == true) {
+            //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_protected_areas_src, format: 'image/png', transparent: true });
+            var prov = L.tileLayer.wms(url, options);  
+            map.addLayer(prov);
 
-    if($(this).prop("checked") == true) {
-        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_restrictive_biomes_src, format: 'image/png', transparent: true });
-        var prov = L.tileLayer.wms(url, options);  
-        map.addLayer(prov);
+            // Mapa dos limites estaduais
+            options['layers'] = l_estados_src;
+            var prov = L.tileLayer.wms(url, options);  
+            map.addLayer(prov);			  
 
-        remove_empty_legend();
-        $("#legend-restrictive_biomes").css("display", "block");
-    } else {
-        //$("#legend-restrictive_biomes").css("display", "none");
+            remove_empty_legend();
+            $("#legend-protected_areas").css("display", "block");
+            $("#legend-estados").css("display", "block");
+        } else {
+            //$("#legend-protected_areas").css("display", "none");
+            //$("#legend-estados").css("display", "none");
+            reset_all_legends();
+        }
+    });
+
+    // Restricted Biomes (Layer)
+    $("#toggle-restrictive_biomes").on('change', function(){
+        $('input:checkbox').not(this).prop('checked', false);
         reset_all_legends();
-    }
-});
+        removeLayers();
+
+        options['layers'] = l_restrictive_biomes_src;
+
+        if($(this).prop("checked") == true) {
+            //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_restrictive_biomes_src, format: 'image/png', transparent: true });
+            var prov = L.tileLayer.wms(url, options);  
+            map.addLayer(prov);
+
+            remove_empty_legend();
+            $("#legend-restrictive_biomes").css("display", "block");
+        } else {
+            //$("#legend-restrictive_biomes").css("display", "none");
+            reset_all_legends();
+        }
+    });
+*/
 
 // Corsia Restrictions (Layer)
-$("#toggle-carbon_stock").on('change', function(){
-    $('input:checkbox').not(this).prop('checked', false);
-    reset_all_legends();
-    removeLayers();
-
-    options['layers'] = l_corsia_restriction_src;
-
-    if($(this).prop("checked") == true) {
-        //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_corsia_restriction_src, format: 'image/png', transparent: true });
-        var prov = L.tileLayer.wms(url, options);  
-        map.addLayer(prov);
-
-        remove_empty_legend();
-        $("#legend-carbon_stock").css("display", "block");
-    } else {
-        //$("#legend-carbon_stock").css("display", "none");
+/* MOVED TO CORSIA (n_eligible_land)
+    $("#toggle-carbon_stock").on('change', function(){
+        $('input:checkbox').not(this).prop('checked', false);
         reset_all_legends();
-    }
-});
+        removeLayers();
+
+        options['layers'] = l_corsia_restriction_src;
+
+        if($(this).prop("checked") == true) {
+            //var prov = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_corsia_restriction_src, format: 'image/png', transparent: true });
+            var prov = L.tileLayer.wms(url, options);  
+            map.addLayer(prov);
+
+            remove_empty_legend();
+            $("#legend-carbon_stock").css("display", "block");
+        } else {
+            //$("#legend-carbon_stock").css("display", "none");
+            reset_all_legends();
+        }
+    });
+*/
 
 
 /*
@@ -1704,95 +1708,99 @@ $("#info-price_planted_past").click(function(e) {
 
 
 // Sensitive areas
-// Protected areas - INFO
-$("#info-protected_areas").click(function(e) {
-    e.preventDefault();
+/* MOVE TO CORSIA
+    // Protected areas - INFO
+    $("#info-protected_areas").click(function(e) {
+        e.preventDefault();
 
-    // Janela Info
-    removePanelbyTitle("Map Information");
-    $.jsPanel({
-        theme:      '#93bd42',
-        contentSize: {width: 550, height: 400},
-        headerTitle: "Map Information",
-        content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
-                        "<div><h6 style='font-weight:bold;color: blue'> Legally protected areas</h6>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Include conservation units due to environmental reasons, as for March 2020, traditional Afro-Brazilian settlements in 2020 (quilombola areas), and the indigenous reserves in 2019.</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> BRASIL - Ministério do Meio Ambiente (2020), INCRA -Instituto Nacional de Colonização e Reforma Agrária (2020) and FUNAI-Fundação Nacional do Índio (2019), respectively.</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> <br/>" +
-                                "<a target='_blank' href='http://mapas.mma.gov.br/i3geo/datadownload.htm'>Download page (MMA)</a><br/>" +
-                                "<a target='_blank' href='http://sistemas.icmbio.gov.br/simrppn/publico/'>Download page (ICMBio)</a><br/>" +
-                                "<a target='_blank' href='http://certificacao.incra.gov.br/csv_shp/export_shp.py'>Download page (INCRA)</a><br/>" +
-                                "<a target='_blank' href='http://www.funai.gov.br/index.php/shape'>Download page (FUNAI)</a></p>" +
-                                "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)</p>" +
-                                "</div>" +
-                    "</div>",
-        callback:    function () {
-            this.content.css("padding", "15px");
+        // Janela Info
+        removePanelbyTitle("Map Information");
+        $.jsPanel({
+            theme:      '#93bd42',
+            contentSize: {width: 550, height: 400},
+            headerTitle: "Map Information",
+            content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
+                            "<div><h6 style='font-weight:bold;color: blue'> Legally protected areas</h6>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Include conservation units due to environmental reasons, as for March 2020, traditional Afro-Brazilian settlements in 2020 (quilombola areas), and the indigenous reserves in 2019.</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> BRASIL - Ministério do Meio Ambiente (2020), INCRA -Instituto Nacional de Colonização e Reforma Agrária (2020) and FUNAI-Fundação Nacional do Índio (2019), respectively.</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> <br/>" +
+                                    "<a target='_blank' href='http://mapas.mma.gov.br/i3geo/datadownload.htm'>Download page (MMA)</a><br/>" +
+                                    "<a target='_blank' href='http://sistemas.icmbio.gov.br/simrppn/publico/'>Download page (ICMBio)</a><br/>" +
+                                    "<a target='_blank' href='http://certificacao.incra.gov.br/csv_shp/export_shp.py'>Download page (INCRA)</a><br/>" +
+                                    "<a target='_blank' href='http://www.funai.gov.br/index.php/shape'>Download page (FUNAI)</a></p>" +
+                                    "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)</p>" +
+                                    "</div>" +
+                        "</div>",
+            callback:    function () {
+                this.content.css("padding", "15px");
 
-            this.find(".jsPanel-btn-smallify").remove();
-            this.find(".jsPanel-btn-minimize").remove();
-            this.find(".jsPanel-btn-maximize").remove();
-        }
-    });
-});  
+                this.find(".jsPanel-btn-smallify").remove();
+                this.find(".jsPanel-btn-minimize").remove();
+                this.find(".jsPanel-btn-maximize").remove();
+            }
+        });
+    });  
 
-// Restrictive biomes - INFO
-$("#info-restrictive_biomes").click(function(e) {
-    e.preventDefault();
+    // Restrictive biomes - INFO
+    $("#info-restrictive_biomes").click(function(e) {
+        e.preventDefault();
 
-    // Janela Info
-    removePanelbyTitle("Map Information");
-    $.jsPanel({
-        theme:      '#93bd42',
-        contentSize: {width: 520, height: 300},
-        headerTitle: "Map Information",
-        content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
-                        "<div><h6 style='font-weight:bold;color: blue'> Restricted biomes</h6>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Amazon and Pantanal were considered sensitive to the cultivation of crops for SAF production. In some already deforested areas, sustainable palm production is acceptable in the Amazon biome, according to the Agroecology Zoning developed by the Federal Government (EMBRAPA, 2008).</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> IBGE (2019)</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href='https://geoservicos.ibge.gov.br/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=CREN:lm_bioma_250,CREN:Sistema_Costeiro_Marinho&outputFormat=SHAPE-ZIP&format_options=filename:mapa_biomas_250_s_costeiro.zip'>Download file</a></p>" +
-                                "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Amazon and Pantanal biomes</p>" +
-                                "</div>" +
-                    "</div>",
-        callback:    function () {
-            this.content.css("padding", "15px");
+        // Janela Info
+        removePanelbyTitle("Map Information");
+        $.jsPanel({
+            theme:      '#93bd42',
+            contentSize: {width: 520, height: 300},
+            headerTitle: "Map Information",
+            content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
+                            "<div><h6 style='font-weight:bold;color: blue'> Restricted biomes</h6>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Amazon and Pantanal were considered sensitive to the cultivation of crops for SAF production. In some already deforested areas, sustainable palm production is acceptable in the Amazon biome, according to the Agroecology Zoning developed by the Federal Government (EMBRAPA, 2008).</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> IBGE (2019)</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
+                                    "<a target='_blank' href='https://geoservicos.ibge.gov.br/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=CREN:lm_bioma_250,CREN:Sistema_Costeiro_Marinho&outputFormat=SHAPE-ZIP&format_options=filename:mapa_biomas_250_s_costeiro.zip'>Download file</a></p>" +
+                                    "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Amazon and Pantanal biomes</p>" +
+                                    "</div>" +
+                        "</div>",
+            callback:    function () {
+                this.content.css("padding", "15px");
 
-            this.find(".jsPanel-btn-smallify").remove();
-            this.find(".jsPanel-btn-minimize").remove();
-            this.find(".jsPanel-btn-maximize").remove();
-        }
-    });
-});  
+                this.find(".jsPanel-btn-smallify").remove();
+                this.find(".jsPanel-btn-minimize").remove();
+                this.find(".jsPanel-btn-maximize").remove();
+            }
+        });
+    });  
+*/
 
 // CORSIA restriction - INFO
-$("#info-carbon_stock").click(function(e) {
-    e.preventDefault();
+/* MOVED TO CORSIA (n_eligible_land)
+    $("#info-carbon_stock").click(function(e) {
+        e.preventDefault();
 
-    // Janela Info
-    removePanelbyTitle("Map Information");
-    $.jsPanel({
-        theme:      '#93bd42',
-        contentSize: {width: 520, height: 300},
-        headerTitle: "Map Information",
-        content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
-                        "<div><h6 style='font-weight:bold;color: blue'> Non-elegible land according to CORSIA (Principle 2)</h6>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Excluded areas (based on land use and land cover map, as for January 2008) as proxy to CORSIA's Principle 2. In fact, what has been done is more restrictive than Principle 2.</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> MAPBIOMAS Project (2020) - Collection 5.0</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href='https://mapbiomas.org/'>Download page</a></p>" +
-                                "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)</p>" +
-                                "</div>" +
-                    "</div>",
-        callback:    function () {
-            this.content.css("padding", "15px");
+        // Janela Info
+        removePanelbyTitle("Map Information");
+        $.jsPanel({
+            theme:      '#93bd42',
+            contentSize: {width: 520, height: 300},
+            headerTitle: "Map Information",
+            content:	"<div style='margin-left:5%; overflow-y:auto; height: 100%''>" +
+                            "<div><h6 style='font-weight:bold;color: blue'> Non-elegible land according to CORSIA (Principle 2)</h6>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Excluded areas (based on land use and land cover map, as for January 2008) as proxy to CORSIA's Principle 2. In fact, what has been done is more restrictive than Principle 2.</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> MAPBIOMAS Project (2020) - Collection 5.0</p>" +
+                                "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
+                                    "<a target='_blank' href='https://mapbiomas.org/'>Download page</a></p>" +
+                                    "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered in the project (including Pará)</p>" +
+                                    "</div>" +
+                        "</div>",
+            callback:    function () {
+                this.content.css("padding", "15px");
 
-            this.find(".jsPanel-btn-smallify").remove();
-            this.find(".jsPanel-btn-minimize").remove();
-            this.find(".jsPanel-btn-maximize").remove();
-        }
-    });
-});  
+                this.find(".jsPanel-btn-smallify").remove();
+                this.find(".jsPanel-btn-minimize").remove();
+                this.find(".jsPanel-btn-maximize").remove();
+            }
+        });
+    });  
+*/
 
 
 // Infrastructure

@@ -378,7 +378,7 @@ var routeCana = '', feedstockCana = '', feedstockCana_valor = '', carbonFootprin
 var selecionadoCana = '', tipoInstalacaoSugarcane = '', tipoInstalacaoSugarcane_valor = '', capacidadeCana = '';
 var capacidadeCana_valor = '';
 
-var locationCana = '', productionCana = '', productionCana_valor = '';
+var locationCana = '', locationCana_valor = '', productionCana = '', productionCana_valor = '';
 
 var prataCana = '', cacuCana = '', paranaibaCana = '', pVenceslauCana = '';
 
@@ -530,6 +530,94 @@ $("#tipoInstalacaoSugarcane_3").on('change', function(){
     resetControls_cstudySoja();
     resetControlsCapacity_cstudySoja();
     capacitySelectionSugarcane();
+});
+
+$("#locationSugarcane").on('change', function(){
+    console.debug(this.value);
+
+    locationSugarcane = this.value;
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+
+    // All 4 locations
+    if (locationSugarcane === "1") {
+        resetLocations_cstudyCana();
+
+        $("#productionSugarcane").val('--');
+        $("#nomeMunicipioSugarcane").text(" ...");
+        $("#nomeMunicipioSugarcane").css("color", "black");          
+
+        // Prata (MG)
+        prataCana = L.marker(l_prata, { icon : blueMarker }).bindPopup("Prata/MG at <b>" + l_prata.toString() + "</b>").openPopup();
+        map.addLayer(prataCana);
+
+        //var brumado_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_brumado_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(brumado_buffer);
+        
+        // Posiciona o mapa na localização
+        //map.flyTo(l_prata, 6);
+
+        // Caçú (GO)
+        cacuCana = L.marker(l_cacu, { icon : blueMarker }).bindPopup("Caçú/GO at <b>" + l_cacu.toString() + "</b>").openPopup();
+        map.addLayer(cacuCana);
+
+        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(paranaiba_buffer);
+        
+        // Posiciona o mapa na localização
+        //map.flyTo(l_cacu, 6);
+    
+        // Paranaíba (MS)
+        paranaibaCana = L.marker(l_paranaiba, { icon : blueMarker }).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
+        map.addLayer(paranaibaCana);
+
+        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(paranaiba_buffer);
+        
+        // Posiciona o mapa na localização
+        //map.flyTo(l_paranaiba, 6);
+    
+        // Presidente Venceslau (SP)
+        pVenceslauCana = L.marker(l_pVenceslau, { icon : blueMarker }).bindPopup("Presidente Venceslau/SP at <b>" + l_pVenceslau.toString() + "</b>").openPopup();
+        map.addLayer(pVenceslauCana);
+
+        //var pVenceslau_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pVenceslau_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(pVenceslau_buffer);
+        
+        // Posiciona o mapa na localização
+        //map.flyTo(l_pVenceslau, 6);
+
+        // Posiciona o mapa na localização central dos pontos
+        map.flyTo(l_paranaiba, 6);
+    } else {
+        resetLocations_cstudyCana();
+    }
+});
+
+// Carbon Footprint
+$("#locationSugarcane_1").on('change', function(){
+    console.debug(this.value);
+
+    locationCana = this.value;
+    locationCana_valor =  this.options[this.selectedIndex].text;
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+
+    if(carbonFootprint_cana) {
+        paranaibaCana = L.marker(l_paranaiba, { icon : blueMarker }).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
+        map.addLayer(paranaibaCana);
+
+        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(paranaiba_buffer);
+        
+        // Posiciona o mapa na localização
+        if (typeof(californiaCana) == 'undefined' || californiaCana == "") {
+            map.flyTo(l_paranaiba, 6);
+        }
+    } else {
+        resetLocations_cstudyCana();
+    }
+
 });
 
 $("#productionSugarcane").on('change', function(){
@@ -753,93 +841,6 @@ $("#productionSugarcane_1").on('change', function(){
     }
 });
 
-$("#locationSugarcane").on('change', function(){
-    console.debug(this.value);
-
-    locationSugarcane = this.value;
-
-    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
-
-    // All 4 locations
-    if (locationSugarcane === "1") {
-        resetLocations_cstudyCana();
-
-        $("#productionSugarcane").val('--');
-        $("#nomeMunicipioSugarcane").text(" ...");
-        $("#nomeMunicipioSugarcane").css("color", "black");          
-
-        // Prata (MG)
-        prataCana = L.marker(l_prata, { icon : blueMarker }).bindPopup("Prata/MG at <b>" + l_prata.toString() + "</b>").openPopup();
-        map.addLayer(prataCana);
-
-        //var brumado_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_brumado_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(brumado_buffer);
-        
-        // Posiciona o mapa na localização
-        //map.flyTo(l_prata, 6);
-
-        // Caçú (GO)
-        cacuCana = L.marker(l_cacu, { icon : blueMarker }).bindPopup("Caçú/GO at <b>" + l_cacu.toString() + "</b>").openPopup();
-        map.addLayer(cacuCana);
-
-        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(paranaiba_buffer);
-        
-        // Posiciona o mapa na localização
-        //map.flyTo(l_cacu, 6);
-    
-        // Paranaíba (MS)
-        paranaibaCana = L.marker(l_paranaiba, { icon : blueMarker }).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
-        map.addLayer(paranaibaCana);
-
-        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(paranaiba_buffer);
-        
-        // Posiciona o mapa na localização
-        //map.flyTo(l_paranaiba, 6);
-    
-        // Presidente Venceslau (SP)
-        pVenceslauCana = L.marker(l_pVenceslau, { icon : blueMarker }).bindPopup("Presidente Venceslau/SP at <b>" + l_pVenceslau.toString() + "</b>").openPopup();
-        map.addLayer(pVenceslauCana);
-
-        //var pVenceslau_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pVenceslau_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(pVenceslau_buffer);
-        
-        // Posiciona o mapa na localização
-        //map.flyTo(l_pVenceslau, 6);
-
-        // Posiciona o mapa na localização central dos pontos
-        map.flyTo(l_paranaiba, 6);
-    } else {
-        resetLocations_cstudyCana();
-    }
-});
-
-// Carbon Footprint
-$("#locationSugarcane_1").on('change', function(){
-    console.debug(this.value);
-
-    locationCana = this.value;
-
-    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
-
-    if(carbonFootprint_cana) {
-        paranaibaCana = L.marker(l_paranaiba, { icon : blueMarker }).bindPopup("Paranaíba/MS at <b>" + l_paranaiba.toString() + "</b>").openPopup();
-        map.addLayer(paranaibaCana);
-
-        //var paranaiba_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_paranaiba_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(paranaiba_buffer);
-        
-        // Posiciona o mapa na localização
-        if (typeof(californiaCana) == 'undefined' || californiaCana == "") {
-            map.flyTo(l_paranaiba, 6);
-        }
-    } else {
-        resetLocations_cstudyCana();
-    }
-
-});
-
 $("#capacidadeSugarcane").on('change', function(){
     console.debug(this.value);
 
@@ -985,11 +986,12 @@ $("button.sugarcane-step2-back").on("click", function() {
 $("button.sugarcane-step2-calc").on("click", function() {
     if ((tipoInstalacaoSugarcane === "" || tipoInstalacaoSugarcane === "--") 
             && (capacidadeCana === "" || capacidadeCana === "--")
+            && (locationCana === "" || locationCana === "--")
             && (productionCana === "" || productionCana === "--")) {
         $.alert({
             boxWidth: '40%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Case Study</b>, the <b>Ethanol Production</b> and the <b>Output capacity</b>.',
+            content: 'Please select the <b>Case Study</b>, the <b>Location</b>, the <b>SAF Production</b> and the <b>Output capacity</b>.',
             useBootstrap: false
         });
     } else if (tipoInstalacaoSugarcane === "" || tipoInstalacaoSugarcane === "--") {
@@ -999,11 +1001,18 @@ $("button.sugarcane-step2-calc").on("click", function() {
             content: 'Please select the <b>Case Study</b>.',
             useBootstrap: false
         });
+    } else if (locationCana === "" || locationCana === "--") {
+        $.alert({
+            boxWidth: '30%',
+            title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+            content: 'Please select the <b>Location</b>.',
+            useBootstrap: false
+        });
     } else if (productionCana === "" || productionCana === "--") {
         $.alert({
             boxWidth: '30%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Ethanol Production</b>.',
+            content: 'Please select the <b>SAF Production</b>.',
             useBootstrap: false
         });
     } else if (capacidadeCana === "" || capacidadeCana === "--") {
@@ -1018,80 +1027,88 @@ $("button.sugarcane-step2-calc").on("click", function() {
 
         if (carbonFootprint_cana) {
             /* Carbon Footprint -> Yes */
-            if (productionCana <= '2') {
-                result_panel_sugarcane = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
-                                        "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
-                                                "<div class='div-feedstock-results'>" +
-                                                    "<b>Conversion tecnology:</b> " + routeCana + 
-                                                    "<br/><b>Feedstock:</b> " + feedstockCana_valor +
-                                                    "<br/><b>Case Study:</b> " + tipoInstalacaoSugarcane_valor +
-                                                    "<br/><b>Ethanol production:</b> " + productionCana_valor +
-                                                    "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeCana_valor +
-                                                    "<br/><br/>" +
-                                                    "<div class='div-carbon-results'>" +
-                                                        "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
-                                                        "<span class='span-carbon-alert'>Preliminary estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates will be revisited in due course.</span><br>" +
-                                                        "<img src='images/cstudies_cana/" + tabela_carbonFT_cana + "' width='70%' ><br>" +
-                                                        "<div class='div-carbon-notes'>" +
-                                                            "<span class='span-carbon-notes'>1) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway, modelled using CTBE data.</span><br>" +
-                                                            "<span class='span-carbon-notes'>2) Includes sugarcane transportation from farm to fermentation plant (default value of 2.1 g CO2eq/MJSAF, according to CTBE data), and ethanol transportation from the fermentation plant to the upgrading plant (in California or REPLAN). Transport from fermentation plant to REPLAN made by truck (56 km) and train (548 km). Transport from fermentation plant to California made by truck (56 km), train (800 km) and ocean tanker (14000 km).</span><br>" +
-                                                            "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on CTBE data and upgrading based on JRC data. GHG emissions estimated using GREET1_2019 model.</span><br>" +
-                                                            "<span class='span-carbon-notes'>4) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway.</span><br>" +
-                                                            "<span class='span-carbon-notes'>5) LUC emissions not included.</span><br><br><br>" +
-                                                        "</div>" +
-                                                        "<img src='images/cstudies_cana/" + grafico_carbonFT_cana + "' width='90%' ><br>" +
-                                                        "<span class='span-carbon-notes-2'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
-                                                    "</div>" +
-                                                    "<br/><br/>" +
+            result_panel_sugarcane = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+                                    "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                            "<div class='div-feedstock-results'>" +
+                                                "<b>Conversion tecnology:</b> " + routeCana + 
+                                                "<br/><b>Feedstock:</b> " + feedstockCana_valor +
+                                                "<br/><b>Case Study:</b> " + tipoInstalacaoSugarcane_valor +
+                                                "<br/><b>Ethanol production:</b> " + locationCana_valor +
+                                                "<br/><b>SAF production:</b> " + productionCana_valor +
+
+
+                                                "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeCana_valor +
+                                                "<br/><br/>" +
+                                                "<div class='div-carbon-results'>" +
+                                                    "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
+                                                    "<span class='span-carbon-alert'>Estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates are for a SAF standalone production plant.</span><br>" +
+                                                    "<img src='images/cstudies_cana/" + tabela_carbonFT_cana + "' width='70%' ><br>" +
+                                                    "<div class='div-carbon-notes'>" +
+                                                        "<span class='span-carbon-notes'>1) CORSIA default value for sugarcane ethanol-to-jet fuel pathway, modelled using CTBE data.</span><br>" +
+                                                        "<span class='span-carbon-notes'>2) Includes sugarcane transportation from farm to fermentation plant (default value of 2.1 g CO2eq/MJSAF, according to CTBE data), and ethanol transportation from the fermentation plant to the upgrading plant (at REPLAN, California, Rotterdam or Singapore). Transport from fermentation plant to REPLAN made by truck (60 km) and train (550 km). For ethanol upgrading made abroad, transport from fermentation plant to Brazilian port made by truck (60 km) and train (800 km), followed by ocean tanker: 13,700 km (California), 10,500 km (Rotterdam) and 20,200 km (Singapore).</span><br>" +
+                                                        "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on CTBE data and upgrading based on JRC data. Upgrading in REPLAN assumes electricity supply from the grid (average Brazilian mix); upgrading in California, Rotterdam and Singapore based on US, Dutch and Singaporean average electricity mixes, with the respective GHG emission factors estimated using the GREET model.</span><br>" +
+                                                        "<span class='span-carbon-notes'>4) CORSIA default value for sugarcane ethanol-to-jet fuel pathway.</span><br>" +
+                                                        "<span class='span-carbon-notes'>5) The CORSIA default value (core LCA) for sugarcane ethanol to jet (ETJ) pathway assumes an integrated conversion design, while the scenarios explored in the SAFmaps case studies are based on a standalone design. This is the reason behind the higher emissions from upgrading, which are mainly derived from the consumption of NG for process heat.</span><br>" +
+                                                    "</div><br/>" +
+                                                    "<img src='images/cstudies_cana/" + grafico_carbonFT_cana + "' width='100%' ><br>" +
+                                                    "<span class='span-carbon-notes-3'>Same (1) to (4) notes as above.</span><br>" +
+                                                    "<span class='span-carbon-notes-3'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
                                                 "</div>" +
-                                            "</div><br/><br/>" +
-                                        "<div><h6 style='font-weight:bold'>Ethanol supply curve</h6>" +
-                                            "<img src='images/cstudies_cana/" + curva_oferta_sugarcane_png + "' width='85%' ></div>" +
-                                        "<div style='margin-top:4rem; '>" +
-                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                            "<img src='images/cstudies_cana/" + resultado_sugarcane_png + "' width='70%' ></div>" +
-                                        "<div style='margin-top:4rem; '>" +
-                                        "<br/><br/>" +
-                                    "</div>"
-            } else if (productionCana >= '3') {
-                result_panel_sugarcane = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
-                                        "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
-                                                "<div class='div-feedstock-results'>" +
-                                                    "<b>Conversion tecnology:</b> " + routeCana + 
-                                                    "<br/><b>Feedstock:</b> " + feedstockCana_valor +
-                                                    "<br/><b>Case Study:</b> " + tipoInstalacaoSugarcane_valor +
-                                                    "<br/><b>Ethanol production:</b> " + productionCana_valor +
-                                                    "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeCana_valor +
-                                                    "<br/><span style='color: red; font-weight: bold; padding-left: 38rem;'>(Review data)</span>" +
-                                                    "<br/><br/>" +
-                                                    "<div class='div-carbon-results'>" +
-                                                        "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
-                                                        "<span class='span-carbon-alert'>Preliminary estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates will be revisited in due course.</span><br>" +
-                                                        "<img src='images/cstudies_cana/" + tabela_carbonFT_cana + "' width='70%' ><br>" +
-                                                        "<div class='div-carbon-notes'>" +
-                                                            "<span class='span-carbon-notes'>1) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway, modelled using CTBE data.</span><br>" +
-                                                            "<span class='span-carbon-notes'>2) Includes sugarcane transportation from farm to fermentation plant (default value of 2.1 g CO2eq/MJSAF, according to CTBE data), and ethanol transportation from the fermentation plant to the upgrading plant (in <span style='color: red; font-weight: bold;'>Rotterdam</span>). Transport from fermentation plant to <span style='color: red; font-weight: bold;'>Rotterdam made by truck (56 km), train (800 km) and ocean tanker (14000 km)</span>.</span><br>" +
-                                                            "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on CTBE data and upgrading based on JRC data. GHG emissions estimated using GREET1_2019 model.</span><br>" +
-                                                            "<span class='span-carbon-notes'>4) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway.</span><br>" +
-                                                            "<span class='span-carbon-notes'>5) LUC emissions not included.</span><br><br><br>" +
-                                                        "</div>" +
-                                                        "<img src='images/cstudies_cana/" + grafico_carbonFT_cana + "' width='90%' ><br>" +
-                                                        "<span class='span-carbon-notes-2'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
-                                                    "</div>" +
-                                                    "<br/><br/>" +
-                                                "</div>" +
-                                            "</div><br/><br/>" +
-                                        "<div><h6 style='font-weight:bold'>Ethanol supply curve</h6>" +
-                                            "<img src='images/cstudies_cana/" + curva_oferta_sugarcane_png + "' width='85%' ></div>" +
-                                        "<div style='margin-top:4rem; '>" +
-                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                            "<img src='images/cstudies_cana/" + resultado_sugarcane_png + "' width='70%' ></div>" +
-                                        "<div style='margin-top:4rem; '>" +
-                                        "<br/><br/>" +
-                                    "</div>"
-            }
+                                                "<br/><br/>" +
+                                            "</div>" +
+                                        "</div><br/><br/>" +
+                                    "<div><h6 style='font-weight:bold'>Ethanol supply curve</h6>" +
+                                        "<span class='span-carbon-alert'>The supply curve below is for the four new mills considered in the case study.</span><br>" +
+                                        "<img src='images/cstudies_cana/" + curva_oferta_sugarcane_png + "' width='85%' ></div>" +
+                                    "<div style='margin-top:4rem; '>" +
+                                        "<div><h6 style='font-weight:bold'>Data table</h6>" +
+                                        "<span class='span-carbon-alert'>The results below are for the combined production of four new mills considered in the case study.</span><br>" +
+                                        "<img src='images/cstudies_cana/" + resultado_sugarcane_png + "' width='82%' ></div>" +
+                                    "<div style='margin-top:4rem; '>" +
+                                    "<br/><br/>" +
+                                "</div>"
+
+            // OPTION TO CREATE A PERSONALIZED REPORT IF NEEDED            
+            // if (productionCana <= '2') { }
+            // else if (productionCana >= '3') {
+            //     result_panel_sugarcane = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+            //                             "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+            //                                 "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+            //                                     "<div class='div-feedstock-results'>" +
+            //                                         "<b>Conversion tecnology:</b> " + routeCana + 
+            //                                         "<br/><b>Feedstock:</b> " + feedstockCana_valor +
+            //                                         "<br/><b>Case Study:</b> " + tipoInstalacaoSugarcane_valor +
+            //                                         "<br/><b>Ethanol production:</b> " + productionCana_valor +
+            //                                         "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeCana_valor +
+            //                                         "<br/><span style='color: red; font-weight: bold; padding-left: 38rem;'>(Review data)</span>" +
+            //                                         "<br/><br/>" +
+            //                                         "<div class='div-carbon-results'>" +
+            //                                             "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
+            //                                             "<span class='span-carbon-alert'>Preliminary estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates will be revisited in due course.</span><br>" +
+            //                                             "<img src='images/cstudies_cana/" + tabela_carbonFT_cana + "' width='70%' ><br>" +
+            //                                             "<div class='div-carbon-notes'>" +
+            //                                                 "<span class='span-carbon-notes'>1) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway, modelled using CTBE data.</span><br>" +
+            //                                                 "<span class='span-carbon-notes'>2) Includes sugarcane transportation from farm to fermentation plant (default value of 2.1 g CO2eq/MJSAF, according to CTBE data), and ethanol transportation from the fermentation plant to the upgrading plant (in <span style='color: red; font-weight: bold;'>Rotterdam</span>). Transport from fermentation plant to <span style='color: red; font-weight: bold;'>Rotterdam made by truck (56 km), train (800 km) and ocean tanker (14000 km)</span>.</span><br>" +
+            //                                                 "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on CTBE data and upgrading based on JRC data. GHG emissions estimated using GREET1_2019 model.</span><br>" +
+            //                                                 "<span class='span-carbon-notes'>4) CORSIA defeult value for sugarcane ethanol-to-jet fuel pathway.</span><br>" +
+            //                                                 "<span class='span-carbon-notes'>5) LUC emissions not included.</span><br><br><br>" +
+            //                                             "</div>" +
+            //                                             "<img src='images/cstudies_cana/" + grafico_carbonFT_cana + "' width='90%' ><br>" +
+            //                                             "<span class='span-carbon-notes-2'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
+            //                                         "</div>" +
+            //                                         "<br/><br/>" +
+            //                                     "</div>" +
+            //                                 "</div><br/><br/>" +
+            //                             "<div><h6 style='font-weight:bold'>Ethanol supply curve</h6>" +
+            //                                 "<img src='images/cstudies_cana/" + curva_oferta_sugarcane_png + "' width='85%' ></div>" +
+            //                             "<div style='margin-top:4rem; '>" +
+            //                                 "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
+            //                                 "<img src='images/cstudies_cana/" + resultado_sugarcane_png + "' width='70%' ></div>" +
+            //                             "<div style='margin-top:4rem; '>" +
+            //                             "<br/><br/>" +
+            //                         "</div>"
+            // }
         } else {
             /* Carbon Footprint -> No */
             result_panel_sugarcane = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +

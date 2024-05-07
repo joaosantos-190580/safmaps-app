@@ -467,9 +467,9 @@
 					<div class="widget-list" id="corsia-tab" style="padding-top: 5px;">
 						<div style="overflow-y: auto;height: 100%">
 							<div class="tab" style="display: block;">
-								<button class="tablinks" onclick="openTab(event, 'ghg')" id="defaultOpenCO">Greenhouse Gases (GHG)</button>
+								<button class="tablinks" onclick="openTab(event, 'ghg')" id="defaultOpenCO"><b>Greenhouse Gases (GHG)</b></button>
 								<button class="tablinks" onclick="openTab(event, 'soil')">Soil</button>
-								<button class="tablinks" onclick="openTab(event, 'wch')">Waste and Chemicals</button>
+								<button class="tablinks" onclick="openTab(event, 'wch')"><b>Waste and Chemicals</b></button>
 								<button class="tablinks" onclick="openTab(event, 'wur')">Water use rights</button>
 								<button class="tablinks" onclick="openTab(event, 'csk')">Carbon stock</button>
 								<button class="tablinks" onclick="openTab(event, 'air')">Air</button>
@@ -489,50 +489,6 @@
 								</p>
 							</div>
 
-							<!-- Soil -->
-							<div id="soil" class="tabcontent">
-								<h4 class="tab-title">Soil</h4>
-								<ul class="toggles-list">
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>	
-								</ul>
-							</div>
-
-							<!-- Waste and Chemicals -->
-							<div id="wch" class="tabcontent">
-								<h4 class="tab-title">Waste and Chemicals</h4>
-								<p style="font-size: 1rem; color: grey; margin-left: 2.7rem;">
-									Criteria information and texts ...
-								</p>
-							</div>
-
-							<!-- Water use rights -->
-							<div id="wur" class="tabcontent">
-								<h4 class="tab-title">Water use rights</h4>
-								<ul class="toggles-list">
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>	
-								</ul>
-							</div>
-
 							<!-- Carbon stock -->
 							<div id="csk" class="tabcontent">
 								<h4 class="tab-title">Carbon stock</h4>
@@ -540,25 +496,43 @@
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-carbon_stock">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
+										</label><span class="desc-slider"> Carbon stocks</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-carbon_stock">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>	
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-n_eligible_land">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
+										</label><span class="desc-slider"> Non-eligible land</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-n_eligible_land">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>										
+								</ul>
+							</div>
+
+							<!-- Soil -->
+							<div id="soil" class="tabcontent">
+								<h4 class="tab-title">Soil</h4>
+								<ul class="toggles-list">
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-soil_erosion">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Susceptibility to water erosion</span>
+										</div>
+										<div id="info-soil_erosion">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>	
 								</ul>
 							</div>
 
@@ -569,25 +543,67 @@
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-air_quality">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
+										</label><span class="desc-slider"> Air quality monitoring station locations</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-air_quality">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<!-- Conservation -->
+							<div id="con" class="tabcontent">
+								<h4 class="tab-title">Conservation</h4>
+								<ul class="toggles-list">
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-threatened_species">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Threatened species (IUCN Red List)</span>
+										</div>
+										<div id="info-threatened_species">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>	
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-app">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
+										</label><span class="desc-slider"> Permanent preservation areas (APP)</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-app">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>										
+									<!-- Legally protected areas  -->
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-protected_areas">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Legally protected areas</span>
+										</div>
+										<div id="info-protected_areas">
+											<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>
+									<!-- Restrictive Biomes  -->
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-restrictive_biomes">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Restricted biomes</span>
+										</div>
+										<div id="info-restrictive_biomes">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>
 								</ul>
 							</div>
 
@@ -620,6 +636,42 @@
 								</ul>
 							</div>
 
+							<!-- Land rights / Land use -->
+							<div id="lru" class="tabcontent">
+								<h4 class="tab-title">Land rights / Land use</h4>
+								<ul class="toggles-list">
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-land_rights_violations">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Land use rights (violations to)</span>
+										</div>
+										<div id="info-land_rights_violations">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>	
+								</ul>
+							</div>	
+
+							<!-- Water use rights -->
+							<div id="wur" class="tabcontent">
+								<h4 class="tab-title">Water use rights</h4>
+								<ul class="toggles-list">
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-water_rights_violations">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Water use rights (violations to)</span>
+										</div>
+										<div id="info-water_rights_violations">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>	
+								</ul>
+							</div>
+
 							<!-- Local and social -->
 							<div id="lsc" class="tabcontent">
 								<h4 class="tab-title">Local and social</h4>
@@ -627,26 +679,52 @@
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-mhdi_2010">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
+										</label><span class="desc-slider"> Municipal Human Development Index (HDI)</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-mhdi_2010">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>	
 									<li class="toggle">
 										<div class="layer-div">
 										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
+											<input type="checkbox" id="toggle-average_income">
 											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
+										</label><span class="desc-slider"> Average income</span>
 										</div>
-										<div id="info-LAYER-NAME">
+										<div id="info-average_income">
 										<span class="info-span"><i class="fas fa-info-circle"></i></span>
 										</div>
 									</li>										
 								</ul>
+							</div>
+
+							<!-- Food security -->
+							<div id="fsc" class="tabcontent">
+								<h4 class="tab-title">Food security</h4>
+								<ul class="toggles-list">
+									<li class="toggle">
+										<div class="layer-div">
+										<label class="switch">
+											<input type="checkbox" id="toggle-child_malnutrition">
+											<span class="slider round"></span>
+										</label><span class="desc-slider"> Child malnutrition</span>
+										</div>
+										<div id="info-child_malnutrition">
+										<span class="info-span"><i class="fas fa-info-circle"></i></span>
+										</div>
+									</li>	
+								</ul>
+							</div>
+
+							<!-- Waste and Chemicals -->
+							<div id="wch" class="tabcontent">
+								<h4 class="tab-title">Waste and Chemicals</h4>
+								<p style="font-size: 1rem; color: grey; margin-left: 2.7rem;">
+									Criteria information and texts ...
+								</p>
 							</div>
 
 							<!-- Water -->
@@ -688,72 +766,6 @@
 									</li>										
 								</ul>
 							</div>
-
-							<!-- Conservation -->
-							<div id="con" class="tabcontent">
-								<h4 class="tab-title">Conservation</h4>
-								<ul class="toggles-list">
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>	
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #2</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>										
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #3</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>										
-								</ul>
-							</div>
-
-							<!-- Land rights / Land use -->
-							<div id="lru" class="tabcontent">
-								<h4 class="tab-title">Land rights / Land use</h4>
-								<ul class="toggles-list">
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-LAYER-NAME">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Layer #1</span>
-										</div>
-										<div id="info-LAYER-NAME">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>	
-								</ul>
-							</div>							
-
-							<!-- Food security -->
-							<div id="fsc" class="tabcontent">
-								<h4 class="tab-title">Food security</h4>
-								<p style="font-size: 1rem; color: grey; margin-left: 2.7rem;">
-									Criteria information and texts ...
-								</p>
-							</div>							
 						</div>
 					</div>
 
@@ -777,7 +789,9 @@
 						<div class="tab" style="display: block;">
 							<button class="tablinks" onclick="openTab(event, 'bph')" id="defaultOpenSM">Biophysical maps </button>
 							<button class="tablinks" onclick="openTab(event, 'dia')">Diagnostics </button>
-							<button class="tablinks" onclick="openTab(event, 'sar')">Sensitive areas </button>
+							<!-- HIDDED AFTER MOVING LAYERS TO CORSIA
+								<button class="tablinks" onclick="openTab(event, 'sar')">Sensitive areas </button>
+							-->
 							<button class="tablinks" onclick="openTab(event, 'inf')">Infrastructure </button>
 							<button class="tablinks" onclick="openTab(event, 'war')">Warning areas </button>
 							<button class="tablinks" onclick="openTab(event, 'pbo')">Political boundaries </button>
@@ -1038,47 +1052,51 @@
 							</div>
 
 							<!-- Sensitive areas -->
-							<div id="sar" class="tabcontent">
-								<h4 class="tab-title">Sensitive areas</h4>
-								<ul class="toggles-list">
-									<!-- Legally protected areas  -->
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-protected_areas">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Legally protected areas</span>
-										</div>
-										<div id="info-protected_areas">
-											<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>
-									<!-- Restrictive Biomes  -->
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-restrictive_biomes">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> Restricted biomes</span>
-										</div>
-										<div id="info-restrictive_biomes">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>					
-									<!-- Corsia Restrictions  -->
-									<li class="toggle">
-										<div class="layer-div">
-										<label class="switch">
-											<input type="checkbox" id="toggle-carbon_stock">
-											<span class="slider round"></span>
-										</label><span class="desc-slider"> CORSIA restriction (Principle 2)</span>
-										</div>
-										<div id="info-carbon_stock">
-										<span class="info-span"><i class="fas fa-info-circle"></i></span>
-										</div>
-									</li>	
-								</ul>
-							</div>
+							<!-- HIDDED AFTER MOVING LAYERS TO CORSIA
+								<div id="sar" class="tabcontent">
+									<h4 class="tab-title">Sensitive areas</h4>
+									<ul class="toggles-list">
+										!-- MOVED TO CORSIA
+											!-- Legally protected areas  --
+											<li class="toggle">
+												<div class="layer-div">
+												<label class="switch">
+													<input type="checkbox" id="toggle-protected_areas">
+													<span class="slider round"></span>
+												</label><span class="desc-slider"> Legally protected areas</span>
+												</div>
+												<div id="info-protected_areas">
+													<span class="info-span"><i class="fas fa-info-circle"></i></span>
+												</div>
+											</li>
+											!-- Restrictive Biomes  --
+											<li class="toggle">
+												<div class="layer-div">
+												<label class="switch">
+													<input type="checkbox" id="toggle-restrictive_biomes">
+													<span class="slider round"></span>
+												</label><span class="desc-slider"> Restricted biomes</span>
+												</div>
+												<div id="info-restrictive_biomes">
+												<span class="info-span"><i class="fas fa-info-circle"></i></span>
+												</div>
+											</li>					
+											!-- Corsia Restrictions  --
+											<li class="toggle">
+												<div class="layer-div">
+												<label class="switch">
+													<input type="checkbox" id="toggle-carbon_stock">
+													<span class="slider round"></span>
+												</label><span class="desc-slider"> CORSIA restriction (Principle 2)</span>
+												</div>
+												<div id="info-carbon_stock">
+												<span class="info-span"><i class="fas fa-info-circle"></i></span>
+												</div>
+											</li>	
+										--
+									</ul>
+								</div>
+							-->
 
 							<!-- Infrastructure -->
 							<div id="inf" class="tabcontent-inf">
@@ -4137,7 +4155,9 @@
 									<select name='productionCorn_1' id='productionCorn_1'>
 									<option>--</option>
 									<option value="1">REPLAN/BR</option>
-									<option value="2">CALIFORNIA/USA</option></select>
+									<option value="2">CALIFORNIA/USA</option>
+									<option value="3">ROTTERDAM/NLD</option>
+									<option value="4">SINGAPORE/SGP</option></select>									
 								</div>						
 
 								<span>Municipality:&nbsp;&nbsp;</span>
@@ -4995,20 +5015,24 @@
 
 							<!-- Sensitive areas -->
 							<!-- Protected areas -->
-							<div id="legend-protected_areas" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Legally protected areas</h6>
-								<img id="protected_areas" class="legend-img" src="./images/legendas/protected_areas.png" height="100%" >
-							</div>
-							<!-- Restrictive biomes -->
-							<div id="legend-restrictive_biomes" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Restricted Biomes</h6>
-								<img id="restrictive_biomes" class="legend-img" src="./images/legendas/restricted_biomes.png" height="100%" >
-							</div>
+							<!-- MOVED TO CORSIA
+								<div id="legend-protected_areas" style="display: none; margin-left: 1rem;">
+									<h6 class="legend-item"> Legally protected areas</h6>
+									<img id="protected_areas" class="legend-img" src="./images/legendas/protected_areas.png" height="100%" >
+								</div>
+								!-- Restrictive biomes --
+								<div id="legend-restrictive_biomes" style="display: none; margin-left: 1rem;">
+									<h6 class="legend-item"> Restricted Biomes</h6>
+									<img id="restrictive_biomes" class="legend-img" src="./images/legendas/restricted_biomes.png" height="100%" >
+								</div>
+							-->
 							<!-- Corsia Restriction -->
-							<div id="legend-carbon_stock" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Non-elegible land (Principle 2 - CORSIA)</h6>
-								<img id="carbon_stock" class="legend-img" src="./images/legendas/corsia_restriction.png" height="100%" >
-							</div>
+							<!-- MOVED TO CORSIA (n_eligible_land)
+								<div id="legend-carbon_stock" style="display: none; margin-left: 1rem;">
+									<h6 class="legend-item"> Non-elegible land (Principle 2 - CORSIA)</h6>
+									<img id="carbon_stock" class="legend-img" src="./images/legendas/corsia_restriction.png" height="100%" >
+								</div>
+							-->
 
 							<!-- Infrastructure -->
 							<!-- Roads -->
@@ -5134,6 +5158,17 @@
 							</div>
 
 							<!-- CORSIA maps -->
+							<!-- Carbon stock -->
+							<div id="legend-carbon_stock" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Carbon stocks in 2022 (MgC.ha-1)</h6>
+								<img id="carbon_stock" class="legend-img" src="./images/legendas/carbon_stock.png" height="100%" >
+							</div>
+							<!-- Non eligible land -->
+							<div id="legend-n_eligible_land" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Non-elegible land</h6>
+								<img id="n_eligible_land" class="legend-img" src="./images/legendas/corsia_restriction.png" height="100%" >
+							</div>
+
 							<!-- Water -->
 							<!-- Water Stations -->
 							<div id="legend-water_stations" style="display: none; margin-left: 1rem;">
@@ -5151,16 +5186,85 @@
 								<img id="biomas" class="legend-img" src="./images/legendas/water_quality.png" width="42%" >
 							</div>	
 
+							<!-- Soil -->
+							<!-- Soil erosion -->
+							<div id="legend-soil_erosion" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Susceptibility to water erosion</h6>
+								<img id="soil_erosion" class="legend-img" src="./images/legendas/soil_erosion.png" height="100%" >
+							</div>
+
+							<!-- Air -->
+							<!-- Air quality -->
+							<div id="legend-air_quality" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Air monitoring stations (2020)</h6>
+								<img id="air_quality" class="legend-img" src="./images/legendas/air_quality.png" height="100%" >
+							</div>
+
+							<!-- Conservation -->
+							<!-- Threatened species -->
+							<div id="legend-threatened_species" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Number of threatened species (2022)</h6>
+								<img id="threatened_species" class="legend-img" src="./images/legendas/threatened_species.png" height="100%" >
+							</div>
+							<!-- APP -->
+							<div id="legend-app" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Riparian APP</h6>
+								<img id="app" class="legend-img" src="./images/legendas/permanent_preservation_areas.png" height="100%" >
+							</div>
+							<!-- Protected areas -->
+							<div id="legend-protected_areas" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Legally protected areas</h6>
+								<img id="protected_areas" class="legend-img" src="./images/legendas/protected_areas.png" height="100%" >
+							</div>
+							<!-- Restrictive biomes -->
+							<div id="legend-restrictive_biomes" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Restricted Biomes</h6>
+								<img id="restrictive_biomes" class="legend-img" src="./images/legendas/restricted_biomes.png" height="100%" >
+							</div>
+
 							<!-- Human labour -->
 							<!-- Child Labour -->
 							<div id="legend-child_labour" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Child labour  in agriculture and forest sectors (2020 – 2022)</h6>
-								<img id="biomas" class="legend-img" src="./images/legendas/child_labour.png" width="14%" >
+								<img id="child_labour" class="legend-img" src="./images/legendas/child_labour.png" width="14%" >
 							</div>	
 							<!-- Slavery -->
 							<div id="legend-slavery" style="display: none; margin-left: 1rem;">
-								<h6 class="legend-item"> Number of slavery-likely (2020 – 2022)</h6>
-								<img id="biomas" class="legend-img" src="./images/legendas/slavery.png" width="18%" >
+								<h6 class="legend-item"> Number of slavery-likely workers (2020 – 2022)</h6>
+								<img id="slavery" class="legend-img" src="./images/legendas/slavery.png" width="18%" >
+							</div>	
+
+							<!-- Land use rights -->
+							<!-- Land rights violations -->
+							<div id="legend-land_rights_violations" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Land use rights (2020 – 2022)</h6>
+								<img id="land_rights_violations" class="legend-img" src="./images/legendas/land_rights_violations.png" width="14%" >
+							</div>	
+
+							<!-- Water use rights -->
+							<!-- Water rights violations -->
+							<div id="legend-water_rights_violations" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Water use rights (2020 – 2021)</h6>
+								<img id="water_rights_violations" class="legend-img" src="./images/legendas/water_rights_violations.png" width="14%" >
+							</div>	
+
+							<!-- Social develop -->
+							<!-- MHDI 2010 -->
+							<div id="legend-mhdi_2010" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Municipal HDI (2010)</h6>
+								<img id="mhdi_2010" class="legend-img" src="./images/legendas/mhdi_2010.png" width="14%" >
+							</div>	
+							<!-- Average income -->
+							<div id="legend-average_income" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Average income in 2020 (US$)</h6>
+								<img id="average_income" class="legend-img" src="./images/legendas/average_income.png" width="14%" >
+							</div>	
+
+							<!-- Food security -->
+							<!-- Child malnutrition -->
+							<div id="legend-child_malnutrition" style="display: none; margin-left: 1rem;">
+								<h6 class="legend-item"> Child malnutrition in 2023 (%)</h6>
+								<img id="child_malnutrition" class="legend-img" src="./images/legendas/child_malnutrition.png" width="14%" >
 							</div>	
 
 							<!-- FEEDSTOCK EUCALYPTUS -->
@@ -5486,7 +5590,8 @@
 	//var url = 'http://35.198.22.135/geoserver/ows?';              // GCloud JL
 	//var url = 'http://34.125.61.243/geoserver/ows?';              // GCloud Temp
 	//var url = 'http://34.135.148.161/geoserver/ows?';             // GCloud noonly
-	var url = 'http://34.125.188.43/geoserver/ows?';                // GCloud JL
+	//var url = 'http://34.125.188.43/geoserver/ows?';              // GCloud JL
+	var url = 'http://162.241.92.189:8080/geoserver/ows?';			// HostGator
 
 	var options = { format: 'image/png', tiled: true, transparent: true };
 
@@ -5661,9 +5766,9 @@
 		$("#legend-price_planted_past").css("display", "none");
 
 		// Sensitive Areas
-		$("#legend-protected_areas").css("display", "none");
-		$("#legend-restrictive_biomes").css("display", "none");
-		$("#legend-carbon_stock").css("display", "none");
+		//$("#legend-protected_areas").css("display", "none");			// MOVED TO CORSIA
+		//$("#legend-restrictive_biomes").css("display", "none");		// MOVED TO CORSIA
+		//$("#legend-carbon_stock").css("display", "none");				// MOVED TO CORSIA (n_eligible_land)
 		
 		// Infrastructure
 		$("#legend-roads").css("display", "none");
@@ -5696,14 +5801,43 @@
 		$("#legend-estados").css("display", "none");
 
 		// CORSIA
+		// Carbon stock
+		$("#legend-carbon_stock").css("display", "none");
+		$("#legend-n_eligible_land").css("display", "none");
+
 		// Water
 		$("#legend-water_stations").css("display", "none");
 		$("#legend-water_balance").css("display", "none");
 		$("#legend-water_quality").css("display", "none");
 		
+		// Soil
+		$("#legend-soil_erosion").css("display", "none");
+
+		// Air
+		$("#legend-air_quality").css("display", "none");
+
+		// Conservation
+		$("#legend-threatened_species").css("display", "none");
+		$("#legend-app").css("display", "none");
+		$("#legend-protected_areas").css("display", "none");
+		$("#legend-restrictive_biomes").css("display", "none");
+
 		// Human labour
 		$("#legend-child_labour").css("display", "none");
 		$("#legend-slavery").css("display", "none");
+
+		// Land use rights
+		$("#legend-land_rights_violations").css("display", "none");
+
+		// Water use rights
+		$("#legend-water_rights_violations").css("display", "none");
+
+		// Social develop
+		$("#legend-mhdi_2010").css("display", "none");
+		$("#legend-average_income").css("display", "none");
+
+		// Food security
+		$("#legend-child_malnutrition").css("display", "none");
 
 		// Eucalyptus
 		$("#legend-aptidao_eucalipto").css("display", "none");

@@ -152,7 +152,7 @@
     display: inline-block;
     margin-bottom: 0.3rem !important;
     text-align: justify;
-    font-size: .9rem;
+    font-size: 1rem;
 }
 
 .span-carbon-notes {
@@ -167,6 +167,12 @@
     text-align: justify;
     font-size: .9rem;
     margin-top: .7rem;
+}
+
+.span-carbon-notes-3 {
+    display: inline-block;
+    margin-bottom: 0.3rem !important;
+    text-align: center;
 }
 
 .bt-style {
