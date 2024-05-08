@@ -5595,6 +5595,12 @@
 
 	var options = { format: 'image/png', tiled: true, transparent: true };
 
+	// SAF Production locations - All routes/feedstocks (HEFA/ATJ)
+	var l_california = [32.735637968345415, -117.17653769862518];
+	var l_santos = [-23.96542599813314, -46.29960581675506];
+	var l_rotterdam = [51.948380, 4.142125];
+	var l_singapore = [-1.277156, 103.863668];
+
 	// MARKERS
 	var redMarker = new L.Icon({
 		iconUrl: "./images/marker-icon-red.png",
@@ -6103,11 +6109,13 @@
 		resetControls_oilSource_cstudyPalma();
 		resetControls_capacidade_cstudyPalma();
 
-		resetPoints_cstudyMilho();
+		resetLocations_cstudyMilho();
+		resetProductions_cstudyMilho();
 		resetControls_cstudyMilho();
 		resetControlsCapacity_cstudyMilho();
 
 		resetLocations_cstudyCana();
+		resetProductions_cstudyCana();
 		resetControls_cstudyCana();
 		resetControlsCapacity_cstudyCana();
 	}

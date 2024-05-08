@@ -55,12 +55,8 @@ var l_aptidao_milho = 'DBMS:aptidao_milho';
 var l_custos_milho = 'DBMS:custos_milho';
 var l_produtividade_milho = 'DBMS:produtividade_milho';		
 
-var l_california = [32.735637968345415, -117.17653769862518];
-var l_santos = [-23.96542599813314, -46.29960581675506];
-var l_rotterdam = [51.948380, 4.142125];
-var l_singapore = [-1.277156, 103.863668];
-
-var curva_oferta_milho_png = '', resultado_milho_png = '', comparacao_milho_png = '', result_panel_milho = '';
+var curva_oferta_milho_png = '', resultado_milho_png = '';
+var comparacao_milho_png = '', result_panel_milho = '';
 var tabela_carbonFT_corn = '', graficoCarbonFT_corn = '';
 
 
@@ -392,8 +388,12 @@ $("#toggle-ethanol_terminals_fd_06").on('change', function(){
 
 // Variaveis
 var routeMilho = '', feedstockMilho = '', feedstockMilho_valor = '', carbonFootprint_corn = '';
-var selecionadoMilho = '', tipoInstalacaoMilho = '', tipoInstalacaoMilho_valor = '', capacidadeMilho = '', capacidadeMilho_valor = '';
-var locationMilho = '', productionMilho = '', productionMilho_valor = '';
+var selecionadoMilho = '', tipoInstalacaoMilho = '', tipoInstalacaoMilho_valor = '';
+var capacidadeMilho = '', capacidadeMilho_valor = '';
+
+var locationMilho = '', locationMilho_valor = '', productionMilho = '', productionMilho_valor = '';
+
+var replanMilho = '', santosMilho = '', californiaMilho = '', rotterdamMilho = '', singaporeMilho = '';
 
 var cstudy_milho = false;
 
@@ -408,14 +408,27 @@ $("#cornCarbon").on('change', function(){
         carbonFootprint_corn = true;
         $("#feedstock_corn_1").css("display", "none");
         $("#feedstock_corn_2").css("display", "block");
+
+        $("#tipoInstalacaoCorn").val('--');
+        tipoInstalacaoMilho = "";
     } else {
         carbonFootprint_corn = false;
         $("#feedstock_corn_1").css("display", "block");
         $("#feedstock_corn_2").css("display", "none");
+
+        $("#tipoInstalacaoCorn_1").val('--');
+        tipoInstalacaoMilho = "";
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
     };
 
-    resetPoints_cstudyMilho();
     resetControls_cstudyMilho();
+    resetLocations_cstudyMilho();
+    resetProductions_cstudyMilho();
+
     resetControlsCapacity_cstudyMilho();
     capacitySelectionMilho();
 });
@@ -424,12 +437,22 @@ $("#cornCarbon").on('change', function(){
 $("#cornFStock").on('change', function(){
     feedstockMilho = this.value;
     feedstockMilho_valor = 'Anhydrous ethanol from sugarcane + corn';
+
+    $("#tipoInstalacaoCorn_1").val('--');
+    tipoInstalacaoMilho = "";
+
+    resetControls_cstudyMilho();
+    resetLocations_cstudyMilho();
+    resetProductions_cstudyMilho();
 });
 
 // Selecao do feedstock (Carbon Footprint)
 $("#cornFStock_1").on('change', function(){
     feedstockMilho = this.value;
     feedstockMilho_valor = 'Anhydrous ethanol from corn';
+
+    $("#tipoInstalacaoCorn").val('--');
+    tipoInstalacaoMilho = "";
 });
 
 // Seleção mapa de apoio
@@ -491,8 +514,9 @@ $("#tipoInstalacaoCorn").on('change', function(){
     tipoInstalacaoMilho = this.value;
     tipoInstalacaoMilho_valor =  this.options[this.selectedIndex].text;
 
-    resetControls_cstudySoja();
-    resetControlsCapacity_cstudySoja();
+    resetControls_cstudyMilho();
+    resetLocations_cstudyMilho();
+    resetControlsCapacity_cstudyMilho();
     capacitySelectionMilho();
 });
 
@@ -503,115 +527,9 @@ $("#tipoInstalacaoCorn_1").on('change', function(){
     tipoInstalacaoMilho = this.value;
     tipoInstalacaoMilho_valor =  this.options[this.selectedIndex].text;
 
-    resetControls_cstudySoja();
-    resetControlsCapacity_cstudySoja();
+    resetControls_cstudyMilho();
+    resetControlsCapacity_cstudyMilho();
     capacitySelectionMilho();
-});
-
-$("#productionCorn").on('change', function(){
-    console.debug(this.value);
-
-    productionMilho = this.value;
-    productionMilho_valor =  this.options[this.selectedIndex].text;
-
-    if (capacidadeMilho != '' && capacidadeMilho != '--') {
-        capacitySelectionMilho();
-    }
-
-    resetPoints_cstudySoja();
-
-    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
-    if (productionMilho != '' && productionMilho != '--') {
-        replanCana = L.marker(l_replan, { icon : blackMarker }).bindPopup("REPLAN at <b>" + l_replan.toString() + "</b>").openPopup();
-        map.addLayer(replanCana);
-
-        //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(revap_buffer);
-        
-        // Posiciona o mapa na localização
-        map.flyTo(l_replan, 6);
-
-        $("#nomeMunicipioCorn").text("PAULÍNIA/SP");
-        //$("#nomeMunicipioCorn").css("color", "blue");
-        $("#nomeMunicipioCorn").css("font-weight", "bold");
-    } else {
-        map.removeLayer(replanCana);
-
-        $("#nomeMunicipioCorn").text(" ...");
-        $("#nomeMunicipioCorn").css("color", "black");
-    }
-});
-
-// Carbon Footprint
-$("#productionCorn_1").on('change', function(){
-    console.debug(this.value);
-
-    productionMilho = this.value;
-    productionMilho_valor =  this.options[this.selectedIndex].text;
-
-    if (capacidadeMilho != '' && capacidadeMilho != '--') {
-        capacitySelectionMilho();
-    }
-
-    resetPoints_cstudySoja();
-
-    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
-    //if (productionMilho != '' && productionMilho != '--') {
-    if (productionMilho === '1') {
-        if (typeof(californiaCana) !== 'undefined' && californiaCana !== "") {
-            map.removeLayer(californiaCana);
-        }
-
-        if (typeof(santosCana) !== 'undefined' && santosCana !== "") {
-            map.removeLayer(santosCana);
-        }
-        
-        replanCana = L.marker(l_replan, { icon : blackMarker }).bindPopup("REPLAN at <b>" + l_replan.toString() + "</b>").openPopup();
-        map.addLayer(replanCana);
-
-        //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
-        //map.addLayer(revap_buffer);
-        
-        // Posiciona o mapa na localização
-        map.flyTo(l_replan, 6);
-
-        $("#nomeMunicipioCorn_1").text("PAULÍNIA/SP");
-        //$("#nomeMunicipioCorn_1").css("color", "blue");
-        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
-    } else if (productionMilho === '2') {
-        if (typeof(replanCana) !== 'undefined' && replanCana !== "") {
-            map.removeLayer(replanCana);
-        }
-
-        santosCana = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
-        map.addLayer(santosCana);
-
-        californiaCana = L.marker(l_california, { icon : blackMarker }).bindPopup("Port of San Diego/USA at <b>" + l_california.toString() + "</b>").openPopup();
-        map.addLayer(californiaCana);
-
-        // Posiciona o mapa na localização central entre Santos e San Diego
-        map.flyTo([-2.814375, -61.628761], 3);
-
-        $("#nomeMunicipioCorn_1").text("SAN DIEGO/USA");
-        //$("#nomeMunicipioCorn_1").css("color", "blue");
-        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
-    }
-     else {
-        if (typeof(replanCana) !== 'undefined' && replanCana !== "") {
-            map.removeLayer(replanCana);
-        }
-
-        if (typeof(santosCana) !== 'undefined' && santosCana !== "") {
-            map.removeLayer(santosCana);
-        }
-
-        if (typeof(californiaCana) !== 'undefined' && californiaCana !== "") {
-            map.removeLayer(californiaCana);
-        }
-
-        $("#nomeMunicipioCorn_1").text(" ...");
-        $("#nomeMunicipioCorn_1").css("color", "black");
-    }
 });
 
 $("#locationCorn").on('change', function(){
@@ -672,7 +590,8 @@ $("#locationCorn").on('change', function(){
         // Posiciona o mapa na localização central dos pontos
         map.flyTo(l_paranaiba, 6);
     } else {
-        resetLocations_cstudyCana();
+        resetLocations_cstudyMilho();
+        resetProductions_cstudyMilho();
     }
 });
 
@@ -681,6 +600,7 @@ $("#locationCorn_1").on('change', function(){
     console.debug(this.value);
 
     locationMilho = this.value;
+    locationMilho_valor =  this.options[this.selectedIndex].text;
 
     // INSERIR FUNÇÃO PRA REMOVER MARCADOR
 
@@ -699,6 +619,222 @@ $("#locationCorn_1").on('change', function(){
         resetLocations_cstudyCana();
     }
 
+});
+
+$("#productionCorn").on('change', function(){
+    console.debug(this.value);
+
+    productionMilho = this.value;
+    productionMilho_valor =  this.options[this.selectedIndex].text;
+
+    if (capacidadeMilho != '' && capacidadeMilho != '--') {
+        capacitySelectionMilho();
+    }
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+
+    if (productionMilho != '' && productionMilho != '--') {
+        replanMilho = L.marker(l_replan, { icon : blackMarker }).bindPopup("REPLAN at <b>" + l_replan.toString() + "</b>").openPopup();
+        map.addLayer(replanMilho);
+
+        //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(revap_buffer);
+        
+        // Posiciona o mapa na localização
+        map.flyTo(l_replan, 6);
+
+        $("#nomeMunicipioCorn").text("PAULÍNIA/SP");
+        //$("#nomeMunicipioCorn").css("color", "blue");
+        $("#nomeMunicipioCorn").css("font-weight", "bold");
+    } else {
+        map.removeLayer(replanMilho);
+
+        $("#nomeMunicipioCorn").text(" ...");
+        $("#nomeMunicipioCorn").css("color", "black");
+    }
+});
+
+// Carbon Footprint
+$("#productionCorn_1").on('change', function(){
+    console.debug(this.value);
+
+    productionMilho = this.value;
+    productionMilho_valor =  this.options[this.selectedIndex].text;
+
+    if (capacidadeMilho != '' && capacidadeMilho != '--') {
+        capacitySelectionMilho();
+    }
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+
+    //if (productionMilho != '' && productionMilho != '--') {
+    // REPLAN
+    if (productionMilho === '1') {
+        if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+            map.removeLayer(santosMilho);
+        }
+
+        if (typeof(californiaMilho) !== 'undefined' && californiaMilho !== "") {
+            map.removeLayer(californiaMilho);
+        }
+
+        if (typeof(rotterdamMilho) !== 'undefined' && rotterdamMilho !== "") {
+            map.removeLayer(rotterdamMilho);
+        }
+
+        if (typeof(singaporeMilho) !== 'undefined' && singaporeMilho !== "") {
+            map.removeLayer(singaporeMilho);
+        }
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }        
+      
+        replanMilho = L.marker(l_replan, { icon : blackMarker }).bindPopup("REPLAN at <b>" + l_replan.toString() + "</b>").openPopup();
+        map.addLayer(replanMilho);
+
+        //var revap_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_revap_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(revap_buffer);
+        
+        // Posiciona o mapa na localização
+        map.flyTo(l_replan, 6);
+
+        $("#nomeMunicipioCorn_1").text("PAULÍNIA/SP");
+        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
+    
+    // CALIFORNIA        
+    } else if (productionMilho === '2') {
+        if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+            map.removeLayer(santosMilho);
+        }
+
+        if (typeof(replanMilho) !== 'undefined' && replanMilho !== "") {
+            map.removeLayer(replanMilho);
+        }
+
+        if (typeof(rotterdamMilho) !== 'undefined' && rotterdamMilho !== "") {
+            map.removeLayer(rotterdamMilho);
+        }
+
+        if (typeof(singaporeMilho) !== 'undefined' && singaporeMilho !== "") {
+            map.removeLayer(singaporeMilho);
+        }
+
+        santosMilho = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosMilho);
+
+        californiaMilho = L.marker(l_california, { icon : blackMarker }).bindPopup("Port of San Diego/USA at <b>" + l_california.toString() + "</b>").openPopup();
+        map.addLayer(californiaMilho);
+
+        // Posiciona o mapa na localização central entre Santos e San Diego
+        map.flyTo([-2.814375, -61.628761], 3);
+
+        $("#nomeMunicipioCorn_1").text("SAN DIEGO/USA");
+        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
+        // Rota
+        carbonFT_route(l_santos, l_california);
+    
+    // ROTTERDAM
+    } else if (productionMilho === '3') {
+        if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+            map.removeLayer(santosMilho);
+        }
+
+        if (typeof(replanMilho) !== 'undefined' && replanMilho !== "") {
+            map.removeLayer(replanMilho);
+        }
+
+        if (typeof(californiaMilho) !== 'undefined' && californiaMilho !== "") {
+            map.removeLayer(californiaMilho);
+        }
+
+        if (typeof(singaporeMilho) !== 'undefined' && singaporeMilho !== "") {
+            map.removeLayer(singaporeMilho);
+        }
+
+        santosMilho = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosMilho);
+
+        rotterdamMilho = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/NLD at <b>" + l_rotterdam.toString() + "</b>").openPopup();
+        map.addLayer(rotterdamMilho);
+
+        // Posiciona o mapa na localização central entre Santos e Rotterdam
+        map.flyTo([24.045417, -7.720214], 3);
+
+        $("#nomeMunicipioCorn_1").text("ROTTERDAM/NLD");
+        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
+
+        // Rota
+        carbonFT_route(l_santos, l_rotterdam);
+
+    // SINGAPORE
+    } else if (productionMilho === '4') {
+        if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+            map.removeLayer(santosMilho);
+        }
+
+        if (typeof(replanMilho) !== 'undefined' && replanMilho !== "") {
+            map.removeLayer(replanMilho);
+        }
+
+        if (typeof(californiaMilho) !== 'undefined' && californiaMilho !== "") {
+            map.removeLayer(californiaMilho);
+        }
+
+        if (typeof(rotterdamMilho) !== 'undefined' && rotterdamMilho !== "") {
+            map.removeLayer(rotterdamMilho);
+        }
+
+        santosMilho = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosMilho);
+
+        singaporeMilho = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE/SGP at <b>" + l_singapore.toString() + "</b>").openPopup();
+        map.addLayer(singaporeMilho);
+
+        // Posiciona o mapa na localização central entre Santos e Singapore
+        map.flyTo([-8.611361, 58.737805], 2.7);
+
+        $("#nomeMunicipioCorn_1").text("ROTTERDAM/NLD");
+        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioCorn_1").css("font-weight", "bold");
+
+        // Rota
+        carbonFT_route(l_santos, l_singapore);
+
+    // NENHUM
+    } else {
+        if (typeof(replanMilho) !== 'undefined' && replanMilho !== "") {
+            map.removeLayer(replanMilho);
+        }
+
+        if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+            map.removeLayer(santosMilho);
+        }
+
+        if (typeof(californiaMilho) !== 'undefined' && californiaMilho !== "") {
+            map.removeLayer(californiaMilho);
+        }
+
+        if (typeof(rotterdamMilho) !== 'undefined' && rotterdamMilho !== "") {
+            map.removeLayer(rotterdamMilho);
+        }
+
+        if (typeof(singaporeMilho) !== 'undefined' && singaporeMilho !== "") {
+            map.removeLayer(singaporeMilho);
+        }
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
+
+        $("#nomeMunicipioCorn_1").text(" ...");
+        $("#nomeMunicipioCorn_1").css("color", "black");
+    }
 });
 
 $("#capacidadeCorn").on('change', function(){
@@ -846,11 +982,12 @@ $("button.corn-step2-back").on("click", function() {
 $("button.corn-step2-calc").on("click", function() {
     if ((tipoInstalacaoMilho === "" || tipoInstalacaoMilho === "--") 
             && (capacidadeMilho === "" || capacidadeMilho === "--")
+            && (locationMilho === "" || locationMilho === "--")
             && (productionMilho === "" || productionMilho === "--")) {
         $.alert({
             boxWidth: '40%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Case Study</b>, the <b>Ethanol Production</b> and the <b>Output capacity</b>.',
+            content: 'Please select the <b>Case Study</b>, the <b>Location</b>, the <b>SAF Production</b> and the <b>Output capacity</b>.',
             useBootstrap: false
         });
     } else if (tipoInstalacaoMilho === "" || tipoInstalacaoMilho === "--") {
@@ -860,11 +997,18 @@ $("button.corn-step2-calc").on("click", function() {
             content: 'Please select the <b>Case Study</b>.',
             useBootstrap: false
         });
+    } else if (locationMilho === "" || locationMilho === "--") {
+        $.alert({
+            boxWidth: '30%',
+            title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+            content: 'Please select the <b>Location</b>.',
+            useBootstrap: false
+        });
     } else if (productionMilho === "" || productionMilho === "--") {
         $.alert({
             boxWidth: '30%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Ethanol Production</b>.',
+            content: 'Please select the <b>SAF Production</b>.',
             useBootstrap: false
         });
     } else if (capacidadeMilho === "" || capacidadeMilho === "--") {
@@ -886,31 +1030,35 @@ $("button.corn-step2-calc").on("click", function() {
                                                 "<b>Conversion tecnology:</b> " + routeMilho + 
                                                 "<br/><b>Feedstock:</b> " + feedstockMilho_valor +
                                                 "<br/><b>Case Study:</b> " + tipoInstalacaoMilho_valor +
-                                                "<br/><b>Ethanol production:</b> " + productionMilho_valor +
+                                                "<br/><b>Ethanol production:</b> " + locationMilho_valor +
+                                                "<br/><b>SAF production:</b> " + productionMilho_valor +
                                                 "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeMilho_valor +
                                                 "<br/><br/>" +
                                                 "<div class='div-carbon-results'>" +
                                                     "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
-                                                    "<span class='span-carbon-alert'>Preliminary estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates will be revisited in due course.</span><br>" +
+                                                    "<span class='span-carbon-alert'>Estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors. These estimates are for a SAF standalone production plant.</span><br>" +
                                                     "<img src='images/cstudies_milho/" + tabela_carbonFT_corn + "' width='70%' ><br>" +
                                                     "<div class='div-carbon-notes'>" +
-                                                        "<span class='span-carbon-notes'>1) CORSIA defeult value for corn grain ethanol ATJ pathway, modelled using MIT data.</span><br>" +
-                                                        "<span class='span-carbon-notes'>2) Includes corn transportation from farm to fermentation plant (default value of 1.2 g CO2eq/MJSAF, according to MIT data), and ethanol transportation from the fermentation plant to the upgrading plant (in California or REPLAN). Transport from fermentation plant to REPLAN made by truck (56 km) and train (548 km). Transport from fermentation plant to California made by truck (56 km), train (800 km) and ocean tanker (14000 km).</span><br>" +
-                                                        "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on MIT data (assuming process energy requirements supplied by a biomass CHP) and upgrading based on JRC data. Upgrading in California assumes US average electricity mix, and upgrading in REPLAN assumes Brazilian electricity mix. GHG emissions estimated using GREET1_2019 model.</span><br>" +
-                                                        "<span class='span-carbon-notes'>4) CORSIA defeult value for corn grain ethanol ATJ pathway.</span><br>" +
-                                                        "<span class='span-carbon-notes'>5) LUC emissions not included.</span><br><br><br>" +
-                                                    "</div>" +
-                                                    "<img src='images/cstudies_milho/" + grafico_carbonFT_corn + "' width='90%' ><br>" +
-                                                    "<span class='span-carbon-notes-2'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
+                                                        "<span class='span-carbon-notes'>1) CORSIA default value for corn grain ethanol to jet pathway, modelled using MIT data.</span><br>" +
+                                                        "<span class='span-carbon-notes'>2) Includes corn transportation from farm to fermentation plant (default value of 1.2 g CO2eq/MJSAF, according to MIT data), and ethanol transportation from the fermentation plant to the upgrading plant (at REPLAN, California, Rotterdam or Singapore). Transport from fermentation plant to REPLAN made by truck (60 km) and train (550 km). For ethanol upgrading made abroad, transport from fermentation plant to Brazilian port made by truck (60 km) and train (800 km), followed by ocean tanker: 13,700 km (California), 10,500 km (Rotterdam) and 20,200 km (Singapore).</span><br>" +
+                                                        "<span class='span-carbon-notes'>3) Based on a standalone conversion design. Fermentation to ethanol based on MIT data (assuming process energy requirements are supplied by a biomass CHP) and upgrading based on JRC data. Upgrading at REPLAN assumes electricity supply from the grid (average Brazilian mix); upgrading in California, Rotterdam and Singapore based on US, Dutch and Singaporean average electricity mixes, with the respective GHG emission factors estimated using the GREET model.</span><br>" +
+                                                        "<span class='span-carbon-notes'>4) CORSIA default value for corn grain ethanol ETJ pathway.</span><br>" +
+                                                        "<span class='span-carbon-notes'>5) The CORSIA default value (core LCA) for corn ethanol to jet (ETJ) pathway can be applied to standalone or integrated conversion designs.</span><br>" +
+                                                    "</div><br/>" +
+                                                    "<img src='images/cstudies_milho/" + grafico_carbonFT_corn + "' width='100%' ><br>" +
+                                                    "<span class='span-carbon-notes-3'>Same (1) to (4) notes as above.</span><br>" +
+                                                    "<span class='span-carbon-notes-3'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
                                                 "</div>" +
                                                 "<br/><br/>" +
                                             "</div>" +
                                         "</div><br/><br/>" +
                                     "<div><h6 style='font-weight:bold'>Ethanol supply curve</h6>" +
-                                        "<img src='images/cstudies_cana/" + curva_oferta_milho_png + "' width='85%' ></div>" +
+                                        "<span class='span-carbon-alert'>The supply curve below is for the four new mills considered in the case study.</span><br>" +
+                                        "<img src='images/cstudies_milho/" + curva_oferta_milho_png + "' width='85%' ></div>" +
                                     "<div style='margin-top:4rem; '>" +
-                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                        "<img src='images/cstudies_cana/" + resultado_milho_png + "' width='70%' ></div>" +
+                                        "<div><h6 style='font-weight:bold'>Data table</h6>" +
+                                        "<span class='span-carbon-alert'>The results below are for the combined production of four new mills considered in the case study.</span><br>" +
+                                        "<img src='images/cstudies_milho/" + resultado_milho_png + "' width='82%' ></div>" +
                                     "<div style='margin-top:4rem; '>" +
                                     "<br/><br/>" +
                                 "</div>"
@@ -954,59 +1102,6 @@ $("button.corn-step2-calc").on("click", function() {
             }
         });
 
-        /*
-            if (layers_avail.aptidao_eucalipto.visible) {
-                layers_avail.aptidao_eucalipto.visible = false;
-                removePanel(layers_avail.aptidao_eucalipto.id_panel);
-                layers_avail.aptidao_eucalipto.id_panel = null;
-            } else if (layers_avail.produtividade_eucalipto.visible) {
-                layers_avail.produtividade_eucalipto.visible = false;
-                removePanel(layers_avail.produtividade_eucalipto.id_panel);
-                layers_avail.produtividade_eucalipto.id_panel = null;
-            }								
-        */
-
-        // ESPIGAO
-        /*
-            if (tipo_instalacao === "Greenfield") {
-                options['layers'] = l_custos_espigao;
-                //var custos_espigao = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_espigao, format: 'image/png', transparent: true });
-                var custos_espigao= L.tileLayer.wms(url, options);
-                map.addLayer(custos_espigao);
-            
-            // REVAP
-            } else if (tipo_instalacao === "Co-locating") {
-                options['layers'] = l_custos_revap;
-                //var custos_revap = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_revap, format: 'image/png', transparent: true });
-                var custos_revap = L.tileLayer.wms(url, options);
-                map.addLayer(custos_revap);
-            }
-        */
-
-        // ABRE LEGENDA
-        /*
-            if (layers_avail.custos_eucalipto.visible) {
-                removePanelbyTitle(layers_avail.custos_eucalipto.title);
-                layers_avail.custos_eucalipto.visible = false;
-                layers_avail.custos_eucalipto.id_panel = null;
-            }
-            
-            if (layers_avail.custos_eucalipto_transporte.visible 
-                    && $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).length > 0) {
-                $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).css("left", windowWidth / 1.5);
-            } else {
-                layers_avail.custos_eucalipto_transporte.visible = true;
-                var current_layer = layers_avail.custos_eucalipto_transporte.title;
-                legend_img_src = './images/legendas/custos_eucalipto_transporte.png';
-                img_size = "height='85%' style='margin-left: 1.5em'";
-                img_id = 'custos_eucalipto_transporte';
-                leg_w = 152;
-                leg_h = 230;
-                leg_pos_l = windowWidth / 1.5;
-                leg_pos_h = windowHeight - (leg_h + 50);
-            }
-        */
-
         // Janela Curva Oferta
         removePanelbyTitle("Results");
         $.jsPanel({
@@ -1028,19 +1123,24 @@ function resetControls_cstudyMilho() {
     $("#nomeMunicipioCorn").text(" ...");
     $("#nomeMunicipioCorn").css("color", "black");
 
-    $("#locationcorn").val('--');
+    $("#locationCorn").val('--');
+    $("#locationCorn_1").val('--');
+    locationMilho = "";
+
     $("#productionCorn").val('--');    
+    $("#productionCorn_1").val('--');
+    productionMilho = "";
+
+    $("#capacidadeCorn").val('--');
+    $("#capacidadeCorn_1").val('--');
+    capacidadeMilho = "";
 
     // Carbon Footprint option
     $("#nomeMunicipioCorn_1").text(" ...");
     $("#nomeMunicipioCorn_1").css("color", "black");
-
-    $("#locationCorn_1").val('--');
-    $("#productionCorn_1").val('--');
-
 }
 
-function resetPoints_cstudyMilho() {
+function resetLocations_cstudyMilho() {
     // REMOVE MARCADORES
     if (typeof(prataCana) !== 'undefined' && prataCana !== "") {
         map.removeLayer(prataCana);
@@ -1061,20 +1161,33 @@ function resetPoints_cstudyMilho() {
         map.removeLayer(pVenceslauCana);
         pVenceslauCana = '';
     }
+}
 
-    if (typeof(replanCana) !== 'undefined' && replanCana !== "") {
-        map.removeLayer(replanCana);
-        replanCana = '';
+function resetProductions_cstudyMilho() {
+    // REMOVE MARCADORES
+    if (typeof(replanMilho) !== 'undefined' && replanMilho !== "") {
+        map.removeLayer(replanMilho);
+        replanMilho = '';
     }
 
-    if (typeof(santosCana) !== 'undefined' && santosCana !== "") {
-        map.removeLayer(santosCana);
-        santosCana = '';
+    if (typeof(santosMilho) !== 'undefined' && santosMilho !== "") {
+        map.removeLayer(santosMilho);
+        santosMilho = '';
     }
 
-    if (typeof(californiaCana) !== 'undefined' && californiaCana !== "") {
-        map.removeLayer(californiaCana);
-        californiaCana = '';
+    if (typeof(californiaMilho) !== 'undefined' && californiaMilho !== "") {
+        map.removeLayer(californiaMilho);
+        californiaMilho = '';
+    }
+
+    if (typeof(rotterdamMilho) !== 'undefined' && rotterdamMilho !== "") {
+        map.removeLayer(rotterdamMilho);
+        rotterdamMilho = '';
+    }
+
+    if (typeof(singaporeMilho) !== 'undefined' && singaporeMilho !== "") {
+        map.removeLayer(singaporeMilho);
+        singaporeMilho = '';
     }
 }
 
@@ -1121,19 +1234,23 @@ function capacitySelectionMilho() {
         curva_oferta_milho_png = 'Case3_Cana_Milho_REPLAN_930_fig.png';
         resultado_milho_png = 'Case3_Cana_Milho_REPLAN_930_tabela.png';
     }
+    comparacao_milho_png = 'Case3_Cana_Milho_Comparacao.png';
 
     if(carbonFootprint_corn) {
         if (productionMilho == '1') {
-            tabela_carbonFT_corn = 'tabela_carbonFT_corn_replan.png';
-            grafico_carbonFT_corn = 'grafico_carbonFT_corn_replan.png';
+            tabela_carbonFT_corn = 'tabela_carbonFT_milho_replan.png';
+            grafico_carbonFT_corn = 'grafico_carbonFT_milho_replan.png';
         } else if (productionMilho == '2') {
-            tabela_carbonFT_corn = 'tabela_carbonFT_corn_california.png';
-            grafico_carbonFT_corn = 'grafico_carbonFT_corn_california.png';
+            tabela_carbonFT_corn = 'tabela_carbonFT_milho_california.png';
+            grafico_carbonFT_corn = 'grafico_carbonFT_milho_california.png';
+        } else if (productionMilho == '3') {
+            tabela_carbonFT_corn = 'tabela_carbonFT_milho_rotterdam.png';
+            grafico_carbonFT_corn = 'grafico_carbonFT_milho_rotterdam.png';
+        } else if (productionMilho == '4') {
+            tabela_carbonFT_corn = 'tabela_carbonFT_milho_singapore.png';
+            grafico_carbonFT_corn = 'grafico_carbonFT_milho_singapore.png';
         }
-    } else {
-        comparacao_milho_png = 'Case3_Cana_Milho_Comparacao.png';
     }
-
 };
 
 

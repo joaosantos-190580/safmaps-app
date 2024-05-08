@@ -58,7 +58,8 @@ var l_aptidao_cana = 'DBMS:aptidao_cana';
 var l_custos_cana = 'DBMS:custos_cana';
 var l_produtividade_cana = 'DBMS:produtividade_cana';
 
-var curva_oferta_sugarcane_png = '', resultado_sugarcane_png = '', comparacao_sugarcane_png = '', result_panel_sugarcane = '';
+var curva_oferta_sugarcane_png = '', resultado_sugarcane_png = '';
+var comparacao_sugarcane_png = '', result_panel_sugarcane = '';
 var tabela_carbonFT_cana = '', graficoCarbonFT_cana = '';
 
 
@@ -375,8 +376,8 @@ $("#toggle-ethanol_terminals_fd_05").on('change', function(){
 
 // Variaveis
 var routeCana = '', feedstockCana = '', feedstockCana_valor = '', carbonFootprint_cana = '';
-var selecionadoCana = '', tipoInstalacaoSugarcane = '', tipoInstalacaoSugarcane_valor = '', capacidadeCana = '';
-var capacidadeCana_valor = '';
+var selecionadoCana = '', tipoInstalacaoSugarcane = '', tipoInstalacaoSugarcane_valor = '';
+var capacidadeCana = '', capacidadeCana_valor = '';
 
 var locationCana = '', locationCana_valor = '', productionCana = '', productionCana_valor = '';
 
@@ -397,14 +398,28 @@ $("#canaCarbon").on('change', function(){
         carbonFootprint_cana = true;
         $("#feedstock_cana_1").css("display", "none");
         $("#feedstock_cana_2").css("display", "block");
+
+        $("#tipoInstalacaoSugarcane_3").val('--');
+        tipoInstalacaoSugarcane = "";
     } else {
         carbonFootprint_cana = false;
         $("#feedstock_cana_1").css("display", "block");
         $("#feedstock_cana_2").css("display", "none");
+
+        $("#tipoInstalacaoSugarcane_1").val('--');
+        $("#tipoInstalacaoSugarcane_2").val('--');
+        tipoInstalacaoSugarcane = "";
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
     };
 
-    resetLocations_cstudyCana();
     resetControls_cstudyCana();
+    resetLocations_cstudyCana();
+    resetProductions_cstudyCana();
+
     resetControlsCapacity_cstudyCana();
     capacitySelectionSugarcane();
 });
@@ -421,13 +436,24 @@ $("#sugarcaneFStock").on('change', function(){
         $("#tipoInstalacaoSugarcane_1").css("display", "none");
         $("#tipoInstalacaoSugarcane_2").css("display", "inline");
         feedstockCana_valor = 'Anhydrous ethanol from sugarcane + corn';
-    }			
+    }
+
+    $("#tipoInstalacaoSugarcane_3").val('--');
+    tipoInstalacaoSugarcane = "";
+
+    resetControls_cstudyCana();
+    resetLocations_cstudyCana();
+    resetProductions_cstudyCana();
 });
 
 // Selecao do feedstock (Carbon Footprint)
 $("#sugarcaneFStock_1").on('change', function(){
     feedstockCana = this.value;
     feedstockCana_valor = 'Anhydrous ethanol from sugarcane';
+
+    $("#tipoInstalacaoSugarcane_1").val('--');
+    $("#tipoInstalacaoSugarcane_2").val('--');
+    tipoInstalacaoSugarcane = "";
 });
 
 // Seleção mapa de apoio		
@@ -494,12 +520,15 @@ $("#tipoInstalacaoSugarcane_1").on('change', function(){
 
     if (tipoInstalacaoSugarcane == 3 || tipoInstalacaoSugarcane == 4) {
         $("#location_sugarcane").css("display", "inline-block");
+
+        resetControls_cstudyCana();
+        resetProductions_cstudyCana();
     } else {
         $("#location_sugarcane").css("display", "none");
     }
 
-    resetControls_cstudySoja();
-    resetControlsCapacity_cstudySoja();
+    resetLocations_cstudyCana();
+    resetControlsCapacity_cstudyCana();
     capacitySelectionSugarcane();
 });
 
@@ -511,12 +540,15 @@ $("#tipoInstalacaoSugarcane_2").on('change', function(){
 
     if (tipoInstalacaoSugarcane == 3 || tipoInstalacaoSugarcane == 4) {
         $("#locationSugarcane").css("display", "inline-block");
+
+        resetControls_cstudyCana();
+        resetProductions_cstudyCana();
     } else {
         $("#locationSugarcane").css("display", "none");
     }
 
-    resetControls_cstudySoja();
-    resetControlsCapacity_cstudySoja();
+    resetLocations_cstudyCana();
+    resetControlsCapacity_cstudyCana();
     capacitySelectionSugarcane();
 });
 
@@ -527,23 +559,26 @@ $("#tipoInstalacaoSugarcane_3").on('change', function(){
     tipoInstalacaoSugarcane = this.value;
     tipoInstalacaoSugarcane_valor =  this.options[this.selectedIndex].text;
 
-    resetControls_cstudySoja();
-    resetControlsCapacity_cstudySoja();
+    // resetControls_cstudyCana();
+    resetControlsCapacity_cstudyCana();
     capacitySelectionSugarcane();
 });
 
 $("#locationSugarcane").on('change', function(){
     console.debug(this.value);
 
-    locationSugarcane = this.value;
+    locationCana = this.value;
 
     // INSERIR FUNÇÃO PRA REMOVER MARCADOR
 
     // All 4 locations
-    if (locationSugarcane === "1") {
+    if (locationCana === "1") {
         resetLocations_cstudyCana();
+        resetProductions_cstudyCana();
 
         $("#productionSugarcane").val('--');
+        productionCana = "";
+
         $("#nomeMunicipioSugarcane").text(" ...");
         $("#nomeMunicipioSugarcane").css("color", "black");          
 
@@ -591,6 +626,7 @@ $("#locationSugarcane").on('change', function(){
         map.flyTo(l_paranaiba, 6);
     } else {
         resetLocations_cstudyCana();
+        resetProductions_cstudyCana();
     }
 });
 
@@ -616,6 +652,7 @@ $("#locationSugarcane_1").on('change', function(){
         }
     } else {
         resetLocations_cstudyCana();
+        resetProductions_cstudyCana();
     }
 
 });
@@ -629,8 +666,6 @@ $("#productionSugarcane").on('change', function(){
     if (capacidadeSugarcane != '' && capacidadeSugarcane != '--') {
         capacitySelectionSugarcane();
     }
-
-    resetPoints_cstudySoja();
 
     // INSERIR FUNÇÃO PRA REMOVER MARCADOR
 
@@ -665,8 +700,6 @@ $("#productionSugarcane_1").on('change', function(){
     if (capacidadeSugarcane != '' && capacidadeSugarcane != '--') {
         capacitySelectionSugarcane();
     }
-
-    resetPoints_cstudySoja();
 
     // INSERIR FUNÇÃO PRA REMOVER MARCADOR
 
@@ -986,12 +1019,11 @@ $("button.sugarcane-step2-back").on("click", function() {
 $("button.sugarcane-step2-calc").on("click", function() {
     if ((tipoInstalacaoSugarcane === "" || tipoInstalacaoSugarcane === "--") 
             && (capacidadeCana === "" || capacidadeCana === "--")
-            && (locationCana === "" || locationCana === "--")
             && (productionCana === "" || productionCana === "--")) {
         $.alert({
             boxWidth: '40%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Case Study</b>, the <b>Location</b>, the <b>SAF Production</b> and the <b>Output capacity</b>.',
+            content: 'Please select the <b>Case Study</b>, the <b>SAF Production</b> and the <b>Output capacity</b>.',
             useBootstrap: false
         });
     } else if (tipoInstalacaoSugarcane === "" || tipoInstalacaoSugarcane === "--") {
@@ -1001,13 +1033,14 @@ $("button.sugarcane-step2-calc").on("click", function() {
             content: 'Please select the <b>Case Study</b>.',
             useBootstrap: false
         });
-    } else if (locationCana === "" || locationCana === "--") {
-        $.alert({
-            boxWidth: '30%',
-            title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Location</b>.',
-            useBootstrap: false
-        });
+    } else if ((locationCana === "" || locationCana === "--") 
+        && (tipoInstalacaoSugarcane === '3' || tipoInstalacaoSugarcane === '4')) {
+            $.alert({
+                boxWidth: '30%',
+                title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+                content: 'Please select the <b>Location</b>.',
+                useBootstrap: false
+            });
     } else if (productionCana === "" || productionCana === "--") {
         $.alert({
             boxWidth: '30%',
@@ -1023,7 +1056,7 @@ $("button.sugarcane-step2-calc").on("click", function() {
             useBootstrap: false
         });
     } else {
-        capacitySelectionMilho();
+        capacitySelectionSugarcane();
 
         if (carbonFootprint_cana) {
             /* Carbon Footprint -> Yes */
@@ -1036,8 +1069,6 @@ $("button.sugarcane-step2-calc").on("click", function() {
                                                 "<br/><b>Case Study:</b> " + tipoInstalacaoSugarcane_valor +
                                                 "<br/><b>Ethanol production:</b> " + locationCana_valor +
                                                 "<br/><b>SAF production:</b> " + productionCana_valor +
-
-
                                                 "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeCana_valor +
                                                 "<br/><br/>" +
                                                 "<div class='div-carbon-results'>" +
@@ -1149,60 +1180,7 @@ $("button.sugarcane-step2-calc").on("click", function() {
             }
         });
 
-        /*
-            if (layers_avail.aptidao_eucalipto.visible) {
-                layers_avail.aptidao_eucalipto.visible = false;
-                removePanel(layers_avail.aptidao_eucalipto.id_panel);
-                layers_avail.aptidao_eucalipto.id_panel = null;
-            } else if (layers_avail.produtividade_eucalipto.visible) {
-                layers_avail.produtividade_eucalipto.visible = false;
-                removePanel(layers_avail.produtividade_eucalipto.id_panel);
-                layers_avail.produtividade_eucalipto.id_panel = null;
-            }			
-        */					
-
-        // ESPIGAO
-        /*
-            if (tipo_instalacao === "Greenfield") {
-                options['layers'] = l_custos_espigao;
-                //var custos_espigao = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_espigao, format: 'image/png', transparent: true });
-                var custos_espigao= L.tileLayer.wms(url, options);
-                map.addLayer(custos_espigao);
-            
-            // REVAP
-            } else if (tipo_instalacao === "Co-locating") {
-                options['layers'] = l_custos_revap;
-                //var custos_revap = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_revap, format: 'image/png', transparent: true });
-                var custos_revap = L.tileLayer.wms(url, options);
-                map.addLayer(custos_revap);
-            }
-        */
-
-        // ABRE LEGENDA
-        /*
-            if (layers_avail.custos_eucalipto.visible) {
-                removePanelbyTitle(layers_avail.custos_eucalipto.title);
-                layers_avail.custos_eucalipto.visible = false;
-                layers_avail.custos_eucalipto.id_panel = null;
-            }
-            
-            if (layers_avail.custos_eucalipto_transporte.visible 
-                    && $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).length > 0) {
-                $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).css("left", windowWidth / 1.5);
-            } else {
-                layers_avail.custos_eucalipto_transporte.visible = true;
-                var current_layer = layers_avail.custos_eucalipto_transporte.title;
-                legend_img_src = './images/legendas/custos_eucalipto_transporte.png';
-                img_size = "height='85%' style='margin-left: 1.5em'";
-                img_id = 'custos_eucalipto_transporte';
-                leg_w = 152;
-                leg_h = 230;
-                leg_pos_l = windowWidth / 1.5;
-                leg_pos_h = windowHeight - (leg_h + 50);
-            }
-        */
-
-        // Janela Curva Oferta
+         // Janela Curva Oferta
         removePanelbyTitle("Results");
         $.jsPanel({
             theme:      '#93bd42',
@@ -1224,15 +1202,20 @@ function resetControls_cstudyCana() {
     $("#nomeMunicipioSugarcane").css("color", "black");
 
     $("#locationSugarcane").val('--');
+    $("#locationSugarcane_1").val('--');
+    locationCana = "";
+
     $("#productionSugarcane").val('--');    
+    $("#productionSugarcane_1").val('--');
+    productionCana = "";
+
+    $("#capacidadeSugarcane").val('--');
+    $("#capacidadeSugarcane_1").val('--');
+    capacidadeCana = "";
 
     // Carbon Footprint option
     $("#nomeMunicipioSugarcane_1").text(" ...");
     $("#nomeMunicipioSugarcane_1").css("color", "black");
-
-    $("#locationSugarcane_1").val('--');
-    $("#productionSugarcane_1").val('--');
-
 }
 
 function resetLocations_cstudyCana() {
@@ -1256,7 +1239,10 @@ function resetLocations_cstudyCana() {
         map.removeLayer(pVenceslauCana);
         pVenceslauCana = '';
     }
+}
 
+function resetProductions_cstudyCana() {
+    // REMOVE MARCADORES
     if (typeof(replanCana) !== 'undefined' && replanCana !== "") {
         map.removeLayer(replanCana);
         replanCana = '';
@@ -1281,8 +1267,7 @@ function resetLocations_cstudyCana() {
         map.removeLayer(singaporeCana);
         singaporeCana = '';
     }
-
-}	
+}
 
 function resetControlsCapacity_cstudyCana() {
     //Output
@@ -1394,7 +1379,6 @@ function capacitySelectionSugarcane() {
             grafico_carbonFT_cana = 'grafico_carbonFT_cana_singapore.png';
         }
     }
-
 }
 
 
