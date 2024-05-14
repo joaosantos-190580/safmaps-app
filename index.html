@@ -467,9 +467,9 @@
 					<div class="widget-list" id="corsia-tab" style="padding-top: 5px;">
 						<div style="overflow-y: auto;height: 100%">
 							<div class="tab" style="display: block;">
-								<button class="tablinks" onclick="openTab(event, 'ghg')" id="defaultOpenCO"><b>Greenhouse Gases (GHG)</b></button>
+								<button class="tablinks" onclick="openTab(event, 'ghg')" id="defaultOpenCO">Greenhouse Gases (GHG)</button>
 								<button class="tablinks" onclick="openTab(event, 'soil')">Soil</button>
-								<button class="tablinks" onclick="openTab(event, 'wch')"><b>Waste and Chemicals</b></button>
+								<button class="tablinks" onclick="openTab(event, 'wch')">Waste and Chemicals</button>
 								<button class="tablinks" onclick="openTab(event, 'wur')">Water use rights</button>
 								<button class="tablinks" onclick="openTab(event, 'csk')">Carbon stock</button>
 								<button class="tablinks" onclick="openTab(event, 'air')">Air</button>
@@ -483,10 +483,12 @@
 
 							<!-- Greenhouse Gases (GHG) -->
 							<div id="ghg" class="tabcontent">
-								<h4 class="tab-title">Greenhouse Gases (GHG)</h4>
-								<p style="font-size: 1rem; color: grey; margin-left: 2.7rem;">
-									Criteria information and texts ...
-								</p>
+								<h4 class="tab-title" style="margin-left: -.8rem; color: rgb(93, 92, 92)"><b>Greenhouse Gases (GHG)</b></h4>
+								<div style="font-size: 1rem; color: grey; margin-left: 2rem; text-align: justify; width: 85%">
+									<h6>FOR BATCHES OF CORSIA SUSTAINABLE AVIATION FUEL PRODUCED BY A CERTIFIED FUEL PRODUCER ON OR AFTER 1 JANUARY 2024</h6>
+									<p><b>Principle:</b> CORSIA SAF should generate lower carbon emissions on a life cycle basis.</p>
+									<p><b>Criterion 1.1:</b> CORSIA SAF will achieve net greenhouse gas emissions reductions of at least 10% compared to the baseline life cycle emissions values for aviation fuel on a life cycle basis.</p>
+								</div>
 							</div>
 
 							<!-- Carbon stock -->
@@ -721,10 +723,13 @@
 
 							<!-- Waste and Chemicals -->
 							<div id="wch" class="tabcontent">
-								<h4 class="tab-title">Waste and Chemicals</h4>
-								<p style="font-size: 1rem; color: grey; margin-left: 2.7rem;">
-									Criteria information and texts ...
-								</p>
+								<h4 class="tab-title" style="margin-left: -.8rem; color: rgb(93, 92, 92)">Waste and Chemicals</h4>
+								<div style="font-size: 1rem; color: grey; margin-left: 2rem; text-align: justify; width: 85%">
+									<p><b>Principle:</b> Production of CORSIA SAF should promote responsible management of waste and use of chemicals.</p>
+									<p><b>Criterion 8.1:</b> Operational practices will be implemented to ensure that waste arising from production processes as well as chemicals used are stored, handled, and disposed of responsibly.</p>
+									<p><b>Criterion 8.2:</b> Responsible and science-based operational practices will be implemented to limit or reduce pesticide use.</p>
+									<p><b>Criterion 8.3:</b> Operational practices will be implemented to prevent, minimize, and mitigate any damage from unintentional release of fossil resources, fuel products, and/or other chemicals.</p><br/><br/>
+								</div>
 							</div>
 
 							<!-- Water -->
@@ -793,7 +798,9 @@
 								<button class="tablinks" onclick="openTab(event, 'sar')">Sensitive areas </button>
 							-->
 							<button class="tablinks" onclick="openTab(event, 'inf')">Infrastructure </button>
-							<button class="tablinks" onclick="openTab(event, 'war')">Warning areas </button>
+							<!-- HIDDED AFTER MOVING LAYERS TO CORSIA
+								<button class="tablinks" onclick="openTab(event, 'war')">Warning areas </button>
+							-->
 							<button class="tablinks" onclick="openTab(event, 'pbo')">Political boundaries </button>
 						</div>
 						<div style="overflow-y: auto;height: 100%">
@@ -5313,33 +5320,33 @@
 							<!-- Land rights violations -->
 							<div id="legend-land_rights_violations" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Land use rights (2020 – 2022)</h6>
-								<img id="land_rights_violations" class="legend-img" src="./images/legendas/land_rights_violations.png" width="14%" >
+								<img id="land_rights_violations" class="legend-img" src="./images/legendas/land_rights_violations.png" width="45%" >
 							</div>	
 
 							<!-- Water use rights -->
 							<!-- Water rights violations -->
 							<div id="legend-water_rights_violations" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Water use rights (2020 – 2021)</h6>
-								<img id="water_rights_violations" class="legend-img" src="./images/legendas/water_rights_violations.png" width="14%" >
+								<img id="water_rights_violations" class="legend-img" src="./images/legendas/water_rights_violations.png" width="18%" >
 							</div>	
 
 							<!-- Social develop -->
 							<!-- MHDI 2010 -->
 							<div id="legend-mhdi_2010" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Municipal HDI (2010)</h6>
-								<img id="mhdi_2010" class="legend-img" src="./images/legendas/mhdi_2010.png" width="14%" >
+								<img id="mhdi_2010" class="legend-img" src="./images/legendas/mhdi_2010.png" width="40%" >
 							</div>	
 							<!-- Average income -->
 							<div id="legend-average_income" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Average income in 2020 (US$)</h6>
-								<img id="average_income" class="legend-img" src="./images/legendas/average_income.png" width="14%" >
+								<img id="average_income" class="legend-img" src="./images/legendas/average_income.png" width="20%" >
 							</div>	
 
 							<!-- Food security -->
 							<!-- Child malnutrition -->
 							<div id="legend-child_malnutrition" style="display: none; margin-left: 1rem;">
 								<h6 class="legend-item"> Child malnutrition in 2023 (%)</h6>
-								<img id="child_malnutrition" class="legend-img" src="./images/legendas/child_malnutrition.png" width="14%" >
+								<img id="child_malnutrition" class="legend-img" src="./images/legendas/child_malnutrition.png" width="12%" >
 							</div>	
 
 							<!-- FEEDSTOCK EUCALYPTUS -->
@@ -6148,8 +6155,8 @@
   </script>
 
   <!-- Feedsctock codes (panels, windows and other issues) -->
-  <script language="JavaScript" src="./js/fd-corsia.js?v=1.1.0"></script> 
-  <script language="JavaScript" src="./js/fd-support_maps.js?v=1.0.1"></script>
+  <script language="JavaScript" src="./js/fd-corsia.js?v=1.1.1"></script> 
+  <script language="JavaScript" src="./js/fd-support_maps.js?v=1.0.2"></script>
   <script language="JavaScript" src="./js/fd-eucalyptus.js?v=1.0.0"></script>
   <script language="JavaScript" src="./js/fd-eucalyptus-residues.js?v=1.0.0"></script>
   <script language="JavaScript" src="./js/fd-soybean.js?v=1.1.0"></script>

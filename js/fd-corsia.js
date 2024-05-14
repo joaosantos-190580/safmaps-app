@@ -523,7 +523,7 @@ $("#info-carbon_stock").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Mapped by:</b> SAFmaps (2024)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2024) based on Embrapa (2021), Guarenghi et al. (2023) and MapBiomas Project – Collection 8 (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span><br/>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://MapBiomas.org/en/download'>MapBiomas</a></span><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='http://geoinfo.cnps.Embrapa.br/documents/3275'>Embrapa</a></span><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://www.mdpi.com/2073-445X/12/3/584'>Guarenghi et al. (2023)</a></span>" +
@@ -556,8 +556,10 @@ $("#info-n_eligible_land").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Description:</b> Conservatively, as a proxy to CORSIA's Principle 2, mangrove, wetlands and all areas covered by natural vegetation in December 2007 were excluded.</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Mapped by:</b> SAFmaps (2021)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> MapBiomas Project (2020) - Collection 5.0</p>" +
-                            "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b> " +
-                                "<a target='_blank' href='https://mapbiomas.org/'>MapBiomas</a></p>" +
+                            "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span><br/>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='https://mapbiomas.org/'>MapBiomas</a></span>" + 
+                                "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
                     "</div>",
@@ -589,6 +591,7 @@ $("#info-water_stations").click(function(e) {
                           "<p style='font-size: 14px; margin-top:1rem'><b>Mapped by:</b> ANA (2020)</p>" +
                           "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> National Water Agency/Agência Nacional das Águas – ANA (2020)" +
                           "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
+                              "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://metadados.snirh.gov.br/geonetwork/srv/api/records/6749d278-ca5e-40e9-b648-20d6382f57df'>Streamflow (ANA, 2020a)</a></span><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://metadados.snirh.gov.br/geonetwork/srv/api/records/7470ba67-b0c1-440c-af4c-e2ac4eadac95/attachments/RNQA_2020.zip'>Quality (ANA, 2020b)</a></span><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://dadosabertos.ana.gov.br/datasets/d524ba27c4ab402c99a536f11e1ce700_0/about'>Groundwater (ANA, 2020c)</a></span>" +
@@ -655,7 +658,7 @@ $("#info-water_quality").click(function(e) {
                           "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> SAFmaps (2024) based on National Water Agency/Agência Nacional das Águas – ANA (2022)" +
                           "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://dados.ana.gov.br/dataset/indicadores-de-qualidade-da-agua-iqa-serie-historica-ate-2020/resource/4189dbf8-2712-4272-856b-1d80d4c9c3a2'>ANA</a></span><br/>" +
-                              "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                              "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                               "</p>" +
                               "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered" +
                               "</div>" +
@@ -721,7 +724,7 @@ $("#info-air_quality").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information and data reorganization elaborated by SAFmaps (2024), based on IEMA (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://energiaeambiente.org.br/produto/plataforma-da-qualidade-do-ar'>IEMA</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
@@ -785,7 +788,7 @@ $("#info-app").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Raster data elaborated by SAFmaps (2020) based on FBDS (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://geo.fbds.org.br/'>FBDS</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered. Original database (FSDS, 2023) does not provide data for four municipalities in the state of Mato Grosso and two in Mato Grosso do Sul located in floodable areas of the Pantanal biome; and for some municipalities in the South of the state of Rio Grande do Sul.For five municipalities in Piauí state, only APPs in river sources areas are presented.</p>" +
                                 "</div>" +
@@ -886,7 +889,7 @@ $("#info-child_labour").click(function(e) {
                           "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information and data reorganization prepared by SAFmaps (2024) based on the Public Ministry of Labor (MPT) (2023)</p>" +
                           "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
                               "<span style='padding-left:20px'><a target='_blank' href='https://falabr.cgu.gov.br'>MPT</a></span><br/>" +
-                              "<span style='padding-left:20px'><a target='_blank' href='#'>SAFmaps</a></span>" +
+                              "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                               "</p>" +
                               "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered" +
                               "</div>" +
@@ -919,7 +922,7 @@ $("#info-slavery").click(function(e) {
                           "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
                             "<span style='padding-left:20px'><a target='_blank' href='https://sit.trabalho.gov.br/radar/'>Radar SIT</a></span><br/>" +
                             "<span style='padding-left:20px'><a target='_blank' href='https://falabr.cgu.gov.br'>MPT</a></span><br/>" +
-                              "<span style='padding-left:20px'><a target='_blank' href='#'>SAFmaps</a></span>" +
+                            "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                               "</p>" +
                               "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered" +
                               "</div>" +
@@ -953,7 +956,7 @@ $("#info-land_rights_violations").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information and data reorganization elaborated by SAFmaps (2024) based on CPT (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://www.cptnacional.org.br/downloads'>CPT</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
@@ -987,7 +990,7 @@ $("#info-water_rights_violations").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information and data reorganization elaborated by SAFmaps (2024) based on CPT (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://www.cptnacional.org.br/downloads'>CPT</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
@@ -1021,7 +1024,7 @@ $("#info-mhdi_2010").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information elaborated by SAFmaps (2024) based on UNDP/IPEA (2013)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='http://www.atlasbrasil.org.br/'>PNUD et al.</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
@@ -1054,7 +1057,7 @@ $("#info-average_income").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information elaborated by SAFmaps (2024) based on FGV (2023)</p>" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link: </b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://www.cps.fgv.br/cps/bd/docs/ranking/TOP_Municipio2020.htm'>FGV</a></span><br/>" +
-                                "<span style='padding-left:20px'><a href='#'>SAFmaps</a></span>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered</p>" +
                                 "</div>" +
@@ -1088,7 +1091,7 @@ $("#info-child_malnutrition").click(function(e) {
                             "<p style='font-size: 14px; margin-top:1rem'><b>Data source:</b> Georeferenced information and data reorganization elaborated by SAFmaps (2024) based on SISVANPT (2023)" +
                             "<p style='font-size: 14px; margin-top:1rem'><b>Source link:</b><br/>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='https://sisaps.saude.gov.br/sisvan/relatoriopublico/index'>Download page (SISVAN)</a></span><br/>" +
-                                "<span style='padding-left:20px'><a target='_blank' href='#'>SAFmaps</a></span><br/>" +
+                                "<span style='padding-left:20px'><a target='_blank' href='http://dx.doi.org/10.17632/48wn67hryz'>SAFmaps</a></span>" +
                                 "<span style='padding-left:20px'><a target='_blank' href='http://tabnet.datasus.gov.br/cgi-win/SISVAN/CNV/notas_sisvan.html'>Technical note (DATASUS)</a></span>" +
                                 "</p>" +
                                 "<p style='font-size: 14px; margin-top:1rem'><b>Geographic scope:</b> Thirteen Brazilian states considered" +
