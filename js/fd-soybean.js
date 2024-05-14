@@ -324,13 +324,19 @@ $("#toggle-soy_processing_plants_fd_02").on('change', function(){
  */
 
 // Variaveis
-var routeSoja = '', feedstockSoja = '';
+var routeSoja = '', feedstockSoja = '', feedstockSoja_valor = '', carbonFootprint_soja = '';
+
+var selecionadoSoja = '', tipoInstalacaoSoja = '', tipoInstalacaoSoja_valor = '';
+var capacidadeSoja = '', capacidadeSoja_valor = '';
+
+var locationSoja = '', locationSoja_valor = '', oilSourceSoja = '', oilSourceSoja_valor = '', inputReqCalc_soja = '';
+var productionSoja = '', productionSoja_valor = '';
 
 var revapSoja = '', rnestSoja = '';
 var brumadoSoja = '', paranaibaSoja = '', pVenceslauSoja = '';
 
-var selecionadoSoja = '', tipoInstalacaoSoja = '', capacidadeSoja = '', capacidadeSoja_valor = '';
-var locationSoja = '', oilSourceSoja = '', inputReqCalc_soja = '';
+var santosSoja = '', californiaSoja = '', rotterdamSoja = '', singaporeSoja = '';
+
 var cstudy_soja = false;
 
 // Selecao da rota
@@ -340,9 +346,39 @@ $("#sojaRota").on('change', function(){
     setFalse_cstudyEucalipto();
 });
 
+// Carbon footprint
+$("#sojaCarbon").on('change', function(){
+    if (this.value === '1') {
+        carbonFootprint_soja = true;
+        $("#tipoInstalacaoSoja").val('--');
+        tipoInstalacaoSoja = "";
+    } else {
+        carbonFootprint_soja = false;
+        $("#tipoInstalacaoSoja_1").val('--');
+        tipoInstalacaoSoja = "";
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
+    };
+
+    resetControls_cstudySoja();
+    resetPoints_cstudySoja();
+    resetProductions_cstudySoja();
+    resetExtratoras_cstudySoja();
+
+    resetControlsCapacity_cstudySoja();
+});
+
 // Selecao do feedstock
 $("#sojaFStock").on('change', function(){
     feedstockSoja = this.value;
+    feedstockSoja_valor = 'Soybean';
+
+    $("#tipoInstalacaoSoja").val('--');
+    $("#tipoInstalacaoSoja_1").val('--');
+    tipoInstalacaoSoja = "";
 });
 
 // Seleção mapa de apoio		
@@ -422,6 +458,17 @@ $("#tipoInstalacaoSoja").on('change', function(){
 
     $("#capacidadeSojaAll").css("display", "block");
     $("#capacidadeSojaBrumado").css("display", "none");
+});
+
+// Carbon Footprint
+$("#tipoInstalacaoSoja_1").on('change', function(){
+    console.debug(this.value);
+
+    tipoInstalacaoSoja = this.value;
+    tipoInstalacaoSoja_valor =  this.options[this.selectedIndex].text;
+
+    resetControls_cstudySoja();
+    resetControlsCapacity_cstudySoja();
 });
 
 $("#locationSoja_case1").on('change', function(){
@@ -630,6 +677,266 @@ $("#oilSourceSoja_case3").on('change', function(){
     }
 });
 
+// Carbon Footprint
+$("#oilSourceSoja_1").on('change', function(){
+    console.debug(this.value);
+
+    oilSourceSoja = this.value;
+    oilSourceSoja_valor =  this.options[this.selectedIndex].text;
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+    
+    if(carbonFootprint_soja) {
+        resetExtratoras_cstudySoja();
+
+        pVenceslauSoja = L.marker(l_pVenceslau, { icon : blueMarker }).bindPopup("Presidente Venceslau/SP at <b>" + l_pVenceslau.toString() + "</b>").openPopup();
+        map.addLayer(pVenceslauSoja);
+
+        //var pVenceslau_buffer = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_pVenceslau_buffer_50km, format: 'image/png', transparent: true });
+        //map.addLayer(pVenceslau_buffer);
+        
+        // Posiciona o mapa na localização
+        if (typeof(californiaSoja) === 'undefined' && californiaSoja === ""
+            && typeof(rotterdamSoja) === 'undefined' && rotterdamSoja === ""
+            && typeof(singaporeSoja) === 'undefined' && singaporeSoja === "") {
+            map.flyTo(l_pVenceslau, 9);
+        }
+    }
+});
+
+// Carbon Footprint
+$("#productionSoja_1").on('change', function(){
+    console.debug(this.value);
+
+    productionSoja = this.value;
+    productionSoja_valor =  this.options[this.selectedIndex].text;
+
+    if (capacidadeSoja != '' && capacidadeSoja != '--') {
+        capacitySelection();
+    }
+
+    // INSERIR FUNÇÃO PRA REMOVER MARCADOR
+
+    // REVAP
+    if (productionSoja === '1') {
+        if (typeof(rnestSoja) !== 'undefined' && rnestSoja !== "") {
+            map.removeLayer(rnestSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+            map.removeLayer(californiaSoja);
+        }
+
+        if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+            map.removeLayer(rotterdamSoja);
+        }
+
+        if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+            map.removeLayer(singaporeSoja);
+        }
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
+
+        revapSoja = L.marker(l_revap, { icon : blackMarker }).bindPopup("REVAP at <b>" + l_revap.toString() + "</b>").openPopup();
+        map.addLayer(revapSoja);
+
+        // Posiciona o mapa na localização
+        map.flyTo(l_revap, 6);
+
+        $("#nomeMunicipioSoja_1").text("SÃO JOSÉ DOS CAMPOS/SP");
+        $("#nomeMunicipioSoja_1").css("font-weight", "bold");
+    
+    // RNEST
+    } else if (productionSoja === '2') {
+        if (typeof(revapSoja) !== 'undefined' && revapSoja !== "") {
+            map.removeLayer(revapSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+            map.removeLayer(californiaSoja);
+        }
+
+        if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+            map.removeLayer(rotterdamSoja);
+        }
+
+        if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+            map.removeLayer(singaporeSoja);
+        }
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
+
+        rnestSoja = L.marker(l_rnest, { icon : blackMarker }).bindPopup("RNEST at <b>" + l_rnest.toString() + "</b>").openPopup();
+        map.addLayer(rnestSoja);
+
+        // Posiciona o mapa na localização
+        //map.flyTo(l_rnest, 5);
+        map.flyTo([-12.607181, -44.394330], 5);
+
+        $("#nomeMunicipioSoja_1").text("IPOJUCA/PE");
+        $("#nomeMunicipioSoja_1").css("font-weight", "bold");
+    // CALIFORNIA
+    } else if (productionSoja === '3') {
+        if (typeof(revapSoja) !== 'undefined' && revapSoja !== "") {
+            map.removeLayer(revapSoja);
+        }
+
+        if (typeof(rnestSoja) !== 'undefined' && rnestSoja !== "") {
+            map.removeLayer(rnestSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+            map.removeLayer(rotterdamSoja);
+        }
+
+        if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+            map.removeLayer(singaporeSoja);
+        }
+
+        santosSoja = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosSoja);
+
+        californiaSoja = L.marker(l_california, { icon : blackMarker }).bindPopup("Port of San Diego/USA at <b>" + l_california.toString() + "</b>").openPopup();
+        map.addLayer(californiaSoja);
+
+        // Posiciona o mapa na localização central entre Santos e San Diego
+        map.flyTo([-2.814375, -61.628761], 3);
+
+        $("#nomeMunicipioSoja_1").text("SAN DIEGO/USA");
+        $("#nomeMunicipioSoja_1").css("font-weight", "bold");
+
+        // Rota
+        carbonFT_route(l_santos, l_california);
+    
+    // ROTTERDAM
+    } else if (productionSoja === '4') {
+        if (typeof(revapSoja) !== 'undefined' && revapSoja !== "") {
+            map.removeLayer(revapSoja);
+        }
+
+        if (typeof(rnestSoja) !== 'undefined' && rnestSoja !== "") {
+            map.removeLayer(rnestSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+            map.removeLayer(californiaSoja);
+        }
+
+        if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+            map.removeLayer(singaporeSoja);
+        }
+
+        santosSoja = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosSoja);
+
+        rotterdamSoja = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/The Netherlands at <b>" + l_rotterdam.toString() + "</b>").openPopup();
+        map.addLayer(rotterdamSoja);
+
+        // Posiciona o mapa na localização central entre Santos e Rotterdam
+        map.flyTo([24.045417, -7.720214], 3);
+
+        $("#nomeMunicipioSoja_1").text("ROTTERDAM/The Netherlands");
+        $("#nomeMunicipioSoja_1").css("font-weight", "bold");
+
+        // Rota
+        carbonFT_route(l_santos, l_rotterdam);
+
+    // SINGAPORE
+    } else if (productionSoja === '5') {
+        if (typeof(revapSoja) !== 'undefined' && revapSoja !== "") {
+            map.removeLayer(revapSoja);
+        }
+
+        if (typeof(rnestSoja) !== 'undefined' && rnestSoja !== "") {
+            map.removeLayer(rnestSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+            map.removeLayer(californiaSoja);
+        }
+
+        if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+            map.removeLayer(rotterdamSoja);
+        }
+
+        santosSoja = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
+        map.addLayer(santosSoja);
+
+        singaporeSoja = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE at <b>" + l_singapore.toString() + "</b>").openPopup();
+        map.addLayer(singaporeSoja);
+
+        // Posiciona o mapa na localização central entre Santos e Singapore
+        map.flyTo([-8.611361, 58.737805], 2.7);
+
+        $("#nomeMunicipioSoja_1").text("SINGAPORE");
+        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioSoja_1").css("font-weight", "bold");
+
+        // Rota
+        carbonFT_route(l_santos, l_singapore);
+
+    // NENHUM
+    } else {
+        if (typeof(revapSoja) !== 'undefined' && revapSoja !== "") {
+            map.removeLayer(revapSoja);
+        }
+
+        if (typeof(rnestSoja) !== 'undefined' && rnestSoja !== "") {
+            map.removeLayer(rnestSoja);
+        }
+
+        if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+            map.removeLayer(santosSoja);
+        }
+
+        if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+            map.removeLayer(californiaSoja);
+        }
+
+        if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+            map.removeLayer(rotterdamSoja);
+        }
+
+        if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+            map.removeLayer(singaporeSoja);
+        }
+
+        // ATJ Route
+        if (typeof(curvedPath) !== 'undefined') {
+            curvedPath.remove();
+        }
+
+        $("#nomeMunicipioSoja_1").text(" ...");
+        $("#nomeMunicipioSoja_1").css("color", "black");
+    }
+});
+
 // Todos os outros
 $("#capacidadeSoja").on('change', function(){
     //console.debug($("input[name='capacidade']").val());
@@ -655,13 +962,54 @@ $("#capacidadeSoja2").on('change', function(){
     capacidadeSoja_rules();
 });
 
+// Carbon Footprint
+$("#capacidadeSoja_1").on('change', function(){
+    console.debug(this.value);
+
+    capacidadeSoja = this.value;
+    capacidadeSoja_valor = this.options[this.selectedIndex].text;
+    var inputReqCalc = $(this).find(':selected').data('input');
+
+    if (capacidadeSoja != '' && capacidadeSoja != '--') {
+        //Output
+        var output_value = parseFloat(inputReqCalc);
+
+        $("#inputReqSoja_1").text(Math.round(output_value) + " t.day-1 (biomass, dry basis)");
+        $("#inputReqSoja_1").css("color", "blue");
+
+        //Co-products
+        var diesel_value = output_value * 0.83 * 0.769491525423729;
+        var lpg_value = output_value * 0.83 * 0.0180790960451977;
+
+        $("#dieselSoja_1").text("Diesel: " + parseInt(diesel_value) + "  t.day-1");
+        $("#dieselSoja_1").css("color", "blue");
+
+        $("#lpgSoja_1").text("Naphtha: " + parseInt(lpg_value) + "  t.day-1");
+        $("#lpgSoja_1").css("color", "blue");
+
+        capacitySelectionSoja();
+    } else {
+        //Output
+        $("#inputReqSoja_1").text("... t.day-1 (biomass, dry basis)");
+        $("#inputReqSoja_1").css("color", "black");
+
+        //Co-products
+        $("#dieselSoja_1").text("Diesel");
+        $("#dieselSoja_1").css("color", "black");
+
+        $("#lpgSoja_1").text("Naphtha");
+        $("#lpgSoja_1").css("color", "black");
+    }
+});
+
 // Botao next (Step #1)
 $("button.soja-step1-next").on("click", function() {
-    if ((routeSoja === "" || routeSoja === "--") && (feedstockSoja === "" || feedstockSoja === "--")) {
+    if ((routeSoja === "" || routeSoja === "--") && (carbonFootprint_soja === "" || carbonFootprint_soja === "--")
+        && (feedstockSoja === "" || feedstockSoja === "--")) {
         $.alert({
             boxWidth: '40%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Conversion technology</b> and the <b>Feedstock</b>.',
+            content: 'Please select the <b>Conversion technology</b>, the <b>Carbon Footprint</b> and the <b>Feedstock</b>.',
             useBootstrap: false
         });
     } else if (routeSoja === "" || routeSoja === "--") {
@@ -669,6 +1017,13 @@ $("button.soja-step1-next").on("click", function() {
             boxWidth: '30%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
             content: 'Please select the <b>Conversion technology</b>.',
+            useBootstrap: false
+        });
+    } else if (carbonFootprint_soja === "" || carbonFootprint_soja === "--") {
+        $.alert({
+            boxWidth: '30%',
+            title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+            content: 'Please select the <b>Carbon Footprint</b> option.',
             useBootstrap: false
         });
     } else if (feedstockSoja === "" || feedstockSoja === "--") {
@@ -688,13 +1043,22 @@ $("button.soja-step1-next").on("click", function() {
         }
 
         $("#soja-step1").css("display", "none");
-        $("#soja-step2").css("display", "block");
+
+        if (carbonFootprint_soja) {
+            $("#soja-step2a").css("display", "block");
+            $("#soja-step2").css("display", "none");
+        } else {
+            $("#soja-step2").css("display", "block");
+            $("#soja-step2a").css("display", "none");
+        }
+
     }
 });
 
 // Botao back (Step #2)
 $("button.soja-step2-back").on("click", function() {
     $("#soja-step2").css("display", "none");
+    $("#soja-step2a").css("display", "none");
     $("#soja-step1").css("display", "block");
 });
 
@@ -716,11 +1080,28 @@ $("button.soja-step2-calc").on("click", function() {
             content: 'Please select the <b>Case Study</b>.',
             useBootstrap: false
         });
-    } else if (locationSoja === "" || locationSoja === "--") {
+    } else if ((locationSoja === "" || locationSoja === "--")
+        && (tipoInstalacaoSoja < '4')) {
+            $.alert({
+                boxWidth: '30%',
+                title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+                content: 'Please select the <b>Location</b>.',
+                useBootstrap: false
+            });
+    } else if ((productionSoja === "" || productionSoja === "--")
+        && (tipoInstalacaoSoja === '4')) {
         $.alert({
             boxWidth: '30%',
             title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
-            content: 'Please select the <b>Location</b>.',
+            content: 'Please select the <b>SAF Production</b>.',
+            useBootstrap: false
+        });
+    } else if ((oilSourceSoja === "" || oilSourceSoja === "--")
+        && (tipoInstalacaoSoja === '4')) {
+        $.alert({
+            boxWidth: '30%',
+            title: '<i class="fas fa-exclamation-triangle" style="color:red"></i>',
+            content: 'Please select the <b>Oil Extraction</b>.',
             useBootstrap: false
         });
     } else if (capacidadeSoja === "" || capacidadeSoja === "--") {
@@ -740,156 +1121,186 @@ $("button.soja-step2-calc").on("click", function() {
         });
     } else {
         capacitySelection();
-        if (tipoInstalacaoSoja === "1- Soybean oil exported (2018)") {
-            result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
-                                    "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
-                                        "<div class='div-feedstock-results'>" +
-                                            "<b>Conversion tecnology:</b> " + routeSoja + 
-                                            "<br/><b>Feedstock:</b> " + feedstockSoja +
-                                            "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
-                                            "<br/><b>SAF production:</b> " + locationSoja +
-                                            "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
-                                            "<br/><br/>" +
-                                        "</div>" +
-                                    "</div><br/><br/>" +
-                                    "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                        "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%'></div>" +
-                                    "<div style='margin-top:4rem; '>" +
-                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Comparison table</h6>" +
-                                        "<img src='images/cstudies_soja/" + comparacao_soja_png + "' width='80%'></div>" +
-                                    "<br/><br/>" +
-                                "</div>"
-        } else {
-            if (oilSourceSoja === "Brumado (BA)") {
+
+        if (carbonFootprint_soja) {
+            /* Carbon Footprint -> Yes */
+
+            if(productionSoja <= '2') {
                 result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
                                         "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
-                                        "<div class='div-feedstock-results'>" +
-                                            "<b>Conversion tecnology:</b> " + routeSoja + 
-                                            "<br/><b>Feedstock:</b> " + feedstockSoja +
-                                            "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
-                                            "<br/><b>SAF production:</b> " + locationSoja +
-                                            "<br/><b>Oil Extraction:</b> " + oilSourceSoja +
-                                            "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
-                                            "<br/><br/>" +
-                                        "</div>" +
-                                    "</div><br/><br/>" +
-                                    "<div><h6 style='font-weight:bold'>Soybean oil supply curve</h6>" +
-                                        "<img src='images/cstudies_soja/" + curva_oferta_soja_png + "' width='85%'></div>" +
-                                    "<div style='margin-top:4rem; '>" +
-                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                        "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%' ></div>" +
-                                    "<br/><br/>" +
-                                "</div>"
-            } else {
-                result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
-                                        "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
-                                        "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
-                                        "<div class='div-feedstock-results'>" +
-                                            "<b>Conversion tecnology:</b> " + routeSoja + 
-                                            "<br/><b>Feedstock:</b> " + feedstockSoja +
-                                            "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
-                                            "<br/><b>SAF production:</b> " + locationSoja +
-                                            "<br/><b>Oil Extraction:</b> " + oilSourceSoja +
-                                            "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
-                                            "<br/><br/>" +
-                                        "</div>" +
-                                    "</div><br/><br/>" +
-                                    "<div><h6 style='font-weight:bold'>Soybean oil supply curve</h6>" +
-                                        "<img src='images/cstudies_soja/" + curva_oferta_soja_png + "' width='85%'></div>" +
-                                    "<div style='margin-top:4rem; '>" +
-                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
-                                        "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%' ></div>" +
-                                    "<div style='margin-top:4rem; '>" +
-                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Comparison table</h6>" +
+                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                                "<div class='div-feedstock-results'>" +
+                                                    "<b>Conversion tecnology:</b> " + routeSoja + 
+                                                    "<br/><b>Feedstock:</b> " + feedstockSoja_valor +
+                                                    "<br/><b>Case Study:</b> " + tipoInstalacaoSoja_valor +
+                                                    "<br/><b>SAF production:</b> " + productionSoja_valor +
+                                                    "<br/><b>Oil Extration:</b> " + oilSourceSoja_valor +
+                                                    "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
+                                                    "<br/><br/>" +
+                                                    "<div class='div-carbon-results'>" +
+                                                        "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
+                                                        "<span class='span-carbon-alert'>Estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors.</span><br>" +
+                                                        "<img src='images/cstudies_soja/carbon-footprint/" + tabela_carbonFT_soja + "' width='70%' ><br>" +
+                                                        "<div class='div-carbon-notes'>" +
+                                                            "<span class='span-carbon-notes'>1) CORSIA default value for soybean HEFA (Latin America).</span><br>" +
+                                                            "<span class='span-carbon-notes'>2) Feedstock transportation by trucks from farm to oil extraction plant. Average transportation distance assumed as 2/3 of the radius adopted in the case study.</span><br>" +
+                                                            "<span class='span-carbon-notes'>3) Assuming CORSIA parameters for Latin America and energy resource parameters adapted from the literature, as well as the Brazilian electricity mix.</span><br>" +
+                                                            "<span class='span-carbon-notes'>4) Soybean oil transportation with trucks. For the cases involving soybean oil exports, oil extraction is assumed to take place in Presidente Venceslau (SP). Oil transport from the extraction plant to the Brazilian port is made by truck (700 km from Presidente Venceslau), followed by ocean tanker: 13,700 km (California), 10,500 km (Rotterdam) and 20,200 km (Singapore) from Santos Port (SP).</span><br>" +
+                                                            "<span class='span-carbon-notes'>5) Assuming Brazilian electricity mix and CORSIA parameters for US soybean HEFA pathway. For the cases involving soybean oil export, we adopted the CORSIA default LCA results for US (GREET model) for California and Singapore cases, and EU (JRC data, GREET model) for the Rotterdam case.</span><br>" +
+                                                            "<span class='span-carbon-notes'>6) CORSIA default value for soybean HEFA.</span><br>" +
+                                                            "<span class='span-carbon-notes'>7) The CORSIA default value (core LCA) is applied to soybean HEFA (Brazil).</span><br>" +
+                                                        "</div><br/>" +
+                                                        "<img src='images/cstudies_soja/carbon-footprint/" + grafico_carbonFT_soja + "' width='100%' ><br>" +
+                                                        "<span class='span-carbon-notes-3'>Same (1) to (6) notes as above.</span><br>" +
+                                                        "<span class='span-carbon-notes-3'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
+                                                    "</div>" +
+                                                    "<br/><br/>" +
+                                                "</div>" +
+                                            "</div><br/><br/>" +
+                                        "<div><h6 style='font-weight:bold'>Soybean oil supply curve</h6>" +
+                                            "<img src='images/cstudies_soja/" + curva_oferta_soja_png + "' width='85%' ></div>" +
+                                        "<div style='margin-top:3rem; '>" +
+                                            "<div><h6 style='font-weight:bold'>Data table</h6>" +
+                                            "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='82%' ></div>" +
+                                        "<div style='margin-top:3rem; '>" +
+                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Comparison table</h6>" +
                                             "<img src='images/cstudies_soja/" + comparacao_soja_png + "' width='80%'></div>" +
-                                    "<br/><br/>" +
-                                "</div>"
+                                        "<br/><br/>" +
+                                    "</div>"
+            } else if (productionSoja > '2') {
+                result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+                                        "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                                "<div class='div-feedstock-results' style='border-bottom: none'>" +
+                                                    "<b>Conversion tecnology:</b> " + routeSoja + 
+                                                    "<br/><b>Feedstock:</b> " + feedstockSoja_valor +
+                                                    "<br/><b>Case Study:</b> " + tipoInstalacaoSoja_valor +
+                                                    "<br/><b>SAF production:</b> " + productionSoja_valor +
+                                                    "<br/><b>Oil Extration:</b> " + oilSourceSoja_valor +
+                                                    "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
+                                                    "<br/><br/>" +
+                                                    "<div class='div-carbon-results'>" +
+                                                        "<span class='span-carbon-title'>SAF Carbon Footprint</span><br>" +
+                                                        "<span class='span-carbon-alert'>Estimates of the carbon intensity of jet-fuel produced, primarily based on CORSIA default factors.</span><br>" +
+                                                        "<img src='images/cstudies_soja/carbon-footprint/" + tabela_carbonFT_soja + "' width='70%' ><br>" +
+                                                        "<div class='div-carbon-notes'>" +
+                                                            "<span class='span-carbon-notes'>1) CORSIA default value for soybean HEFA (Latin America).</span><br>" +
+                                                            "<span class='span-carbon-notes'>2) Feedstock transportation by trucks from farm to oil extraction plant. Average transportation distance assumed as 2/3 of the radius adopted in the case study.</span><br>" +
+                                                            "<span class='span-carbon-notes'>3) Assuming CORSIA parameters for Latin America and energy resource parameters adapted from the literature, as well as the Brazilian electricity mix.</span><br>" +
+                                                            "<span class='span-carbon-notes'>4) Soybean oil transportation with trucks. For the cases involving soybean oil exports, oil extraction is assumed to take place in Presidente Venceslau (SP). Oil transport from the extraction plant to the Brazilian port is made by truck (700 km from Presidente Venceslau), followed by ocean tanker: 13,700 km (California), 10,500 km (Rotterdam) and 20,200 km (Singapore) from Santos Port (SP).</span><br>" +
+                                                            "<span class='span-carbon-notes'>5) Assuming Brazilian electricity mix and CORSIA parameters for US soybean HEFA pathway. For the cases involving soybean oil export, we adopted the CORSIA default LCA results for US (GREET model) for California and Singapore cases, and EU (JRC data, GREET model) for the Rotterdam case.</span><br>" +
+                                                            "<span class='span-carbon-notes'>6) CORSIA default value for soybean HEFA.</span><br>" +
+                                                            "<span class='span-carbon-notes'>7) The CORSIA default value (core LCA) is applied to soybean HEFA (Brazil).</span><br>" +
+                                                        "</div><br/>" +
+                                                        "<img src='images/cstudies_soja/carbon-footprint/" + grafico_carbonFT_soja + "' width='100%' ><br>" +
+                                                        "<span class='span-carbon-notes-3'>Same (1) to (6) notes as above.</span><br>" +
+                                                        "<span class='span-carbon-notes-3'>Main reference: ICAO (2021). CORSIA supporting document - Life cycle assessment methodology, Version 3 - March 2021.</span><br>" +
+                                                    "</div>" +
+                                                    "<br/><br/>" +
+                                                "</div>" +
+                                            "</div><br/><br/>" +
+                                    "</div>"
             }
-
-            // REMOCAO DE LAYERS DO MAPA
-            var layers = [];
-            map.eachLayer(function(layer) {
-                if( layer instanceof L.TileLayer )
-                    layers.push(layer);
-            });
-            layers.forEach(function(l) {
-                if (l.options.layers === l_aptidao_soja
-                    || l.options.layers === l_custos_soja
-                    || l.options.layers === l_produtividade_soja) {
-                    l.remove();
-                }
-            });
-
-            /*
-                if (layers_avail.aptidao_eucalipto.visible) {
-                    layers_avail.aptidao_eucalipto.visible = false;
-                    removePanel(layers_avail.aptidao_eucalipto.id_panel);
-                    layers_avail.aptidao_eucalipto.id_panel = null;
-                } else if (layers_avail.produtividade_eucalipto.visible) {
-                    layers_avail.produtividade_eucalipto.visible = false;
-                    removePanel(layers_avail.produtividade_eucalipto.id_panel);
-                    layers_avail.produtividade_eucalipto.id_panel = null;
-                }		
-            */						
-
-            // ESPIGAO
-            /*
-                if (tipo_instalacao === "Greenfield") {
-                    options['layers'] = l_custos_espigao;
-                    //var custos_espigao = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_espigao, format: 'image/png', transparent: true });
-                    var custos_espigao= L.tileLayer.wms(url, options);
-                    map.addLayer(custos_espigao);
-                
-                // REVAP
-                } else if (tipo_instalacao === "Co-locating") {
-                    options['layers'] = l_custos_revap;
-                    //var custos_revap = L.tileLayer.wms('http://35.198.22.135/geoserver/ows?', { layers: l_custos_revap, format: 'image/png', transparent: true });
-                    var custos_revap = L.tileLayer.wms(url, options);
-                    map.addLayer(custos_revap);
-                }
-            */
-
-            // ABRE LEGENDA
-            /*
-                if (layers_avail.custos_eucalipto.visible) {
-                    removePanelbyTitle(layers_avail.custos_eucalipto.title);
-                    layers_avail.custos_eucalipto.visible = false;
-                    layers_avail.custos_eucalipto.id_panel = null;
-                }
-                
-                if (layers_avail.custos_eucalipto_transporte.visible 
-                        && $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).length > 0) {
-                    $("#jsPanel-" + layers_avail.custos_eucalipto_transporte.id_panel).css("left", windowWidth / 1.5);
+        } else {
+            /* Carbon Footprint -> No */
+            if (tipoInstalacaoSoja === "1- Soybean oil exported (2018)") {
+                result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+                                        "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                            "<div class='div-feedstock-results'>" +
+                                                "<b>Conversion tecnology:</b> " + routeSoja + 
+                                                "<br/><b>Feedstock:</b> " + feedstockSoja +
+                                                "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
+                                                "<br/><b>SAF production:</b> " + locationSoja +
+                                                "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
+                                                "<br/><br/>" +
+                                            "</div>" +
+                                        "</div><br/><br/>" +
+                                        "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
+                                            "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%'></div>" +
+                                        "<div style='margin-top:4rem; '>" +
+                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Comparison table</h6>" +
+                                            "<img src='images/cstudies_soja/" + comparacao_soja_png + "' width='80%'></div>" +
+                                        "<br/><br/>" +
+                                    "</div>"
+            } else {
+                if (oilSourceSoja === "Brumado (BA)") {
+                    result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+                                            "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                            "<div class='div-feedstock-results'>" +
+                                                "<b>Conversion tecnology:</b> " + routeSoja + 
+                                                "<br/><b>Feedstock:</b> " + feedstockSoja +
+                                                "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
+                                                "<br/><b>SAF production:</b> " + locationSoja +
+                                                "<br/><b>Oil Extraction:</b> " + oilSourceSoja +
+                                                "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
+                                                "<br/><br/>" +
+                                            "</div>" +
+                                        "</div><br/><br/>" +
+                                        "<div><h6 style='font-weight:bold'>Soybean oil supply curve</h6>" +
+                                            "<img src='images/cstudies_soja/" + curva_oferta_soja_png + "' width='85%'></div>" +
+                                        "<div style='margin-top:4rem; '>" +
+                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
+                                            "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%' ></div>" +
+                                        "<br/><br/>" +
+                                    "</div>"
                 } else {
-                    layers_avail.custos_eucalipto_transporte.visible = true;
-                    var current_layer = layers_avail.custos_eucalipto_transporte.title;
-                    legend_img_src = './images/legendas/custos_eucalipto_transporte.png';
-                    img_size = "height='85%' style='margin-left: 1.5em'";
-                    img_id = 'custos_eucalipto_transporte';
-                    leg_w = 152;
-                    leg_h = 230;
-                    leg_pos_l = windowWidth / 1.5;
-                    leg_pos_h = windowHeight - (leg_h + 50);
+                    result_panel_soja = "<div style='margin-left:10%; overflow-y:auto; height: 100%''>" +
+                                            "<div><img src='images/logo_safmaps_degrade.png' width='13%' style='float: right; margin-right: 7.3rem'>" +
+                                            "<h6 style='font-weight:bold; color: blue'>Selection summary:</h6>" +
+                                            "<div class='div-feedstock-results'>" +
+                                                "<b>Conversion tecnology:</b> " + routeSoja + 
+                                                "<br/><b>Feedstock:</b> " + feedstockSoja +
+                                                "<br/><b>Case Study:</b> " + tipoInstalacaoSoja +
+                                                "<br/><b>SAF production:</b> " + locationSoja +
+                                                "<br/><b>Oil Extraction:</b> " + oilSourceSoja +
+                                                "<br/><b>Output capacity (t.day<sup>-1</sup>):</b> " + capacidadeSoja_valor +
+                                                "<br/><br/>" +
+                                            "</div>" +
+                                        "</div><br/><br/>" +
+                                        "<div><h6 style='font-weight:bold'>Soybean oil supply curve</h6>" +
+                                            "<img src='images/cstudies_soja/" + curva_oferta_soja_png + "' width='85%'></div>" +
+                                        "<div style='margin-top:4rem; '>" +
+                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Data table</h6>" +
+                                            "<img src='images/cstudies_soja/" + resultado_soja_png + "' width='80%' ></div>" +
+                                        "<div style='margin-top:4rem; '>" +
+                                            "<div><h6 style='font-weight:bold; margin-left:5px'>Comparison table</h6>" +
+                                                "<img src='images/cstudies_soja/" + comparacao_soja_png + "' width='80%'></div>" +
+                                        "<br/><br/>" +
+                                    "</div>"
                 }
-            */
+            }
         }
-    }
 
-    // Janela Curva Oferta
-    removePanelbyTitle("Results");
-    $.jsPanel({
-        theme:      '#93bd42',
-        contentSize: {width: 1000, height: 600},
-        headerTitle: "Results",
-        //content:    "<div id='placeholder' style='width:90%;height:90%'></div>",
-        content:	result_panel_soja,
-        callback:    function () {
-            this.content.css("padding", "15px");
-            
-        }
-    });
+        // REMOCAO DE LAYERS DO MAPA
+        var layers = [];
+        map.eachLayer(function(layer) {
+            if( layer instanceof L.TileLayer )
+                layers.push(layer);
+        });
+        layers.forEach(function(l) {
+            if (l.options.layers === l_aptidao_soja
+                || l.options.layers === l_custos_soja
+                || l.options.layers === l_produtividade_soja) {
+                l.remove();
+            }
+        });
+
+        // Janela Curva Oferta
+        removePanelbyTitle("Results");
+        $.jsPanel({
+            theme:      '#93bd42',
+            contentSize: {width: 1000, height: 600},
+            headerTitle: "Results",
+            //content:    "<div id='placeholder' style='width:90%;height:90%'></div>",
+            content:	result_panel_soja,
+            callback:    function () {
+                this.content.css("padding", "15px");
+                
+            }
+        });
+    }
 });
 
 // Reset controls
@@ -913,17 +1324,32 @@ function resetControls_cstudySoja() {
 }
 
 function resetControlsCapacity_cstudySoja() {
-    //Output
     $("#capacidadeSoja").val('--');
     $("#inputReqSoja").text("... t.day-1 (biomass, dry basis)");
     $("#inputReqSoja").css("color", "black");
+
+    $("#productionSoja_1").val('--');
+    productionSoja = "";
+
+    $("#oilSourceSoja_case3").val('--');
+    $("#oilSourceSoja_1").val('--');
+    oilSourceSoja = "";
+
+    $("#capacidadeSoja").val('--');
+    $("#capacidadeSoja_1").val('--');
+    capacidadeSoja = "";
 
     //Co-products
     $("#gasolineSoja").text("Gasoline");
     $("#gasolineSoja").css("color", "black");
 
     $("#lpgSoja").text("LPG");
-    $("#lpgSoja").css("color", "black");			  
+    $("#lpgSoja").css("color", "black");		
+    
+    // Carbon Footprint option
+    $("#nomeMunicipioSoja_1").text(" ...");
+    $("#nomeMunicipioSoja_1").css("color", "black");
+
 }
 
 function resetPoints_cstudySoja() {
@@ -936,6 +1362,29 @@ function resetPoints_cstudySoja() {
         rnestSoja = '';
     }
 }	  
+
+function resetProductions_cstudySoja() {
+    // REMOVE MARCADORES
+    if (typeof(santosSoja) !== 'undefined' && santosSoja !== "") {
+        map.removeLayer(santosSoja);
+        santosSoja = '';
+    }
+
+    if (typeof(californiaSoja) !== 'undefined' && californiaSoja !== "") {
+        map.removeLayer(californiaSoja);
+        californiaSoja = '';
+    }
+
+    if (typeof(rotterdamSoja) !== 'undefined' && rotterdamSoja !== "") {
+        map.removeLayer(rotterdamSoja);
+        rotterdamSoja = '';
+    }
+
+    if (typeof(singaporeSoja) !== 'undefined' && singaporeSoja !== "") {
+        map.removeLayer(singaporeSoja);
+        singaporeSoja = '';
+    }
+}
 
 function resetExtratoras_cstudySoja() {
     // REMOVE MARCADORES
@@ -1181,6 +1630,41 @@ function capacitySelection() {
                 }
                 comparacao_soja_png = 'comparacao_RNEST_Pres_Venc.png';
             }
+        }
+    // Carbon Footprint
+    } else if (tipoInstalacaoSoja === "4") {
+        // OilSourceSoja = P. Venceslau
+        if (productionSoja === "1") {
+            curva_oferta_soja_png = 'fig_REVAP_Pres_Venc_300t.png';
+            resultado_soja_png = 'tab_REVAP_Pres_Venc_300t.png';
+            comparacao_soja_png = 'comparacao_REVAP_Pres_Venc.png';
+        } else if (productionSoja === "2") {
+            curva_oferta_soja_png = 'fig_RNEST_Pres_Venc_300t.png';
+            resultado_soja_png = 'tab_RNEST_Pres_Venc_300t.png';
+            comparacao_soja_png = 'comparacao_RNEST_Pres_Venc.png';
+        } else {
+            curva_oferta_soja_png = '';
+            resultado_soja_png = '';
+            comparacao_soja_png = '';
+        }
+    }
+
+    if(carbonFootprint_soja) {
+        if (productionSoja == '1') {
+            tabela_carbonFT_soja = 'tabela_carbonFT_soja_revap.png';
+            grafico_carbonFT_soja = 'grafico_carbonFT_soja_revap.png';
+        } else if (productionSoja == '2') {
+            tabela_carbonFT_soja = 'tabela_carbonFT_soja_rnest.png';
+            grafico_carbonFT_soja = 'grafico_carbonFT_soja_rnest.png';
+        } else if (productionSoja == '3') {
+            tabela_carbonFT_soja = 'tabela_carbonFT_soja_california.png';
+            grafico_carbonFT_soja = 'grafico_carbonFT_soja_california.png';
+        } else if (productionSoja == '4') {
+            tabela_carbonFT_soja = 'tabela_carbonFT_soja_rotterdam.png';
+            grafico_carbonFT_soja = 'grafico_carbonFT_soja_rotterdam.png';
+        } else if (productionSoja == '5') {
+            tabela_carbonFT_soja = 'tabela_carbonFT_soja_singapore.png';
+            grafico_carbonFT_soja = 'grafico_carbonFT_soja_singapore.png';
         }
     }
 }

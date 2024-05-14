@@ -14,7 +14,7 @@
 
   <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 
-  <title>SAFmaps - v0.1</title>
+  <title>SAFmaps - v0.3</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -2511,6 +2511,13 @@
 								<option>HEFA</option></select>
 								<br/><br/>
 
+								<span>Carbon footprint:&nbsp;&nbsp;</span>
+								<select name='sojaCarbon' id='sojaCarbon'>
+								<option>--</option>
+								<option value="1">Yes</option>
+								<option value="2">No</option></select>
+								<br/><br/>
+
 								<span>Feedstock:&nbsp;&nbsp;</span>
 								<select name='sojaFStock' id='sojaFStock'>
 								<option>--</option>
@@ -2615,6 +2622,74 @@
 									<ul>
 										<li id='dieselSoja'>Diesel</li>
 										<li id='lpgSoja'>LPG</li>
+									</ul>
+								</div>
+
+								<!-- Botao back -->
+								<div class='bt-back'>
+									<button class='soja-step2-back bt-style' type='button'>
+										<span style='color:grey'><&nbsp;&nbsp;Back</span></button>
+								</div>
+
+								<!-- Botao calculate -->
+								<div class='bt-calc'>
+									<button class='soja-step2-calc bt-style' type='button'>
+										<span style='color:grey'>Calculate&nbsp;</span></button>
+								</div><br/><br/>
+							</div>
+
+							<!-- DIV Step #2 - Selecao do tipo de instalacao (Carbon Footprint) -->
+							<div id='soja-step2a' class='div-steps' style='display:none'>
+								<h6>Step 2 - Industrial configuration</h6>
+								<br/>
+
+								<span>Case studies:&nbsp;&nbsp;</span>
+								<select name='tipoInstalacaoSoja_1' id='tipoInstalacaoSoja_1'>
+								<option>--</option>
+								<option value="4">3- Greenfield / vertical supply chain</option></select>
+								<br/><br/>
+
+								<div id="production_soja_1" style="display: block;">
+									<span style="font-weight: bold;">SAF production:&nbsp;&nbsp;</span>
+									<select name='productionSoja_1' id='productionSoja_1'>
+									<option>--</option>
+									<option value="1">REVAP/BR</option>
+									<option value="2">RNEST/BR</option>
+									<option value="3">CALIFORNIA/USA</option>
+									<option value="4">ROTTERDAM/The Netherlands</option>
+									<option value="5">SINGAPORE</option></select>
+								</div>
+
+								<span>Municipality:&nbsp;&nbsp;</span>
+								<span id='nomeMunicipioSoja_1'> ...</span>
+								<br/><br/>
+
+								<div id="oilSource_1" style="display: block;">
+									<span style="color: blue; font-weight: bold;">Oil extraction:&nbsp;&nbsp;</span>
+									<select name='oilSourceSoja_1' id='oilSourceSoja_1'>
+									<option>--</option>
+									<option value="1">Presidente Venceslau (SP)</option></select>
+									<br/><br/>
+								</div>
+
+								<div id="capacidade_soja_1" style="display: block;">
+									<span>SAF output capacity (t.day<sup>-1</sup>):&nbsp;&nbsp;</span>
+									<select name='capacidadeSoja_1' id='capacidadeSoja_1'>
+										<option>--</option>
+										<option value="1" data-input="2500">300.1</option></select>
+									</select>
+									<br/>
+								</div>
+
+								<span>Input requirement:&nbsp;&nbsp;</span>
+								<span id='inputReqSoja_1'>...  t.day<sup>-1</sup> (biomass, dry basis)</span>
+								<br/><br/>
+
+								<span>Co-products output:&nbsp;&nbsp;</span>
+								<div style='padding-left:1em;padding-top:0.5em'>
+									<ul>
+										<li id='dieselSoja_1'>Diesel</li>
+										<li id='lpgSoja_1'>LPG</li>
 									</ul>
 								</div>
 
@@ -3556,8 +3631,8 @@
 									<option>--</option>
 									<option value="1">REPLAN/BR</option>
 									<option value="2">CALIFORNIA/USA</option>
-									<option value="3">ROTTERDAM/NLD</option>
-									<option value="4">SINGAPORE/SGP</option></select>
+									<option value="3">ROTTERDAM/The Netherlands</option>
+									<option value="4">SINGAPORE</option></select>
 								</div>						
 
 								<span>Municipality:&nbsp;&nbsp;</span>
@@ -4156,8 +4231,8 @@
 									<option>--</option>
 									<option value="1">REPLAN/BR</option>
 									<option value="2">CALIFORNIA/USA</option>
-									<option value="3">ROTTERDAM/NLD</option>
-									<option value="4">SINGAPORE/SGP</option></select>									
+									<option value="3">ROTTERDAM/The Netherlands</option>
+									<option value="4">SINGAPORE</option></select>									
 								</div>						
 
 								<span>Municipality:&nbsp;&nbsp;</span>
@@ -6077,7 +6152,7 @@
   <script language="JavaScript" src="./js/fd-support_maps.js?v=1.0.1"></script>
   <script language="JavaScript" src="./js/fd-eucalyptus.js?v=1.0.0"></script>
   <script language="JavaScript" src="./js/fd-eucalyptus-residues.js?v=1.0.0"></script>
-  <script language="JavaScript" src="./js/fd-soybean.js?v=1.0.0"></script>
+  <script language="JavaScript" src="./js/fd-soybean.js?v=1.1.0"></script>
   <script language="JavaScript" src="./js/fd-macaw.js?v=1.0.0"></script>
   <script language="JavaScript" src="./js/fd-palm.js?v=1.0.0"></script>
   <script language="JavaScript" src="./js/fd-sugarcane.js?v=1.2.1"></script>

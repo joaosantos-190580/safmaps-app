@@ -647,7 +647,9 @@ $("#locationSugarcane_1").on('change', function(){
         //map.addLayer(paranaiba_buffer);
         
         // Posiciona o mapa na localização
-        if (typeof(californiaCana) == 'undefined' || californiaCana == "") {
+        if (typeof(californiaCana) == 'undefined' || californiaCana == ""
+            || typeof(rotterdamCana) == 'undefined' || rotterdamCana == ""
+            || typeof(singaporeCana) == 'undefined' || singaporeCana == "") {
             map.flyTo(l_paranaiba, 6);
         }
     } else {
@@ -795,13 +797,13 @@ $("#productionSugarcane_1").on('change', function(){
         santosCana = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
         map.addLayer(santosCana);
 
-        rotterdamCana = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/NLD at <b>" + l_rotterdam.toString() + "</b>").openPopup();
+        rotterdamCana = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/The Netherlands at <b>" + l_rotterdam.toString() + "</b>").openPopup();
         map.addLayer(rotterdamCana);
 
         // Posiciona o mapa na localização central entre Santos e Rotterdam
         map.flyTo([24.045417, -7.720214], 3);
 
-        $("#nomeMunicipioSugarcane_1").text("ROTTERDAM/NLD");
+        $("#nomeMunicipioSugarcane_1").text("ROTTERDAM/The Netherlands");
         //$("#nomeMunicipioCorn_1").css("color", "blue");
         $("#nomeMunicipioSugarcane_1").css("font-weight", "bold");
 
@@ -829,14 +831,13 @@ $("#productionSugarcane_1").on('change', function(){
         santosCana = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
         map.addLayer(santosCana);
 
-        singaporeCana = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE/SGP at <b>" + l_singapore.toString() + "</b>").openPopup();
+        singaporeCana = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE at <b>" + l_singapore.toString() + "</b>").openPopup();
         map.addLayer(singaporeCana);
 
         // Posiciona o mapa na localização central entre Santos e Singapore
         map.flyTo([-8.611361, 58.737805], 2.7);
 
-        $("#nomeMunicipioSugarcane_1").text("ROTTERDAM/NLD");
-        //$("#nomeMunicipioCorn_1").css("color", "blue");
+        $("#nomeMunicipioSugarcane_1").text("SINGAPORE");
         $("#nomeMunicipioSugarcane_1").css("font-weight", "bold");
 
         // Rota
@@ -952,7 +953,6 @@ $("#capacidadeSugarcane_1").on('change', function(){
         $("#naphthaSugarcane_1").text("Naphtha");
         $("#naphthaSugarcane_1").css("color", "black");
     }
-
 });
 
 // Botao next (Step #1)

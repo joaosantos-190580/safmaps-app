@@ -758,13 +758,13 @@ $("#productionCorn_1").on('change', function(){
         santosMilho = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
         map.addLayer(santosMilho);
 
-        rotterdamMilho = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/NLD at <b>" + l_rotterdam.toString() + "</b>").openPopup();
+        rotterdamMilho = L.marker(l_rotterdam, { icon : blackMarker }).bindPopup("Port of Rotterdam/The Netherlands at <b>" + l_rotterdam.toString() + "</b>").openPopup();
         map.addLayer(rotterdamMilho);
 
         // Posiciona o mapa na localização central entre Santos e Rotterdam
         map.flyTo([24.045417, -7.720214], 3);
 
-        $("#nomeMunicipioCorn_1").text("ROTTERDAM/NLD");
+        $("#nomeMunicipioCorn_1").text("ROTTERDAM/The Netherlands");
         //$("#nomeMunicipioCorn_1").css("color", "blue");
         $("#nomeMunicipioCorn_1").css("font-weight", "bold");
 
@@ -792,13 +792,13 @@ $("#productionCorn_1").on('change', function(){
         santosMilho = L.marker(l_santos, { icon : blackMarker }).bindPopup("Port of Santos/BR at <b>" + l_santos.toString() + "</b>").openPopup();
         map.addLayer(santosMilho);
 
-        singaporeMilho = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE/SGP at <b>" + l_singapore.toString() + "</b>").openPopup();
+        singaporeMilho = L.marker(l_singapore, { icon : blackMarker }).bindPopup("Port of SINGAPORE at <b>" + l_singapore.toString() + "</b>").openPopup();
         map.addLayer(singaporeMilho);
 
         // Posiciona o mapa na localização central entre Santos e Singapore
         map.flyTo([-8.611361, 58.737805], 2.7);
 
-        $("#nomeMunicipioCorn_1").text("ROTTERDAM/NLD");
+        $("#nomeMunicipioCorn_1").text("SINGAPORE");
         //$("#nomeMunicipioCorn_1").css("color", "blue");
         $("#nomeMunicipioCorn_1").css("font-weight", "bold");
 
